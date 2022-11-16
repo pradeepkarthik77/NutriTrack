@@ -8,12 +8,12 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoadTheDatabase extends SQLiteOpenHelper
 {
@@ -101,16 +101,49 @@ public class LoadTheDatabase extends SQLiteOpenHelper
     {
         this.sqLiteDatabase = this.getReadableDatabase();
         try {
-            String query = "SELECT * FROM user_nutrition WHERE item_type = '"+cardview_title+"' ";
-            Cursor cursor = this.sqLiteDatabase.rawQuery(query, null);
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+cardview_title+"' ", null);
             return cursor.getCount();
         }
         catch(Exception e)
         {
-            Toast.makeText(this.context,"Error in Loading the Data",Toast.LENGTH_LONG);
+            //Toast.makeText(this.context,,Toast.LENGTH_LONG);
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public List<List<String>> get_smaller_card_values(String cardview_title,int counter)
+    {
+        this.sqLiteDatabase = this.getReadableDatabase();
+
+        List<List<String>> item_values = new ArrayList<List<String>>();
+        List<String> item;
+
+        try
+        {
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,order_priority,calories,isLiked,img_id FROM "+database_name+" where item_type = '"+cardview_title+"' AND order_priority<"+counter+1+" ORDER BY order_priority", null);
+
+            int i;
+
+            if(cursor.moveToFirst())
+            {
+                do
+                {
+                    item = new ArrayList<String>();
+                    for(i=0;i<6;i++)
+                    {
+                        item.add(cursor.getString(i));
+                    }
+                    item_values.add(item);
+                }while(cursor.moveToNext());
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,"Error Loading Data",Toast.LENGTH_LONG).show();
+        }
+        return item_values;
     }
 
     @Override

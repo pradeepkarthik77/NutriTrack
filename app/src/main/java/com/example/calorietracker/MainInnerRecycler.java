@@ -1,17 +1,20 @@
 package com.example.calorietracker;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class MainInnerRecycler
 {
-    private int item_ids[] = new int[]{101,102};
-
-    private int item_imgs[] = new int[]{R.drawable.idli_icon,R.drawable.dosa_icon};
 
     private String cardview_title;
 
@@ -25,6 +28,8 @@ public class MainInnerRecycler
 
     private LoadTheDatabase loadTheDatabase;
 
+    private List<List<String>> item_values;
+
     public MainInnerRecycler(String cardview_title,Context context)
     {
         this.cardview_title = cardview_title;
@@ -37,7 +42,9 @@ public class MainInnerRecycler
     {
         this.loadTheDatabase = new LoadTheDatabase(this.context);
         loadTheDatabase.setValues();
-        this.cardview_count = loadTheDatabase.returncount(cardview_title);
+        int count= loadTheDatabase.returncount(cardview_title);
+        this.cardview_count = Math.min(count,3); //Change Value here to limit the no of items to be displayed in mainActivity
+        this.item_values = this.loadTheDatabase.get_smaller_card_values(cardview_title,this.cardview_count);
     }
 
     public void setAdapter(RecyclerView recyclerView)
@@ -46,7 +53,7 @@ public class MainInnerRecycler
 
         findandsetvalues();
 
-        mainInnerRecyclerAdapter = new MainInnerRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase);
+        mainInnerRecyclerAdapter = new MainInnerRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values);
 
         this.recyclerView.setAdapter(mainInnerRecyclerAdapter);
 
@@ -55,6 +62,7 @@ public class MainInnerRecycler
         LinearLayoutManager horizontalManager = new LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL,false);
 
         this.recyclerView.setLayoutManager(horizontalManager);
+
     }
 
 
