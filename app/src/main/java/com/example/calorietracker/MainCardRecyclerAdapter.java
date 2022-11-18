@@ -14,6 +14,8 @@ public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecycl
     private String[] cardview_titles;
     private int cardview_count;
     private Context context;
+    public ExcelClass excelClass;
+    public LoadTheDatabase loadTheDatabase;
 
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -29,11 +31,13 @@ public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecycl
         }
     }
 
-    public MainCardRecyclerAdapter(String[] cardview_titles,int cardview_count,Context context)
+    public MainCardRecyclerAdapter(String[] cardview_titles,int cardview_count,Context context,LoadTheDatabase loadTheDatabase,ExcelClass excelClass)
     {
         this.cardview_titles = cardview_titles;
         this.cardview_count = cardview_count;
         this.context = context;
+        this.loadTheDatabase = loadTheDatabase;
+        this.excelClass = excelClass;
     }
 
     @NonNull
@@ -50,7 +54,7 @@ public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecycl
     {
         holder.card_title.setText(this.cardview_titles[position]);
 
-        MainInnerRecycler mainInnerRecycler = new MainInnerRecycler(this.cardview_titles[position],this.context);
+        MainInnerRecycler mainInnerRecycler = new MainInnerRecycler(this.cardview_titles[position],this.context,this.loadTheDatabase,this.excelClass);
 
         mainInnerRecycler.setAdapter(holder.inner_card_recycler);
     }

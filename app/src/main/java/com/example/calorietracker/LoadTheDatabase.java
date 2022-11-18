@@ -97,31 +97,47 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         }
     }
 
-    public int returncount(String cardview_title)
-    {
-        this.sqLiteDatabase = this.getReadableDatabase();
-        try {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+cardview_title+"' ", null);
-            return cursor.getCount();
-        }
-        catch(Exception e)
-        {
-            //Toast.makeText(this.context,,Toast.LENGTH_LONG);
-            e.printStackTrace();
-            return 0;
-        }
-    }
+//    public int returncount(String cardview_title)
+//    {
+//        this.sqLiteDatabase = this.getReadableDatabase();
+//        try {
+//            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+cardview_title+"' ", null);
+//            return cursor.getCount();
+//        }
+//        catch(Exception e)
+//        {
+//            //Toast.makeText(this.context,,Toast.LENGTH_LONG);
+//            e.printStackTrace();
+//            return 0;
+//        }
+//    }
 
-    public List<List<String>> get_smaller_card_values(String cardview_title,int counter)
+    public List<List<String>> get_smaller_card_values(String[] favorite_list,int counter)
     {
         this.sqLiteDatabase = this.getReadableDatabase();
 
         List<List<String>> item_values = new ArrayList<List<String>>();
         List<String> item;
 
+        String querydata = "(";
+
+        for(int i=0;i<favorite_list.length;i++)
+        {
+            if(i<favorite_list.length-1)
+            {
+                querydata += "'" + favorite_list[i] + "', ";
+            }
+            else
+            {
+                querydata += "'"+favorite_list[i]+"'";
+            }
+        }
+
+        querydata+=")";
+
         try
         {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,order_priority,calories,isLiked,img_id FROM "+database_name+" where item_type = '"+cardview_title+"' AND order_priority<"+counter+1+" ORDER BY order_priority", null);
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,calories,isLiked,img_id FROM "+database_name+" where item_id IN "+querydata, null);
 
             int i;
 
@@ -130,7 +146,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
                 do
                 {
                     item = new ArrayList<String>();
-                    for(i=0;i<6;i++)
+                    for(i=0;i<5;i++)
                     {
                         item.add(cursor.getString(i));
                     }

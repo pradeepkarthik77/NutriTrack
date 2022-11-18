@@ -62,8 +62,8 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
     public void onBindViewHolder(@NonNull MainInnerRecyclerAdapter.ViewHolder holder, int position)
     {
         //TODO Call the LoadDatabase function and get the values regarding the cardview such as
-        holder.item_img.setClipToOutline(true);
-        List<String> this_item = this.item_values.get(position);
+        holder.item_img.setClipToOutline(true); //to set the image with curved edges
+        List<String> this_item = this.item_values.get(position); //
 
         int resid;
 
@@ -86,8 +86,8 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
 
         holder.item_text.setText(this_item.get(1));
         holder.item_id.setText(this_item.get(0));
-        holder.item_calories.setText("Calories: "+this_item.get(3)+" gms");
-        if(this_item.get(4).equals("1"))
+        holder.item_calories.setText("Calories: "+this_item.get(2)+" gms");
+        if(this_item.get(3).equals("1"))
         {
             holder.heart_btn.setBackgroundResource(R.drawable.heart_liked);
             holder.heart_btn.setContentDescription("1");
