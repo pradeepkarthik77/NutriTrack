@@ -24,6 +24,8 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
     private List<List<String>> item_values;
     private ExcelClass excelClass;
 
+    private int favorite_count = 0;
+
     public MainInnerRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass)
     {
         this.context = context;
@@ -116,9 +118,30 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
 
         holder.heart_btn.setOnClickListener(new View.OnClickListener()
         {
+//            private LoadTheDatabase loaddb;
+//            private Context cntxt;
+            private ExcelClass xlclass;
+
+            private List<String> fav_list;
+
             @Override
             public void onClick(View view)
             {
+//
+//                this.cntxt = context;
+//                this.loaddb = new LoadTheDatabase(this.cntxt);
+
+//
+//                this.favorites_list = this.xlclass.get_favorites(cardview_name,false);
+//
+//                this.loadTheDatabase.setValues();
+//
+//                this.cardview_count = this.loadTheDatabase.get_count(this.cardview_title);
+//
+//                this.not_favorite_list = this.loadTheDatabase.get_unFavorites(this.cardview_title,this.favorites_list);
+//
+//                this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorites_list,this.not_favorite_list,this.cardview_count,true);
+
                 if(view.getContentDescription().equals("1"))
                 {
                     //TODO write logic to change the values in .csvFile and change the value in database and notify the recyclerView.
@@ -126,7 +149,6 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     loadTheDatabase.remove_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_it);
                     view.setContentDescription("0");
-                    //notifyItemChanged(holder.getAdapterPosition());
                 }
                 else //logic to add liked buottn
                 {
@@ -135,7 +157,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     loadTheDatabase.add_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_liked);
                     view.setContentDescription("1");
-                    notifyItemChanged(holder.getAdapterPosition());
+                    //notifyItemChanged(holder.getAdapterPosition());
                     //notifyDataSetChanged();
                 }
 

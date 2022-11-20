@@ -250,8 +250,22 @@ public class ExcelClass
                                 i++;
                                 j--;
                             }
-
                             //Toast.makeText(this.context,String.join(",",returnrecord),Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            String temp;
+                            int i=0;
+                            int j = returnrecord.length-1;
+                            while(i<j)
+                            {
+                                temp = returnrecord[i];
+                                returnrecord[i] = returnrecord[j];
+                                returnrecord[j] = temp;
+                                i++;
+                                j--;
+                            }
+
                         }
 
                         return returnrecord;

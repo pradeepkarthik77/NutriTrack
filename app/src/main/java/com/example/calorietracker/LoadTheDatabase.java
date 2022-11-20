@@ -204,58 +204,50 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         List<List<String>> item_values = new ArrayList<List<String>>();
         List<String> item;
 
-        String querydata = "(";
+        List<String> total_items = new ArrayList<String>();
+
+        Toast.makeText(this.context,String.join(",",favorite_list),Toast.LENGTH_SHORT).show();
+
 
         for(int i=0;i<favorite_list.length;i++)
         {
-            if(i<favorite_list.length-1)
-            {
-                querydata += "'" + favorite_list[i]+ "', ";
-            }
-            else
-            {
-                querydata += "'"+favorite_list[i]+"'";
-            }
+            total_items.add(favorite_list[i]);
         }
 
         if(isNotMain)
         {
-            querydata+=", ";
             for(int i=0;i<unfavorite_list.length;i++)
             {
-                if(i<unfavorite_list.length-1)
-                {
-                    querydata += "'" + unfavorite_list[i]+ "', ";
-                }
-                else
-                {
-                    querydata += "'"+unfavorite_list[i]+"'";
-                }
+                total_items.add(unfavorite_list[i]);
             }
         }
-
-        querydata+=")";
 
         //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_SHORT).show();
 
         try
         {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,calories,isLiked,img_id FROM "+database_name+" where item_id IN "+querydata, null);
 
-            int i;
+            Cursor cursor;
 
-            if(cursor.moveToFirst())
+            for(int i=0;i<total_items.size();i++)
             {
-                do
-                {
-                    item = new ArrayList<String>();
-                    for(i=0;i<5;i++)
-                    {
-                        item.add(cursor.getString(i));
-                    }
+                cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,calories,isLiked,img_id FROM "+database_name+" where item_id = "+total_items.get(i), null);
+
+                item = new ArrayList<String>();
+
+                //Toast.makeText(this.context,""+cursor.getCount(),Toast.LENGTH_SHORT).show();
+
+                if(cursor.moveToFirst()) {
+
+                    item.add(cursor.getString(0));
+                    item.add(cursor.getString(1));
+                    item.add(cursor.getString(2));
+                    item.add(cursor.getString(3));
+                    item.add(cursor.getString(4));
                     item_values.add(item);
-                }while(cursor.moveToNext());
+                }
             }
+
         }
         catch(Exception e)
         {

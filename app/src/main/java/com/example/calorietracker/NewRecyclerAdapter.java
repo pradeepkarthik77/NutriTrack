@@ -103,9 +103,17 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
         holder.heart_btn.setOnClickListener(new View.OnClickListener()
         {
+            private  ExcelClass xlclass;
+            private  String[] fav_list;
+
+
             @Override
             public void onClick(View view)
             {
+                this.xlclass = new ExcelClass(context);
+
+                this.fav_list = this.xlclass.get_favorites(cardview_name,false);
+
                 if(view.getContentDescription().equals("1"))
                 {
                     //TODO write logic to change the values in .csvFile and change the value in database and notify the recyclerView.
@@ -113,6 +121,11 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                     loadTheDatabase.remove_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_it);
                     view.setContentDescription("0");
+                    if(this.fav_list.length!=cardview_count) {
+                        notifyItemMoved(holder.getAdapterPosition(), this.fav_list.length);
+                    }
+
+
                     //notifyDataSetChanged();
                 }
                 else //logic to add liked buottn
@@ -122,9 +135,9 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                     loadTheDatabase.add_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_liked);
                     view.setContentDescription("1");
+                    notifyItemMoved(holder.getAdapterPosition(),0);
                     //notifyDataSetChanged();
                 }
-
             }
         });
     }
