@@ -111,8 +111,10 @@ public class ExcelClass
                 {
                     if(nextlinearr[0].equals(cardview_item))
                     {
-                        nextline = String.join(",",nextlinearr)+","+add_item+"\n";
-                        totaldata+=nextline;
+                        if(!Arrays.asList(nextlinearr).contains(add_item)) {
+                            nextline = String.join(",", nextlinearr) + "," + add_item + "\n";
+                            totaldata += nextline;
+                        }
                     }
                     else
                     {
@@ -234,8 +236,22 @@ public class ExcelClass
                     if(nextlinearr[0].equals(cardview_title))
                     {
                         returnrecord = Arrays.copyOfRange(nextlinearr,1,nextlinearr.length);
-                        if(ismain) {
+                        if(ismain)
+                        {
                             returnrecord = Arrays.copyOfRange(returnrecord, returnrecord.length - 3, returnrecord.length);
+                            int i = 0;
+                            int j = returnrecord.length-1;
+                            String temp;
+                            while(i<j)
+                            {
+                                temp = returnrecord[i];
+                                returnrecord[i] = returnrecord[j];
+                                returnrecord[j] = temp;
+                                i++;
+                                j--;
+                            }
+
+                            //Toast.makeText(this.context,String.join(",",returnrecord),Toast.LENGTH_SHORT).show();
                         }
 
                         return returnrecord;

@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecyclerAdapter.ViewHolder>
@@ -64,7 +66,15 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
     {
         //TODO Call the LoadDatabase function and get the values regarding the cardview such as
         holder.item_img.setClipToOutline(true); //to set the image with curved edges
-        List<String> this_item = this.item_values.get(position);
+        List<String> this_item = Arrays.asList();
+        try {
+            this_item = this.item_values.get(position);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,"Unable to fetch all data",Toast.LENGTH_SHORT).show();
+        }
 
         int resid;
 
@@ -85,18 +95,23 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
             e.printStackTrace();
         }
 
-        holder.item_text.setText(this_item.get(1));
-        holder.item_id.setText(this_item.get(0));
-        holder.item_calories.setText("Calories: "+this_item.get(2)+" gms");
-        if(this_item.get(3).equals("1"))
-        {
-            holder.heart_btn.setBackgroundResource(R.drawable.heart_liked);
-            holder.heart_btn.setContentDescription("1");
+        try {
+            holder.item_text.setText(this_item.get(1));
+            holder.item_id.setText(this_item.get(0));
+            holder.item_calories.setText("Calories: " + this_item.get(2) + " gms");
+            if (this_item.get(3).equals("1")) {
+                holder.heart_btn.setBackgroundResource(R.drawable.heart_liked);
+                holder.heart_btn.setContentDescription("1");
+            } else {
+                holder.heart_btn.setBackgroundResource(R.drawable.heart_it);
+                holder.heart_btn.setContentDescription("0");
+            }
+
         }
-        else
+        catch(Exception e)
         {
-            holder.heart_btn.setBackgroundResource(R.drawable.heart_it);
-            holder.heart_btn.setContentDescription("0");
+            e.printStackTrace();
+            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
         }
 
         holder.heart_btn.setOnClickListener(new View.OnClickListener()
@@ -111,7 +126,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     loadTheDatabase.remove_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_it);
                     view.setContentDescription("0");
-                    notifyItemChanged(holder.getAdapterPosition());
+                    //notifyItemChanged(holder.getAdapterPosition());
                 }
                 else //logic to add liked buottn
                 {

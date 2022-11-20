@@ -92,7 +92,6 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             this.sqLiteDatabase = this.getWritableDatabase();
             this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '0' WHERE item_id = '"+item_id+"'");
             Toast.makeText(this.context,"Remove from Favorites",Toast.LENGTH_SHORT).show();
-
         }
         catch(Exception e)
         {
@@ -261,6 +260,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         catch(Exception e)
         {
             e.printStackTrace();
+            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
             Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
         }
         return item_values;
