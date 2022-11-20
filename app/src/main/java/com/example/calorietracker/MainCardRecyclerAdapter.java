@@ -1,6 +1,7 @@
 package com.example.calorietracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 
 public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecyclerAdapter.ViewHolder>
 {
@@ -22,12 +25,14 @@ public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecycl
     {
         public TextView card_title;
         public RecyclerView inner_card_recycler;
+        public MaterialButton see_more;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             this.card_title = (TextView) itemView.findViewById(R.id.main_card_title);
             this.inner_card_recycler = (RecyclerView) itemView.findViewById(R.id.main_content_recycler);
+            this.see_more = (MaterialButton) itemView.findViewById(R.id.see_all_btn);
         }
     }
 
@@ -57,6 +62,17 @@ public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecycl
         MainInnerRecycler mainInnerRecycler = new MainInnerRecycler(this.cardview_titles[position],this.context,this.loadTheDatabase,this.excelClass);
 
         mainInnerRecycler.setAdapter(holder.inner_card_recycler);
+
+        holder.see_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent newIntent = new Intent(context,ListActivity.class);
+                newIntent.putExtra("cardview_title",holder.card_title.getText().toString());
+                context.startActivity(newIntent);
+            }
+        });
+
     }
 
     @Override//

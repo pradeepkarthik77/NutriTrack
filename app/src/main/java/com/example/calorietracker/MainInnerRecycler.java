@@ -42,17 +42,14 @@ public class MainInnerRecycler
         this.excelClass = excelClass;
     }
 
-    //TODO write a function to load the values from the database and then set the adapter for the most priority 5 items ALONE.
-
     public void findandsetvalues()
     {
-        //TODO write the logic to get the array of 3 most prioirty item_ids from the Excelclass and then send it to the database class to fetch the values.
 
-        this.favorite_list = excelClass.get_favorites(this.cardview_title);
+        this.favorite_list = excelClass.get_favorites(this.cardview_title,true);
         loadTheDatabase.setValues();
-        //int count= loadTheDatabase.returncount(cardview_title);
-        this.cardview_count = 3;//Math.min(count,3); //Change Value here to limit the no of items to be displayed in mainActivity
-        this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorite_list,this.cardview_count);
+        this.cardview_count = 3;
+        this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorite_list,new String[]{},this.cardview_count,false);
+
     }
 
     public void setAdapter(RecyclerView recyclerView)
@@ -61,11 +58,11 @@ public class MainInnerRecycler
 
         findandsetvalues();
 
-        mainInnerRecyclerAdapter = new MainInnerRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values);
+        mainInnerRecyclerAdapter = new MainInnerRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values,this.excelClass);
 
         this.recyclerView.setAdapter(mainInnerRecyclerAdapter);
 
-        this.recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
+        //this.recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
 
         LinearLayoutManager horizontalManager = new LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL,false);
 

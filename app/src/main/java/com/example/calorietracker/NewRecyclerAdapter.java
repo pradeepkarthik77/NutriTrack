@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecyclerAdapter.ViewHolder>
+public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.ViewHolder>
 {
     private Context context;
     private String cardview_name;
@@ -22,7 +22,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
     private List<List<String>> item_values;
     private ExcelClass excelClass;
 
-    public MainInnerRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass)
+    public NewRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass)
     {
         this.context = context;
         this.cardview_name = cardview_name;
@@ -52,15 +52,15 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
 
     @NonNull
     @Override
-    public MainInnerRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    public NewRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(this.context);
-        View view = inflater.inflate(R.layout.maininner_card,parent,false);
+        View view = inflater.inflate(R.layout.newactivity_card,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainInnerRecyclerAdapter.ViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull NewRecyclerAdapter.ViewHolder holder, int position)
     {
         //TODO Call the LoadDatabase function and get the values regarding the cardview such as
         holder.item_img.setClipToOutline(true); //to set the image with curved edges
@@ -99,6 +99,8 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
             holder.heart_btn.setContentDescription("0");
         }
 
+        Toast.makeText(this.context,this.cardview_count+"",Toast.LENGTH_SHORT).show();
+
         holder.heart_btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -111,7 +113,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     loadTheDatabase.remove_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_it);
                     view.setContentDescription("0");
-                    notifyItemChanged(holder.getAdapterPosition());
+                    //notifyDataSetChanged();
                 }
                 else //logic to add liked buottn
                 {
@@ -120,7 +122,6 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     loadTheDatabase.add_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_liked);
                     view.setContentDescription("1");
-                    notifyItemChanged(holder.getAdapterPosition());
                     //notifyDataSetChanged();
                 }
 

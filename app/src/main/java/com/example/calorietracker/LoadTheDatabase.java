@@ -32,6 +32,21 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         APP_DATA_PATH = this.context.getApplicationInfo().dataDir;
     }
 
+    public int get_count(String cardview_title)
+    {
+        this.sqLiteDatabase = this.getReadableDatabase();
+        try {
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+cardview_title+"' ", null);
+            return cursor.getCount();
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this.context,"Unable to Load Data",Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public boolean checkDataBase(String path)
     {
         SQLiteDatabase checkit = null;
@@ -52,6 +67,38 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         return checkit != null ? true : false;
 
+    }
+
+    public void add_liked(String item_id)
+    {
+        try
+        {
+            this.sqLiteDatabase = this.getWritableDatabase();
+            this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '1' WHERE item_id = '"+item_id+"'");
+            Toast.makeText(this.context,"Added to Favorites",Toast.LENGTH_SHORT).show();
+
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this.context,"Cannot add to Favorites",Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    public void remove_liked(String item_id)
+    {
+        try
+        {
+            this.sqLiteDatabase = this.getWritableDatabase();
+            this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '0' WHERE item_id = '"+item_id+"'");
+            Toast.makeText(this.context,"Remove from Favorites",Toast.LENGTH_SHORT).show();
+
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this.context,"Cannot Remove from Favorites",Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     public void copyDatabase(String path) throws IOException
@@ -97,22 +144,61 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         }
     }
 
-//    public int returncount(String cardview_title)
-//    {
-//        this.sqLiteDatabase = this.getReadableDatabase();
-//        try {
-//            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+cardview_title+"' ", null);
-//            return cursor.getCount();
-//        }
-//        catch(Exception e)
-//        {
-//            //Toast.makeText(this.context,,Toast.LENGTH_LONG);
-//            e.printStackTrace();
-//            return 0;
-//        }
-//    }
+    public String[] get_unFavorites(String cardview_title,String[] favorite_list)
+    {
+        this.sqLiteDatabase = this.getReadableDatabase();
 
-    public List<List<String>> get_smaller_card_values(String[] favorite_list,int counter)
+        List<String> item_values = new ArrayList<String>();
+        String item;
+
+        String querydata = "(";
+
+        for(int i=0;i<favorite_list.length;i++)
+        {
+            if(i<favorite_list.length-1)
+            {
+                querydata += "'" + favorite_list[i]+ "', ";
+            }
+            else
+            {
+                querydata += "'"+favorite_list[i]+"'";
+            }
+        }
+
+        querydata+=")";
+
+        //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_LONG).show();
+
+        try
+        {
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id FROM "+database_name+" where item_id NOT IN "+querydata+" AND item_type='"+cardview_title+"'", null);
+
+            int i;
+
+            if(cursor.moveToFirst())
+            {
+                do
+                {
+                    item = "";
+                    item = cursor.getString(0);
+                    item_values.add(item);
+                }while(cursor.moveToNext());
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
+        }
+        String[] returnarr = item_values.toArray(new String[item_values.size()]);
+
+        //Toast.makeText(this.context,String.join(",",returnarr),Toast.LENGTH_LONG).show();
+
+        return returnarr;
+    }
+
+    public List<List<String>> get_smaller_card_values(String[] favorite_list,String[] unfavorite_list,int counter,boolean isNotMain)
     {
         this.sqLiteDatabase = this.getReadableDatabase();
 
@@ -125,7 +211,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         {
             if(i<favorite_list.length-1)
             {
-                querydata += "'" + favorite_list[i] + "', ";
+                querydata += "'" + favorite_list[i]+ "', ";
             }
             else
             {
@@ -133,7 +219,25 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             }
         }
 
+        if(isNotMain)
+        {
+            querydata+=", ";
+            for(int i=0;i<unfavorite_list.length;i++)
+            {
+                if(i<unfavorite_list.length-1)
+                {
+                    querydata += "'" + unfavorite_list[i]+ "', ";
+                }
+                else
+                {
+                    querydata += "'"+unfavorite_list[i]+"'";
+                }
+            }
+        }
+
         querydata+=")";
+
+        //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_SHORT).show();
 
         try
         {
@@ -157,7 +261,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,"Error Loading Data",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
         }
         return item_values;
     }
