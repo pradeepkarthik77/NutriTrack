@@ -52,6 +52,12 @@ public class ExcelClass
         //TODO write logic to create a new Excelfile if not exisits and load values into it
     }
 
+    public List<String> get_defaults(String cardview_title)
+    {
+        int position = Arrays.asList(this.default_cards).indexOf(cardview_title);
+        return this.default_food_items.get(position);
+    }
+
     public void copydefaults() {
         String data = "";
 
@@ -277,7 +283,7 @@ public class ExcelClass
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,"Unable to Access the Favorites File",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,"Unable to Access the Favorites File",Toast.LENGTH_SHORT).show();
         }
 
         return new String[]{};

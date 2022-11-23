@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LoadTheDatabase extends SQLiteOpenHelper
@@ -166,8 +167,6 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         querydata+=")";
 
-        //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_LONG).show();
-        //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_LONG).show();
 
         try
         {
@@ -190,6 +189,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             e.printStackTrace();
             Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
         }
+
         String[] returnarr = item_values.toArray(new String[item_values.size()]);
 
         //Toast.makeText(this.context,String.join(",",returnarr),Toast.LENGTH_LONG).show();
@@ -206,7 +206,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         List<String> total_items = new ArrayList<String>();
 
-        Toast.makeText(this.context,String.join(",",favorite_list),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this.context,String.join(",",favorite_list),Toast.LENGTH_SHORT).show();
 
 
         for(int i=0;i<favorite_list.length;i++)
@@ -252,11 +252,38 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
-            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,e.toString(),Toast.LENGTH_SHORT).show();
         }
         return item_values;
     }
+
+    public List<String> get_nutrition(String item_id)
+    {
+        this.sqLiteDatabase = this.getReadableDatabase();
+
+        List<String> item_values = new ArrayList<String>();
+
+        try
+        {
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,item_type,serving_size,calories,fat,saturated_fat,trans_fat,cholesterol,sodium,carbohydrates,dietary_fiber,sugar,added_sugar,protein,vitamin_D,calcium,iron,potassium,vitamin_A,vitamin_C,manganese,vitamin_K FROM "+database_name+" where item_id = "+item_id, null);
+
+            if(cursor.moveToFirst()) {
+
+                for (int i = 0; i < 23; i++) {
+                    item_values.add(cursor.getString(i));
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            item_values = Arrays.asList();
+        }
+
+        return item_values;
+    }
+
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)

@@ -3,11 +3,8 @@ package com.example.calorietracker;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -28,6 +25,15 @@ public class ListActivity extends AppCompatActivity
     private GridLayoutManager gridLayoutManager;
 
     @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent();
+        intent.putExtra("cardview_name", this.cardview_title);
+        setResult(0, intent);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -37,9 +43,8 @@ public class ListActivity extends AppCompatActivity
 
         this.cardview_title = intent.getStringExtra("cardview_title");
 
-        //getActionBar().setTitle(cardview_title);
-
         this.context = this;
+
 
         this.loadTheDatabase = new LoadTheDatabase(this.context);
         this.excelClass = new ExcelClass(this.context);
@@ -54,8 +59,6 @@ public class ListActivity extends AppCompatActivity
 
         this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorites_list,this.not_favorite_list,this.cardview_count,true);
 
-        //Toast.makeText(this,this.item_values.size()+"",Toast.LENGTH_SHORT).show();
-
         this.gridLayoutManager = new GridLayoutManager(this.context,2);
 
         this.recyclerView = findViewById(R.id.listActivity_recycler);
@@ -65,5 +68,7 @@ public class ListActivity extends AppCompatActivity
        this.recyclerView.setAdapter(this.newRecyclerAdapter);
 
        this.recyclerView.setLayoutManager(gridLayoutManager);
+
+
     }
 }

@@ -29,6 +29,7 @@
             android:textStyle="bold"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
+            android:textColor="?android:textColorPrimary"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -42,6 +43,7 @@
             android:paddingLeft="5dp"
             android:text="See More"
             android:textSize="15dp"
+            android:textColor="@color/design_default_color_primary"
             android:textStyle="bold"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -52,6 +54,7 @@
             android:orientation="horizontal"
             app:reverseLayout="true"
             android:scrollbars="horizontal"
+            android:textColor="?android:textColorPrimary"
             />
 
 

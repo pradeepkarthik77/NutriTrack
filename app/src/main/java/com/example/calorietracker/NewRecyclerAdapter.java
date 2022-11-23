@@ -1,6 +1,7 @@
 package com.example.calorietracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,16 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
             this.item_id = itemView.findViewById(R.id.item_id);
             this.item_calories = itemView.findViewById(R.id.cardview_calories);
             this.heart_btn = itemView.findViewById(R.id.heartbutton);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent newintent = new Intent(context,DisplayTable.class);
+                    newintent.putExtra("item_id",item_id.getText().toString());
+                    newintent.putExtra("item_name",item_text.getText().toString());
+                    context.startActivity(newintent);
+                }
+            });
         }
     }
 
@@ -99,13 +110,12 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
             holder.heart_btn.setContentDescription("0");
         }
 
-        Toast.makeText(this.context,this.cardview_count+"",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this.context,this.cardview_count+"",Toast.LENGTH_SHORT).show();
 
         holder.heart_btn.setOnClickListener(new View.OnClickListener()
         {
             private  ExcelClass xlclass;
             private  String[] fav_list;
-
 
             @Override
             public void onClick(View view)
@@ -124,19 +134,19 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                     if(this.fav_list.length!=cardview_count) {
                         notifyItemMoved(holder.getAdapterPosition(), this.fav_list.length);
                     }
+                    else
+                    {
+                        notifyItemMoved(holder.getAdapterPosition(),cardview_count-1);
+                    }
 
-
-                    //notifyDataSetChanged();
                 }
                 else //logic to add liked buottn
                 {
-                    //Toast.makeText(context,"Hello da",Toast.LENGTH_SHORT).show();
                     excelClass.add_to_favorites(holder.item_id.getText().toString(),cardview_name);
                     loadTheDatabase.add_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_liked);
                     view.setContentDescription("1");
                     notifyItemMoved(holder.getAdapterPosition(),0);
-                    //notifyDataSetChanged();
                 }
             }
         });

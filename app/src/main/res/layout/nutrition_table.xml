@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:layout_constraintBaseline_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:gravity="center">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:text="Nutrition Facts"
+                android:textColor="?android:textColorPrimary"
+                />
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:text="Servings Per Container"
+                android:textColor="?android:textColorPrimary"
+                />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="25dp"
+                android:text="Serving size"
+                android:id="@+id/serving_size"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                />
+            <TextView/>
+        </TableRow>
+
+        <View
+            android:layout_height="6dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow
+            android:gravity="left">
+            <TextView
+                android:textSize="20dp"
+                android:text="Amount per serving"
+                android:textColor="?android:textColorPrimary"
+                />
+
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:textSize="30dp"
+                android:text="Calories"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"
+                android:id="@+id/calories"
+                />
+            <TextView />
+        </TableRow>
+
+        <View
+            android:layout_height="4dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow
+            >
+            <TextView/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="% Daily Value*"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="Total Fat (0.5mg)"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/fat"
+                android:layout_gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Saturated Fat (0g)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/saturated_fat"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Trans Fat (0g)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/trans_fat"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+
+        <TableRow>
+            <TextView
+                android:text="Cholesterol (0g)"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/cholesterol"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Sodium (0mg)"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/sodium"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Total Carbohydrate (21g)"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/carbohydrates"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Dietary Fiber (4g)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/dietary_fiber"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Total Sugars (15g)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/sugar"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Added Sugars (0g)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/added_sugar"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Protein (1g)"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/protein"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="6dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Vitamin D (0mcg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/vitamin_D"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Calcium (10mcg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/calcium"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Iron (0.4mg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/iron"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Potassium (110mg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/potassium"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Vitamin A (0mcg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/vitamin_A"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Vitamin C (14mg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/vitamin_C"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Manganese (0.5mg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/manganese"
+                android:gravity="center"/>
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="?android:textColorPrimary" />
+
+        <TableRow>
+            <TextView
+                android:text="Vitamin K (0mcg)"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"/>
+            <TextView
+                android:text="0%"
+                android:textSize="20dp"
+                android:textColor="@color/cardview_dark_background"
+                android:id="@+id/vitamin_K"
+                android:gravity="center"/>
+        </TableRow>
+    </TableLayout>
+
+</ScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_nutrition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/add_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

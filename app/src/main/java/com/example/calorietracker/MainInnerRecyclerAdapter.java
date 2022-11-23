@@ -1,6 +1,7 @@
 package com.example.calorietracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,16 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
             this.item_id = itemView.findViewById(R.id.item_id);
             this.item_calories = itemView.findViewById(R.id.cardview_calories);
             this.heart_btn = itemView.findViewById(R.id.heartbutton);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent newintent = new Intent(context,DisplayTable.class);
+                    newintent.putExtra("item_id",item_id.getText().toString());
+                    newintent.putExtra("item_name",item_text.getText().toString());
+                    context.startActivity(newintent);
+                }
+            });
         }
     }
 
@@ -59,7 +70,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
     public MainInnerRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(this.context);
-        View view = inflater.inflate(R.layout.maininner_card,parent,false);
+        View view = inflater.inflate(R.layout.newactivity_card,parent,false);
         return new ViewHolder(view);
     }
 
@@ -97,7 +108,8 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
             e.printStackTrace();
         }
 
-        try {
+        try
+        {
             holder.item_text.setText(this_item.get(1));
             holder.item_id.setText(this_item.get(0));
             holder.item_calories.setText("Calories: " + this_item.get(2) + " gms");
@@ -113,13 +125,11 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,e.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,e.toString(),Toast.LENGTH_SHORT).show();
         }
 
         holder.heart_btn.setOnClickListener(new View.OnClickListener()
         {
-//            private LoadTheDatabase loaddb;
-//            private Context cntxt;
             private ExcelClass xlclass;
 
             private List<String> fav_list;
@@ -127,20 +137,6 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
             @Override
             public void onClick(View view)
             {
-//
-//                this.cntxt = context;
-//                this.loaddb = new LoadTheDatabase(this.cntxt);
-
-//
-//                this.favorites_list = this.xlclass.get_favorites(cardview_name,false);
-//
-//                this.loadTheDatabase.setValues();
-//
-//                this.cardview_count = this.loadTheDatabase.get_count(this.cardview_title);
-//
-//                this.not_favorite_list = this.loadTheDatabase.get_unFavorites(this.cardview_title,this.favorites_list);
-//
-//                this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorites_list,this.not_favorite_list,this.cardview_count,true);
 
                 if(view.getContentDescription().equals("1"))
                 {
@@ -149,20 +145,33 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     loadTheDatabase.remove_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_it);
                     view.setContentDescription("0");
+                    if(excelClass.get_defaults(cardview_name).contains(holder.item_id.getText().toString()))
+                    {
+                        notifyItemMoved(holder.getAdapterPosition(),2);
+                    }
+                    else {
+                        UpdateViews();
+                    }
                 }
                 else //logic to add liked buottn
                 {
-                    //Toast.makeText(context,"Hello da",Toast.LENGTH_SHORT).show();
                     excelClass.add_to_favorites(holder.item_id.getText().toString(),cardview_name);
                     loadTheDatabase.add_liked(holder.item_id.getText().toString());
                     view.setBackgroundResource(R.drawable.heart_liked);
                     view.setContentDescription("1");
-                    //notifyItemChanged(holder.getAdapterPosition());
-                    //notifyDataSetChanged();
+                    notifyItemMoved(holder.getAdapterPosition(),0);
                 }
 
             }
         });
+    }
+
+    public void UpdateViews()
+    {
+        String[] fav_list = excelClass.get_favorites(cardview_name,true);
+        loadTheDatabase.setValues();
+        item_values = loadTheDatabase.get_smaller_card_values(fav_list,new String[]{},3,false);
+        notifyDataSetChanged();
     }
 
     @Override

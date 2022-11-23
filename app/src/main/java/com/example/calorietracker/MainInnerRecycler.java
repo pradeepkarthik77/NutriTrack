@@ -1,13 +1,6 @@
 package com.example.calorietracker;
 
 import android.content.Context;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,13 +55,13 @@ public class MainInnerRecycler
 
         this.recyclerView.setAdapter(mainInnerRecyclerAdapter);
 
-        //this.recyclerView.setRecycledViewPool(new RecyclerView.RecycledViewPool());
-
         LinearLayoutManager horizontalManager = new LinearLayoutManager(this.context,LinearLayoutManager.HORIZONTAL,false);
 
         this.recyclerView.setLayoutManager(horizontalManager);
 
     }
+
+
 
 
 }
