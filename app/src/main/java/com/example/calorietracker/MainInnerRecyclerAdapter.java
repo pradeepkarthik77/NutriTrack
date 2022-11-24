@@ -1,6 +1,8 @@
 package com.example.calorietracker;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecyclerAdapter.ViewHolder>
@@ -24,6 +28,8 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
     private LoadTheDatabase loadTheDatabase;
     private List<List<String>> item_values;
     private ExcelClass excelClass;
+    public static String chosen_date = "";
+    public static String chosen_time = "";
 
     private int favorite_count = 0;
 
@@ -44,6 +50,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
         private TextView item_id;
         private TextView item_calories;
         private ImageView heart_btn;
+        private TextView save_btn;
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
@@ -52,6 +59,7 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
             this.item_id = itemView.findViewById(R.id.item_id);
             this.item_calories = itemView.findViewById(R.id.cardview_calories);
             this.heart_btn = itemView.findViewById(R.id.heartbutton);
+            this.save_btn = itemView.findViewById(R.id.save_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,10 +67,22 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
                     Intent newintent = new Intent(context,DisplayTable.class);
                     newintent.putExtra("item_id",item_id.getText().toString());
                     newintent.putExtra("item_name",item_text.getText().toString());
+                    newintent.putExtra("chosen_date",MainActivity.chosen_date);
+                    newintent.putExtra("chosen_time",MainActivity.chosen_time);
                     context.startActivity(newintent);
                 }
             });
         }
+    }
+
+    public static void set_chosen_date(String chosen)
+    {
+        MainInnerRecyclerAdapter.chosen_date = chosen;
+    }
+
+    public static void set_chosen_time(String chosen)
+    {
+        MainInnerRecyclerAdapter.chosen_time = chosen;
     }
 
     @NonNull
@@ -164,6 +184,55 @@ public class MainInnerRecyclerAdapter extends RecyclerView.Adapter<MainInnerRecy
 
             }
         });
+
+
+        holder.save_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("Are You Sure?");
+                dialog.setMessage("Do You Want to Save this Data?");
+                dialog.setPositiveButton("Add", new DialogInterface.OnClickListener()
+                {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //TODO add logic to insert the value into the .csv file
+
+                        if(chosen_date.equals(""))
+                        {
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            Date date = new Date();
+                            chosen_date = formatter.format(date);
+                            //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
+                        }
+
+                        if(chosen_time.equals(""))
+                        {
+                            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+                            Date date = new Date();
+                            chosen_time = formatter.format(date);
+                        }
+
+                        //Toast.makeText(context,chosen_date+" "+chosen_time,Toast.LENGTH_LONG).show();
+
+                        InsertCSV insertCSV = new InsertCSV(context);
+
+                        LoadTheDatabase loadTheDatabase = new LoadTheDatabase(context);
+                        List<String> item_values = loadTheDatabase.get_nutrition(holder.item_id.getText().toString());
+
+                        insertCSV.insert_into_csv(item_values,chosen_date,chosen_time);
+                    }
+                });
+                dialog.setNegativeButton("Cancel", null);
+                dialog.create();
+                dialog.show();
+            }
+
+        });
+
+
     }
 
     public void UpdateViews()

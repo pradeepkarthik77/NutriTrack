@@ -30,11 +30,11 @@ public class InsertCSV
     public InsertCSV(Context context)
     {
         this.context = context;
-        default_values = new String[]{"item_id","item_name","item_type","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K"};
+        default_values = new String[]{"item_id","item_name","item_type","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","Date","Time"};
     }
 
 
-    public void insert_into_csv(List<String> values)
+    public void insert_into_csv(List<String> values,String chosen_date,String chosen_time)
     {
         String data;
 
@@ -54,7 +54,7 @@ public class InsertCSV
             {
                 fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
             }
-            data = String.join(",",this.item_values)+"\n";
+            data = String.join(",",this.item_values)+","+chosen_date+","+chosen_time+"\n";
             fileOutputStream.write(data.getBytes());
             Toast.makeText(this.context, "Data Saved!!!", Toast.LENGTH_SHORT).show();
         }
@@ -64,6 +64,4 @@ public class InsertCSV
             Toast.makeText(this.context,"Error in Saving Data",Toast.LENGTH_LONG).show();
         }
     }
-
-
 }

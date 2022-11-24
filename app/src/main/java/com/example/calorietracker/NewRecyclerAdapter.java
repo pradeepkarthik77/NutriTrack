@@ -1,6 +1,8 @@
 package com.example.calorietracker;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.ViewHolder>
@@ -23,7 +27,10 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
     private List<List<String>> item_values;
     private ExcelClass excelClass;
 
-    public NewRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass)
+    public String chosen_date="";
+    public String chosen_time="";
+
+    public NewRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass,String chosen_date,String chosen_time)
     {
         this.context = context;
         this.cardview_name = cardview_name;
@@ -31,6 +38,8 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         this.loadTheDatabase = loadTheDatabase;
         this.item_values = item_values;
         this.excelClass = excelClass;
+        this.chosen_date = chosen_date;
+        this.chosen_time = chosen_time;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -40,6 +49,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         private TextView item_id;
         private TextView item_calories;
         private ImageView heart_btn;
+        private TextView save_btn;
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
@@ -48,6 +58,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
             this.item_id = itemView.findViewById(R.id.item_id);
             this.item_calories = itemView.findViewById(R.id.cardview_calories);
             this.heart_btn = itemView.findViewById(R.id.heartbutton);
+            this.save_btn = itemView.findViewById(R.id.save_btn);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,6 +66,8 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                     Intent newintent = new Intent(context,DisplayTable.class);
                     newintent.putExtra("item_id",item_id.getText().toString());
                     newintent.putExtra("item_name",item_text.getText().toString());
+                    newintent.putExtra("chosen_date",chosen_date);
+                    newintent.putExtra("chosen_time",chosen_time);
                     context.startActivity(newintent);
                 }
             });
@@ -148,6 +161,49 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                     view.setContentDescription("1");
                     notifyItemMoved(holder.getAdapterPosition(),0);
                 }
+            }
+        });
+
+        holder.save_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+                dialog.setTitle("Are You Sure?");
+                dialog.setMessage("Do You Want to Save this Data?");
+                dialog.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //TODO add logic to insert the value into the .csv file
+
+                        if (chosen_date.equals("")) {
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                            Date date = new Date();
+                            chosen_date = formatter.format(date);
+                            //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (chosen_time.equals("")) {
+                            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+                            Date date = new Date();
+                            chosen_time = formatter.format(date);
+                        }
+
+
+
+                        InsertCSV insertCSV = new InsertCSV(context);
+
+                        LoadTheDatabase loadTheDatabase = new LoadTheDatabase(context);
+                        List<String> item_values = loadTheDatabase.get_nutrition(holder.item_id.getText().toString());
+
+                        //Toast.makeText(context,chosen_date+" "+chosen_time,Toast.LENGTH_LONG).show();
+
+                        insertCSV.insert_into_csv(item_values, chosen_date, chosen_time);
+                    }
+                });
+                dialog.setNegativeButton("Cancel", null);
+                dialog.create();
+                dialog.show();
             }
         });
     }

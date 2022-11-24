@@ -76,9 +76,9 @@ public class MainCardRecyclerAdapter extends RecyclerView.Adapter<MainCardRecycl
             {
                 Intent newIntent = new Intent(context,ListActivity.class);
                 newIntent.putExtra("cardview_title",holder.card_title.getText().toString());
-//                //mainActivity.set_card_title(holder.card_title.getText().toString(),mainCardRecyclerAdapter);
-//               MainActivity activity = (MainActivity) context;
-//                context.startActivity(newIntent);
+                newIntent.putExtra("chosen_date",MainActivity.chosen_date);
+                newIntent.putExtra("chosen_time",MainActivity.chosen_time);
+
                 activityResultLauncher.launch(newIntent);
             }
         });
