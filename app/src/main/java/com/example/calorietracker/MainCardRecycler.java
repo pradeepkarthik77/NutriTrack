@@ -16,7 +16,6 @@ public class MainCardRecycler
     public ExcelClass excelClass;
     public LoadTheDatabase loadTheDatabase;
     private RecyclerView recyclerView;
-    //private MainActivity mainActivity;
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     public MainCardRecycler(Context context, ActivityResultLauncher<Intent> activityResultLauncher)//,MainActivity mainActivity)

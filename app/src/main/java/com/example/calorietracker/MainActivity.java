@@ -21,9 +21,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity
@@ -170,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        this.mainCardRecycler = new MainCardRecycler(this,activityResultLaunch);//);,this);
+        this.mainCardRecycler = new MainCardRecycler(this,activityResultLaunch);
 
         this.mainCardRecycler.setAdapterforRecycler(this.mainRecycler);
 
