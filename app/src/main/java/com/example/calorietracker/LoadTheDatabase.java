@@ -35,9 +35,22 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
     public int get_count(String cardview_title)
     {
+        String temp_type = "Common";
+
         this.sqLiteDatabase = this.getReadableDatabase();
         try {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+cardview_title+"' ", null);
+
+            if(cardview_title.equals("Juices"))
+            {
+                temp_type = "Juices";
+            }
+            else if(cardview_title.equals("Water"))
+            {
+                temp_type = "Water";
+            }
+
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+temp_type+"'", null);
+            //+" where item_type = '"+cardview_title+"'
             return cursor.getCount();
         }
         catch(Exception e)
@@ -70,36 +83,36 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
     }
 
-    public void add_liked(String item_id)
-    {
-        try
-        {
-            this.sqLiteDatabase = this.getWritableDatabase();
-            this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '1' WHERE item_id = '"+item_id+"'");
-            Toast.makeText(this.context,"Added to Favorites",Toast.LENGTH_SHORT).show();
-
-        }
-        catch(Exception e)
-        {
-            Toast.makeText(this.context,"Cannot add to Favorites",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    public void remove_liked(String item_id)
-    {
-        try
-        {
-            this.sqLiteDatabase = this.getWritableDatabase();
-            this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '0' WHERE item_id = '"+item_id+"'");
-            Toast.makeText(this.context,"Remove from Favorites",Toast.LENGTH_SHORT).show();
-        }
-        catch(Exception e)
-        {
-            Toast.makeText(this.context,"Cannot Remove from Favorites",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
+//    public void add_liked(String item_id)
+//    {
+//        try
+//        {
+//            this.sqLiteDatabase = this.getWritableDatabase();
+//            this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '1' WHERE item_id = '"+item_id+"'");
+//            Toast.makeText(this.context,"Added to Favorites",Toast.LENGTH_SHORT).show();
+//
+//        }
+//        catch(Exception e)
+//        {
+//            Toast.makeText(this.context,"Cannot add to Favorites",Toast.LENGTH_SHORT).show();
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void remove_liked(String item_id)
+//    {
+//        try
+//        {
+//            this.sqLiteDatabase = this.getWritableDatabase();
+//            this.sqLiteDatabase.execSQL("UPDATE "+database_name+" SET isLiked = '0' WHERE item_id = '"+item_id+"'");
+//            Toast.makeText(this.context,"Remove from Favorites",Toast.LENGTH_SHORT).show();
+//        }
+//        catch(Exception e)
+//        {
+//            Toast.makeText(this.context,"Cannot Remove from Favorites",Toast.LENGTH_SHORT).show();
+//            e.printStackTrace();
+//        }
+//    }
 
     public void copyDatabase(String path) throws IOException
     {
@@ -167,10 +180,22 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         querydata+=")";
 
+        String temp_type="Common";
 
         try
         {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id FROM "+database_name+" where item_id NOT IN "+querydata+" AND item_type='"+cardview_title+"'", null);
+            if(cardview_title.equals("Juices"))
+            {
+                temp_type = "Juices";
+            }
+            else if(cardview_title.equals("Water"))
+            {
+                temp_type = "Water";
+            }
+
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id FROM "+database_name+" where item_id NOT IN "+querydata+" AND item_type='"+temp_type+"'", null);
+
+            //+" AND item_type='"+cardview_title+"'"
 
             int i;
 
@@ -197,7 +222,7 @@ public class LoadTheDatabase extends SQLiteOpenHelper
         return returnarr;
     }
 
-    public List<List<String>> get_smaller_card_values(String[] favorite_list,String[] unfavorite_list,int counter,boolean isNotMain)
+    public List<List<String>> get_smaller_card_values(String[] favorite_list,String[] unfavorite_list)
     {
         this.sqLiteDatabase = this.getReadableDatabase();
 
@@ -214,15 +239,10 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             total_items.add(favorite_list[i]);
         }
 
-        if(isNotMain)
+        for(int i=0;i<unfavorite_list.length;i++)
         {
-            for(int i=0;i<unfavorite_list.length;i++)
-            {
-                total_items.add(unfavorite_list[i]);
-            }
+            total_items.add(unfavorite_list[i]);
         }
-
-        //Toast.makeText(this.context,querydata+" hello",Toast.LENGTH_SHORT).show();
 
         try
         {
@@ -231,19 +251,19 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
             for(int i=0;i<total_items.size();i++)
             {
-                cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,calories,isLiked,img_id FROM "+database_name+" where item_id = "+total_items.get(i), null);
+
+                cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,calories,img_id FROM "+database_name+" where item_id = "+total_items.get(i), null);
 
                 item = new ArrayList<String>();
 
                 //Toast.makeText(this.context,""+cursor.getCount(),Toast.LENGTH_SHORT).show();
 
-                if(cursor.moveToFirst()) {
-
+                if(cursor.moveToFirst())
+                {
                     item.add(cursor.getString(0));
                     item.add(cursor.getString(1));
                     item.add(cursor.getString(2));
                     item.add(cursor.getString(3));
-                    item.add(cursor.getString(4));
                     item_values.add(item);
                 }
             }
@@ -265,11 +285,11 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         try
         {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,item_type,serving_size,calories,fat,saturated_fat,trans_fat,cholesterol,sodium,carbohydrates,dietary_fiber,sugar,added_sugar,protein,vitamin_D,calcium,iron,potassium,vitamin_A,vitamin_C,manganese,vitamin_K FROM "+database_name+" where item_id = "+item_id, null);
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,serving_size,calories,fat,saturated_fat,trans_fat,cholesterol,sodium,carbohydrates,dietary_fiber,sugar,added_sugar,protein,vitamin_D,calcium,iron,potassium,vitamin_A,vitamin_C,manganese,vitamin_K FROM "+database_name+" where item_id = "+item_id, null);
 
             if(cursor.moveToFirst()) {
 
-                for (int i = 0; i < 23; i++) {
+                for (int i = 0; i < 22; i++) {
                     item_values.add(cursor.getString(i));
                 }
             }
@@ -282,7 +302,6 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         return item_values;
     }
-
 
 
     @Override

@@ -2,12 +2,12 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="150dp"
     android:layout_height="200dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="10dp"
     android:clickable="true"
+    android:focusable="true"
     android:id="@+id/main_inner_cardview"
     android:layout_marginBottom="15dp"
     android:layout_marginLeft="5dp"
@@ -29,6 +29,7 @@
             android:background="@drawable/outer_roundit"
             android:scaleType="fitXY"
             android:contentDescription="Unable to Load Image"
+            app:strokeColor="@null"
             />
 
         <TextView
@@ -78,7 +79,7 @@
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
-                android:textColor="@color/purple_500"
+                android:textColor="?android:textColorSecondary"
                 android:background="@drawable/custom_ripple"
                 />
 

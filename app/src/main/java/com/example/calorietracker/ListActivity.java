@@ -53,14 +53,13 @@ public class ListActivity extends AppCompatActivity
     private Activity activity;
     private ActivityResultLauncher<String> pickaphotolauncher;
     private Uri imageUri;
-    @Override
-    public void onBackPressed()
-    {
-        Intent intent = new Intent();
-        intent.putExtra("cardview_name", this.cardview_title);
-        setResult(0, intent);
-        finish();
-    }
+
+//    @Override
+//    public void onBackPressed()
+//    {
+//        super.onBackPressed();
+//        this.recyclerView.getAdapter().notifyDataSetChanged();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,9 +83,12 @@ public class ListActivity extends AppCompatActivity
         list_title.setText(this.cardview_title);
 
         this.loadTheDatabase = new LoadTheDatabase(this.context);
+
         this.excelClass = new ExcelClass(this.context);
 
-        this.favorites_list = this.excelClass.get_favorites(this.cardview_title,false);
+        this.excelClass.create_excel();
+
+        this.favorites_list = this.excelClass.get_favorites(this.cardview_title);
 
         this.loadTheDatabase.setValues();
 
@@ -94,17 +96,19 @@ public class ListActivity extends AppCompatActivity
 
         this.not_favorite_list = this.loadTheDatabase.get_unFavorites(this.cardview_title,this.favorites_list);
 
-        this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorites_list,this.not_favorite_list,this.cardview_count,true);
+        this.item_values = this.loadTheDatabase.get_smaller_card_values(this.favorites_list,this.not_favorite_list);
 
         this.gridLayoutManager = new GridLayoutManager(this.context,2);
 
         this.recyclerView = findViewById(R.id.listActivity_recycler);
 
-       this.newRecyclerAdapter = new NewRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values,this.excelClass,this.chosen_date,this.chosen_time);
+       this.newRecyclerAdapter = new NewRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values,this.excelClass,this.favorites_list,this.chosen_date,this.chosen_time);
 
        this.recyclerView.setAdapter(this.newRecyclerAdapter);
 
        this.recyclerView.setLayoutManager(gridLayoutManager);
+
+       //Toast.makeText(context,String.join(",",this.favorites_list),Toast.LENGTH_LONG).show();
 
        //ImageView sampleimg = findViewById(R.id.sampleimg);
 

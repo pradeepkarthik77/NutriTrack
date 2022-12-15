@@ -26,20 +26,29 @@
         tools:layout_editor_absoluteX="0dp"
         >
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="100dp"
-        app:layout_constraintBaseline_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="5dp"
-        android:clipToPadding="false"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBaseline_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="10dp"
+        android:id="@+id/table_btn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

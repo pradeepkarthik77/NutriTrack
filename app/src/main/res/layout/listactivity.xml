@@ -31,18 +31,19 @@
             android:layout_marginTop="15dp"
             android:foregroundGravity="center_horizontal"
             app:layout_constraintTop_toTopOf="parent"
+            android:paddingBottom="100dp"
             android:layout_marginLeft="5dp"/>
 
-<!--        <ImageView-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="100dp"-->
-<!--            android:src="@drawable/dosa_img"-->
-<!--            android:id="@+id/sampleimg"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintBaseline_toBottomOf="@+id/listActivity_recycler"-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="100dp"-->
+        <!--            android:layout_height="100dp"-->
+        <!--            android:src="@drawable/dosa_img"-->
+        <!--            android:id="@+id/sampleimg"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintBaseline_toBottomOf="@+id/listActivity_recycler"-->
 
-<!--            />-->
+        <!--            />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -21,7 +21,7 @@ public class NutrtionValueSet
         this.item_id = item_id;
     }
 
-    public List<String> setvalues()
+    public List<String> setvalues(String cardview_title)
     {
         loadTheDatabase = new LoadTheDatabase(context);
         loadTheDatabase.setValues();
@@ -36,7 +36,13 @@ public class NutrtionValueSet
 
         txtview = activity.findViewById(R.id.serving_size);
 
-        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3)+"g");
+        if(cardview_title.equals("Water") || cardview_title.equals("Juice"))
+        {
+            txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3)+"ml");
+        }
+        else {
+            txtview.setText(txtview.getText().toString() + ": " + this.item_values.get(3) + "g");
+        }
 
         txtview = activity.findViewById(R.id.calories);
 
@@ -44,7 +50,7 @@ public class NutrtionValueSet
 
         int indx = 2;
 
-        for(int i=5;i<23;i++)
+        for(int i=5;i<22;i++)
         {
             txtview = activity.findViewById(item_res_ids[indx]);
             txtview.setText(this.item_values.get(i)+"%");

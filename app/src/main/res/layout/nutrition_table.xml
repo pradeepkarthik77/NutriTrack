@@ -22,9 +22,12 @@
         app:layout_constraintBaseline_toTopOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_bar_layout"
-        android:padding="10dp"
-        android:id="@+id/scrollview">
-
+        android:paddingBottom="50dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:id="@+id/scrollview"
+        >
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -125,7 +128,7 @@
                     android:id="@+id/fat"
                     android:layout_gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -137,14 +140,14 @@
 
                 <TextView
                     android:text="Saturated Fat (0g)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/saturated_fat"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -156,14 +159,14 @@
 
                 <TextView
                     android:text="Trans Fat (0g)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/trans_fat"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -184,7 +187,7 @@
                     android:id="@+id/cholesterol"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -204,7 +207,7 @@
                     android:id="@+id/sodium"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -224,7 +227,7 @@
                     android:id="@+id/carbohydrates"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -236,14 +239,14 @@
 
                 <TextView
                     android:text="Dietary Fiber (4g)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/dietary_fiber"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -255,14 +258,14 @@
 
                 <TextView
                     android:text="Total Sugars (15g)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/sugar"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -274,14 +277,14 @@
 
                 <TextView
                     android:text="Added Sugars (0g)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/added_sugar"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -301,7 +304,7 @@
                     android:id="@+id/protein"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -313,14 +316,14 @@
 
                 <TextView
                     android:text="Vitamin D (0mcg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/vitamin_D"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -332,14 +335,14 @@
 
                 <TextView
                     android:text="Calcium (10mcg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/calcium"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -351,14 +354,14 @@
 
                 <TextView
                     android:text="Iron (0.4mg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/iron"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -370,14 +373,14 @@
 
                 <TextView
                     android:text="Potassium (110mg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/potassium"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -389,14 +392,14 @@
 
                 <TextView
                     android:text="Vitamin A (0mcg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/vitamin_A"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -408,14 +411,14 @@
 
                 <TextView
                     android:text="Vitamin C (14mg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/vitamin_C"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -427,14 +430,14 @@
 
                 <TextView
                     android:text="Manganese (0.5mg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/manganese"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -446,14 +449,14 @@
 
                 <TextView
                     android:text="Vitamin K (0mcg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/vitamin_K"
                     android:gravity="center"
                     android:text="0%"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
             </TableRow>
 
@@ -462,7 +465,7 @@
 
                 <TextView
                     android:text="Vitamin K (0mcg)"
-                    android:textColor="@color/cardview_dark_background"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
             </TableRow>

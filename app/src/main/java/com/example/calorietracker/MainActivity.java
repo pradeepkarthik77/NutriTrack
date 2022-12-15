@@ -1,12 +1,9 @@
 package com.example.calorietracker;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
@@ -23,11 +20,13 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 
 public class MainActivity extends AppCompatActivity
 {
 
-    private MainCardRecycler mainCardRecycler;
+    private MainCardAdapter mainCardAdapter;
     private RecyclerView mainRecycler;
     private Context context;
     private ImageButton imageButton;
@@ -92,9 +91,30 @@ public class MainActivity extends AppCompatActivity
 
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
-            public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+            public void onTimeChanged(TimePicker timePicker, int hr, int min)
+            {
+                String hour = "";
+                String time = "";
 
-                chosen_time = i+":"+i1;
+                if(hr<10)
+                {
+                    hour = "0"+hr;
+                }
+                else
+                {
+                    hour = hr+"";
+                }
+
+                if(min<10)
+                {
+                    time = "0"+min;
+                }
+                else
+                {
+                    time = min+"";
+                }
+
+                chosen_time = hour+":"+time;
             }
         });
 
@@ -103,8 +123,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 DisplayTable.set_chosen_time(chosen_time);
                 DisplayTable.set_chosen_date(chosen_date);
-                MainInnerRecyclerAdapter.set_chosen_date(chosen_date);
-                MainInnerRecyclerAdapter.set_chosen_time(chosen_time);
+                MainCardAdapter.set_chosen_date(chosen_date);
+                MainCardAdapter.set_chosen_time(chosen_time);
                 dialog.dismiss();
             }
         });
@@ -141,36 +161,24 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        //Toast.makeText(getApplicationContext(),chosen_date+" "+chosen_date,Toast.LENGTH_LONG).show();
+        FloatingActionButton tablebtn = findViewById(R.id.table_btn);
 
+        tablebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent();
+                context.startActivity(intent);
+            }
+        });
 
         this.mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
-        ActivityResultLauncher<Intent> activityResultLaunch = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result)
-                    {
-                        if(result.getResultCode() == 0)
-                        {
-                            for(int x = 0;x<mainRecycler.getChildCount();x++)
-                            {
-                                MainCardRecyclerAdapter.ViewHolder holder = (MainCardRecyclerAdapter.ViewHolder) mainRecycler.getChildViewHolder(mainRecycler.getChildAt(x));
-                                if(holder.card_title.getText().toString().equals(result.getData().getStringExtra("cardview_name")))
-                                {
-                                    MainInnerRecyclerAdapter mainInnerRecyclerAdapter = (MainInnerRecyclerAdapter) holder.inner_card_recycler.getAdapter();
-                                    mainInnerRecyclerAdapter.UpdateViews();
-                                }
-                            }
-                        }
-                    }
-                });
 
+        this.mainCardAdapter = new MainCardAdapter(this);
 
+        this.mainRecycler.setAdapter(this.mainCardAdapter);
 
-        this.mainCardRecycler = new MainCardRecycler(this,activityResultLaunch);
-
-        this.mainCardRecycler.setAdapterforRecycler(this.mainRecycler);
-
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.context,2);
+        this.mainRecycler.setLayoutManager(gridLayoutManager);
     }
 }

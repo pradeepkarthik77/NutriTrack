@@ -2,62 +2,48 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="275dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="175dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="20dp"
+    app:cardElevation="10dp"
     android:clickable="true"
     android:id="@+id/main_card_cardview"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginLeft="5dp"
+    android:layout_gravity="center_horizontal"
     >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@drawable/custom_ripple"
         android:id="@+id/main_card_linear"
-        android:padding="5dp"
         >
 
-        <TextView
-            android:id="@+id/main_card_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="BreakFast"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textColor="?android:textColorPrimary"
-            />
+    <ImageView
+        android:id="@+id/cardview_image"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@drawable/outer_roundit"
+        android:scaleType="fitXY"
+        android:contentDescription="Unable to Load Image"
+        app:strokeColor="@null"
+        />
 
-        <com.google.android.material.button.MaterialButton
-            style="?attr/borderlessButtonStyle"
-            android:id="@+id/see_all_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="0dp"
-            android:paddingLeft="5dp"
-            android:text="See More"
-            android:textSize="15dp"
-            android:textColor="@color/design_default_color_primary"
-            android:textStyle="bold"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardview_text"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:textColor="?android:textColorPrimary"
+        android:gravity="center"
+        />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_content_recycler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            app:reverseLayout="true"
-            android:scrollbars="horizontal"
-            android:textColor="?android:textColorPrimary"
-            />
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

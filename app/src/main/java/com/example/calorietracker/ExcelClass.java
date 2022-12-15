@@ -42,13 +42,6 @@ public class ExcelClass
         this.thisFile = this.context.getFilesDir();
         this.csvFile = new File(this.thisFile,this.EXCEL_FILE);
         this.default_cards = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
-        this.default_food_items = new ArrayList<List<String>>();
-        this.default_food_items.add(Arrays.asList("101","102","103"));
-        this.default_food_items.add(Arrays.asList("104","105","106"));
-        this.default_food_items.add(Arrays.asList("107","108","109"));
-        this.default_food_items.add(Arrays.asList("110","111","112"));
-        this.default_food_items.add(Arrays.asList("113","114","115"));
-        this.default_food_items.add(Arrays.asList("116","117","118"));
         //TODO write logic to create a new Excelfile if not exisits and load values into it
     }
 
@@ -63,8 +56,8 @@ public class ExcelClass
 
         for(int i=0;i<6;i++)
         {
-            data+=this.default_cards[i]+",";
-            data+= String.join(",",this.default_food_items.get(i))+"\n";
+            data+=this.default_cards[i]+",\n";
+            //data+= String.join(",",this.default_food_items.get(i))+"\n";
         }
 
         try
@@ -90,14 +83,14 @@ public class ExcelClass
         String totaldata = "";
 
         int position = Arrays.asList(this.default_cards).indexOf(cardview_item);
-
-        if(position != -1)
-        {
-            if(this.default_food_items.get(position).contains(add_item))
-            {
-                return;
-            }
-        }
+//
+//        if(position != -1)
+//        {
+//            if(this.default_food_items.get(position).contains(add_item))
+//            {
+//                return;
+//            }
+//        }
 
         try {
 
@@ -107,7 +100,6 @@ public class ExcelClass
 
             while ((nextline = bufferedReader.readLine()) != null)
             {
-
                 nextlinearr = nextline.split(",");
                 if(nextlinearr.length == 0)
                 {
@@ -117,7 +109,8 @@ public class ExcelClass
                 {
                     if(nextlinearr[0].equals(cardview_item))
                     {
-                        if(!Arrays.asList(nextlinearr).contains(add_item)) {
+                        if(!Arrays.asList(nextlinearr).contains(add_item))
+                        {
                             nextline = String.join(",", nextlinearr) + "," + add_item + "\n";
                             totaldata += nextline;
                         }
@@ -136,7 +129,7 @@ public class ExcelClass
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,"Unable to Access the Favorites File",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,e.toString()+" add",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -149,13 +142,13 @@ public class ExcelClass
 
         int position = Arrays.asList(this.default_cards).indexOf(cardview_item);
 
-        if(position != -1)
-        {
-            if(this.default_food_items.get(position).contains(remove_item))
-            {
-                return;
-            }
-        }
+//        if(position != -1)
+//        {
+//            if(this.default_food_items.get(position).contains(remove_item))
+//            {
+//                return;
+//            }
+//        }
 
         try {
 
@@ -169,6 +162,7 @@ public class ExcelClass
                 nextlinearr = nextline.split(",");
                 if(nextlinearr.length == 0)
                 {
+                    Toast.makeText(context,String.join("& ",nextlinearr),Toast.LENGTH_LONG).show();
                     continue;
                 }
                 else
@@ -179,7 +173,11 @@ public class ExcelClass
                         {
                             List<String> arr = new LinkedList<String>(Arrays.asList(nextlinearr));
                             arr.remove(remove_item);
-                            totaldata = String.join(",",arr)+"\n";
+//                            if(arr.size() == 1)
+//                            {
+//                                totaldata += nextlinearr[0]+",\n";
+//                            }
+                            totaldata += String.join(",",arr)+"\n";
                         }
                     }
                     else
@@ -196,7 +194,7 @@ public class ExcelClass
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,"Unable to Access the Favorites File",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,e.toString()+" remove",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -216,8 +214,8 @@ public class ExcelClass
         }
     }
 
-    public String[] get_favorites(String cardview_title,boolean ismain){
-
+    public String[] get_favorites(String cardview_title)
+    {
         String[] returnrecord;
 
         String nextline;
@@ -242,38 +240,17 @@ public class ExcelClass
                     if(nextlinearr[0].equals(cardview_title))
                     {
                         returnrecord = Arrays.copyOfRange(nextlinearr,1,nextlinearr.length);
-                        if(ismain)
+                        String temp;
+                        int i=0;
+                        int j = returnrecord.length-1;
+                        while(i<j)
                         {
-                            returnrecord = Arrays.copyOfRange(returnrecord, returnrecord.length - 3, returnrecord.length);
-                            int i = 0;
-                            int j = returnrecord.length-1;
-                            String temp;
-                            while(i<j)
-                            {
-                                temp = returnrecord[i];
-                                returnrecord[i] = returnrecord[j];
-                                returnrecord[j] = temp;
-                                i++;
-                                j--;
-                            }
-                            //Toast.makeText(this.context,String.join(",",returnrecord),Toast.LENGTH_SHORT).show();
+                            temp = returnrecord[i];
+                            returnrecord[i] = returnrecord[j];
+                            returnrecord[j] = temp;
+                            i++;
+                            j--;
                         }
-                        else
-                        {
-                            String temp;
-                            int i=0;
-                            int j = returnrecord.length-1;
-                            while(i<j)
-                            {
-                                temp = returnrecord[i];
-                                returnrecord[i] = returnrecord[j];
-                                returnrecord[j] = temp;
-                                i++;
-                                j--;
-                            }
-
-                        }
-
                         return returnrecord;
                     }
                 }
@@ -283,7 +260,7 @@ public class ExcelClass
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,"Unable to Access the Favorites File",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context,e.toString()+" get",Toast.LENGTH_SHORT).show();
         }
 
         return new String[]{};
