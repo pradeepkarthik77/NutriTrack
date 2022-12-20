@@ -19,6 +19,7 @@ import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -84,8 +85,28 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayofmonth)
             {
+                String datestring="";
+                String monthstring = "";
 
-                chosen_date = dayofmonth+"/"+month+"/"+year;
+                if(dayofmonth<10)
+                {
+                    datestring = "0"+dayofmonth;
+                }
+                else
+                {
+                    datestring = ""+dayofmonth;
+                }
+
+                if(month<10)
+                {
+                    monthstring = "0"+(month+1);
+                }
+                else
+                {
+                    monthstring = ""+(month+1);
+                }
+
+                chosen_date = datestring+"/"+monthstring+"/"+year;
             }
         });
 
@@ -161,13 +182,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FloatingActionButton tablebtn = findViewById(R.id.table_btn);
+        ImageButton tablebtn = findViewById(R.id.edit_week);
 
         tablebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent();
+                Intent intent = new Intent(context,WeekTable.class);
+                intent.putExtra("chosen_date",chosen_date);
+                intent.putExtra("chosen_time",chosen_time);
                 context.startActivity(intent);
             }
         });

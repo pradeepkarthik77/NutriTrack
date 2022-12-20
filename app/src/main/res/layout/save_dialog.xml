@@ -45,14 +45,34 @@
         tools:layout_editor_absoluteX="24dp">
 
         <TextView
-            android:id="@+id/dialog_date"
+            android:id="@+id/dialog_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Date: "
-
+            android:text="Name: "
             android:textSize="20dp"
             app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="0dp"
+            />
+
+        <TextView
+            android:id="@+id/dialog_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Type: "
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_name"
+            tools:layout_editor_absoluteX="0dp"
+            />
+
+        <TextView
+            android:id="@+id/dialog_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date: "
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_type"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
@@ -118,6 +138,8 @@
             app:layout_constraintTop_toBottomOf="@+id/dialog_carbs"
             tools:layout_editor_absoluteX="0dp" />
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
@@ -127,7 +149,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/custom_ripple"
         android:text="CANCEL"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/purple_200"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/apply_btn"
@@ -140,7 +162,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/custom_ripple"
         android:text="APPLY"
-        android:textColor="@color/purple_500"
+        android:textColor="@color/purple_200"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/constraintLayout"

@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -65,7 +66,16 @@ public class DisplayTable extends AppCompatActivity
 
         TextView list_title = (TextView) findViewById(R.id.display_title);
 
-        list_title.setText(this.item_title);
+        list_title.setText("Nutrition Facts - "+this.item_title);
+
+        ImageButton display_btn = findViewById(R.id.display_back_btn);
+
+        display_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         //Toast.makeText(getApplicationContext(),this.chosen_date+" "+this.chosen_time,Toast.LENGTH_LONG).show();
 
@@ -116,6 +126,7 @@ public class DisplayTable extends AppCompatActivity
         TextView protein = dialog.findViewById(R.id.dialog_protein);
         TextView fat = dialog.findViewById(R.id.dialog_fat);
         TextView carbs = dialog.findViewById(R.id.dialog_carbs);
+        TextView type = dialog.findViewById(R.id.dialog_type);
 
         if(chosen_date.equals(""))
         {
@@ -133,6 +144,14 @@ public class DisplayTable extends AppCompatActivity
         }
 
         String str;
+
+        TextView name = dialog.findViewById(R.id.dialog_name);
+
+        str = "<b>Name: </b>"+item_title;
+        name.setText(Html.fromHtml(str));
+
+        str = "<b>Type: </b>"+item_type;
+        type.setText(Html.fromHtml(str));
 
         str = "<b>Date: </b>"+chosen_date;
         date.setText(Html.fromHtml(str));

@@ -309,6 +309,8 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                 TextView protein = dialog.findViewById(R.id.dialog_protein);
                 TextView fat = dialog.findViewById(R.id.dialog_fat);
                 TextView carbs = dialog.findViewById(R.id.dialog_carbs);
+                TextView name = dialog.findViewById(R.id.dialog_name);
+                TextView type = dialog.findViewById(R.id.dialog_type);
 
                 if(chosen_date.equals(""))
                 {
@@ -326,6 +328,12 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                 }
 
                 String str;
+
+                str = "<b>Name: </b>"+holder.item_text.getText().toString();
+                name.setText(Html.fromHtml(str));
+
+                str = "<b>Type: </b>"+cardview_name;
+                type.setText(Html.fromHtml(str));
 
                 str = "<b>Date: </b>"+chosen_date;
                 date.setText(Html.fromHtml(str));
@@ -353,6 +361,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                         //Toast.makeText(getApplicationContext(),chosen_date+" "+chosen_time,Toast.LENGTH_LONG).show();
 
                         insertCSV.insert_into_csv(cardview_name,item_values,chosen_date,chosen_time);
+                        dialog.dismiss();
 //                chosen_time = getIntent().getStringExtra("chosen_time");
 //                chosen_date = getIntent().getStringExtra("chosen_date");
                     }

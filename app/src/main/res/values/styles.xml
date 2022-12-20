@@ -7,4 +7,9 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
+    <style name="CustomCheckbox02" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
+         <item name="android:button">@drawable/checkbox_selector</item>
+         <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>
