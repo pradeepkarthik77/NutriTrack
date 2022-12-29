@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Calorietracker" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Calorietracker" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="android:textColorPrimary">@color/cardview_dark_background</item>
         <item name="colorPrimary">@color/purple_500</item>

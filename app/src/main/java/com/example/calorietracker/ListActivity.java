@@ -151,6 +151,8 @@ public class ListActivity extends AppCompatActivity
 
        this.recyclerView.setLayoutManager(gridLayoutManager);
 
+
+
        //Toast.makeText(context,String.join(",",this.favorites_list),Toast.LENGTH_LONG).show();
 
        //ImageView sampleimg = findViewById(R.id.sampleimg);
@@ -191,6 +193,11 @@ public class ListActivity extends AppCompatActivity
                 });
 
        ImageView camera_btn = findViewById(R.id.add_photo);
+
+       if(this.cardview_title.equals("Water") || this.cardview_title.equals("Juices"))
+       {
+            camera_btn.setVisibility(View.GONE);
+       }
 
         camera_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,5 +373,4 @@ public class ListActivity extends AppCompatActivity
         dialog.create();
         dialog.show();
     }
-
 }
