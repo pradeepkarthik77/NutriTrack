@@ -28,8 +28,28 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         app:errorEnabled="true"
-        android:id="@+id/user_email_signup"
+        android:id="@+id/user_name_signup"
         app:startIconDrawable="@drawable/ic_baseline_person_24"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Your Name"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        app:errorEnabled="true"
+        android:id="@+id/user_email_signup"
+        app:startIconDrawable="@drawable/ic_baseline_mail_24"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -144,7 +164,7 @@
         android:layout_marginBottom="10dp"
         android:text="Sign Up with Google"
         android:textAlignment="center"
-        android:id="@+id/google_login_btn"
+        android:id="@+id/google_signup_btn"
         android:drawableLeft="@drawable/google_wrapper"
         />
 

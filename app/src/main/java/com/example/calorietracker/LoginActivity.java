@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity
                         if(response.code() == 200)
                         {
                             LoginResult result = response.body();
-                            Toast.makeText(getApplicationContext(),result.getEmail(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),result.getEmail()+"\n"+result.getName(),Toast.LENGTH_LONG).show();
                         }
                         else if(response.code() == 404)
                         {
