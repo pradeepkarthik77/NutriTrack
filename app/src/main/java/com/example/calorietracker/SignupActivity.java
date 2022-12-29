@@ -1,14 +1,23 @@
 package com.example.calorietracker;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -32,12 +41,20 @@ public class SignupActivity extends AppCompatActivity
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
+    private MaterialButton google_sign_up;
+    private Context context;
+
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient gsc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_layout);
+
+        this.context = this;
 
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -47,6 +64,12 @@ public class SignupActivity extends AppCompatActivity
         this.textInputPassword = findViewById(R.id.user_password_signup);
         this.textInputreenter = findViewById(R.id.user_repassword_signup);
         this.signup_btn = findViewById(R.id.signup_btn_signup);
+
+        this.google_sign_up = findViewById(R.id.google_signup_btn);
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+        gsc = GoogleSignIn.getClient(this, gso);
 
         this.signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +102,46 @@ public class SignupActivity extends AppCompatActivity
 
             }
         });
+
+
+        this.google_sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                google_sign_up_fn();
+            }
+        });
+
+    }
+
+    private void google_sign_up_fn()
+    {
+        Intent intent = gsc.getSignInIntent();
+        startActivityForResult(intent,1000);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1000)
+        {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+            try {
+                task.getResult(ApiException.class);
+            }
+            catch(ApiException e)
+            {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+            Intent newintent = new Intent(context,MainActivity.class);
+            startActivity(newintent);
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private Boolean validate_signup()

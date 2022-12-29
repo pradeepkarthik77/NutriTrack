@@ -144,7 +144,7 @@
         android:layout_marginBottom="10dp"
         android:text="Sign Up with Google"
         android:textAlignment="center"
-        android:id="@+id/google_login_btn"
+        android:id="@+id/google_signup_btn"
         android:drawableLeft="@drawable/google_wrapper"
         />
 
