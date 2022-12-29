@@ -36,7 +36,7 @@ public class SignupActivity extends AppCompatActivity
     private TextInputLayout textInputPassword;
     private TextInputLayout textInputreenter;
     private MaterialButton signup_btn;
-    private String BASE_URL = "http://10.0.2.2:3000";
+    private String BASE_URL = "http://192.168.67.144:3000";//"http://14.139.187.130:3000"; //
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -91,7 +91,19 @@ public class SignupActivity extends AppCompatActivity
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response)
                     {
-                        Toast.makeText(getApplicationContext(),"Sign In Sucessful",Toast.LENGTH_LONG).show();
+                        if(response.code() == 200)
+                        {
+                            Toast.makeText(getApplicationContext(),"Sign In Sucessful",Toast.LENGTH_LONG).show();
+                            Intent newintent = new Intent(getApplicationContext(),LoginActivity.class);
+                            startActivity(newintent);
+                        }
+                        else if(response.code() == 400)
+                        {
+                            Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(),"Unable to SignUp",Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
@@ -128,18 +140,60 @@ public class SignupActivity extends AppCompatActivity
 
             try {
                 task.getResult(ApiException.class);
-            }
-            catch(ApiException e)
-            {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-            }
 
-            Intent newintent = new Intent(context,MainActivity.class);
-            startActivity(newintent);
+                HashMap<String,String> map = new HashMap<>();
+
+                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(context);
+
+                if(acct!=null) {
+
+                    String email = acct.getEmail();
+                    String name = acct.getDisplayName();
+
+                    map.put("email", email);
+                    map.put("name", name);
+
+                    Call<Void> call = retrofitInterface.executeSignup(map);
+
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response)
+                        {
+                            if(response.code() == 200)
+                            {
+                                Toast.makeText(getApplicationContext(),"Sign In Sucessful",Toast.LENGTH_LONG).show();
+                                Intent newintent = new Intent(getApplicationContext(),MainActivity.class);
+                                startActivity(newintent);
+                            }
+                            else if(response.code() == 400)
+                            {
+                                Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                Toast.makeText(getApplicationContext(),"Unable to SignUp",Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                else
+                {
+                    throw new Exception("Hi");
+                }
+            }
+            catch(Exception e)
+            {
+                //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Unable to Sign-In",Toast.LENGTH_LONG).show();
+            }
         }
         else
         {
-            Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Unable to Sign-in",Toast.LENGTH_SHORT).show();
         }
 
     }

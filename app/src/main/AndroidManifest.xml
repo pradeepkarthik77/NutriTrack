@@ -22,6 +22,7 @@
             android:name=".OnOpenActivity"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:theme="@style/Onloadtheme"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +32,13 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity">
+            android:name=".LoginActivity"
+            android:theme="@style/Onloadtheme">
 
         </activity>
 
-        <activity android:name=".SignupActivity"/>
+        <activity android:name=".SignupActivity"
+            android:theme="@style/Onloadtheme"/>
 
         <activity
             android:name=".MainActivity"

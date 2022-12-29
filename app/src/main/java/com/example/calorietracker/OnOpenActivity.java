@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.TaskStackBuilder;
 
-import com.google.android.material.button.MaterialButton;
 
 public class OnOpenActivity extends AppCompatActivity
 {
@@ -51,7 +51,7 @@ public class OnOpenActivity extends AppCompatActivity
 
         textView.setText(string1);
 
-        MaterialButton log_in_btn = findViewById(R.id.log_in_btn);
+        Button log_in_btn = findViewById(R.id.log_in_btn);
 
         this.context = this;
 
@@ -63,7 +63,7 @@ public class OnOpenActivity extends AppCompatActivity
             }
         });
 
-        MaterialButton signup_btn  =  findViewById(R.id.sign_in_btn);
+        Button signup_btn  =  findViewById(R.id.sign_in_btn);
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override

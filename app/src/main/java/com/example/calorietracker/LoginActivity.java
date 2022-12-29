@@ -1,5 +1,6 @@
 package com.example.calorietracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity
     
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "http://10.0.2.2:3000"; //TODO UPDATE THIS VALUE AFTER SETTING UP BACKEND
+    private String BASE_URL = "http://192.168.67.144:3000"; //TODO UPDATE THIS VALUE AFTER SETTING UP BACKEND
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,7 +72,11 @@ public class LoginActivity extends AppCompatActivity
                         if(response.code() == 200)
                         {
                             LoginResult result = response.body();
-                            Toast.makeText(getApplicationContext(),result.getEmail(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Log In Succesful!!!",Toast.LENGTH_LONG).show();
+                            Intent newintent = new Intent(getApplicationContext(),MainActivity.class);
+                            newintent.putExtra("email",result.getEmail());
+                            newintent.putExtra("name",result.getName());
+                            startActivity(newintent);
                         }
                         else if(response.code() == 404)
                         {
