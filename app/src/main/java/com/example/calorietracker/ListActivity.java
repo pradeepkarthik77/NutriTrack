@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -75,6 +76,8 @@ public class ListActivity extends AppCompatActivity
     private Uri imageUri;
     private String recycler_id="0";
     private int imagesize = 32;
+    private String email;
+    private String user_name;
 //    @Override
 //    public void onBackPressed()
 //    {
@@ -104,6 +107,12 @@ public class ListActivity extends AppCompatActivity
         this.recycler_id = intent.getStringExtra("recycler_id");
         this.context = this;
         this.activity = this;
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
+
+        this.email = pref.getString("email","");
+
+        this.user_name = pref.getString("name","");
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -322,8 +331,6 @@ public class ListActivity extends AppCompatActivity
             }
 
             String[] classes = new String[]{"Apple","Orange","Banana"};
-
-            Toast.makeText(getApplicationContext(),"Hi",Toast.LENGTH_SHORT).show();
 
             createmodeldialog(classes,maxPos,confidence,oldbitmap);
 

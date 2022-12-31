@@ -38,19 +38,19 @@ public class NutrtionValueSet
 
         if(cardview_title.equals("Water") || cardview_title.equals("Juice"))
         {
-            txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3)+"ml");
+            txtview.setText(txtview.getText().toString()+": "+this.item_values.get(2)+"ml");
         }
         else {
-            txtview.setText(txtview.getText().toString() + ": " + this.item_values.get(3) + "g");
+            txtview.setText(txtview.getText().toString() + ": " + this.item_values.get(2) + "g");
         }
 
         txtview = activity.findViewById(R.id.calories);
 
-        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(4));
+        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3));
 
         int indx = 2;
 
-        for(int i=5;i<22;i++)
+        for(int i=4;i<22;i++)
         {
             txtview = activity.findViewById(item_res_ids[indx]);
             txtview.setText(this.item_values.get(i)+"%");

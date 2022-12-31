@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class InsertCSV
@@ -23,6 +24,8 @@ public class InsertCSV
 
     private String EXCEL_FILE = "user_nutrition.csv";
 
+    private String BUFFER_FILE = "user_buffer.csv";
+
     private FileOutputStream fileOutputStream;
 
     private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
@@ -30,7 +33,8 @@ public class InsertCSV
     public InsertCSV(Context context)
     {
         this.context = context;
-        default_values = new String[]{"item_id","item_name","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","item_type","Date","Time"};
+        default_values = new String[]{"item_id","item_name","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","item_type","Date","Time"
+        };
     }
 
 
@@ -55,6 +59,7 @@ public class InsertCSV
                 fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
             }
             data = String.join(",",this.item_values)+","+cardview_name+","+chosen_date+","+chosen_time+"\n";
+            Enter_into_buffer_csv(data);
             fileOutputStream.write(data.getBytes());
             Toast.makeText(this.context, "Data Saved!!!", Toast.LENGTH_SHORT).show();
         }
@@ -142,4 +147,119 @@ public class InsertCSV
 
         return return_arr;
     }
+
+    public void Enter_into_buffer_csv(String data)
+    {
+        FileOutputStream fileOutputStream;
+
+        try
+        {
+            File file = this.context.getFilesDir();
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.BUFFER_FILE);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(this.BUFFER_FILE,this.context.MODE_APPEND);
+                String tempdata = "";
+                fileOutputStream.write(tempdata.getBytes());
+                //Toast.makeText(context,"No file",Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(this.BUFFER_FILE,this.context.MODE_APPEND);
+            }
+            //Toast.makeText(context,data,Toast.LENGTH_LONG).show();
+            fileOutputStream.write(data.getBytes());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public HashMap<String,String> read_from_buffer()
+    {
+
+        HashMap<String,String> map = new HashMap<>();
+
+        try
+        {
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.BUFFER_FILE);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(BUFFER_FILE,this.context.MODE_APPEND);
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
+            }
+
+            try {
+                FileReader filereader = new FileReader(filer);
+
+                BufferedReader bufferedReader = new BufferedReader(filereader);
+
+                String nextline;
+
+                String[] nextlinearr = new String[]{};
+
+                int count = 1;
+
+                while ((nextline = bufferedReader.readLine()) != null)
+                {
+                    nextlinearr = nextline.split(",");
+                    if(nextlinearr.length == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        map.put(count+"",nextline);
+                        count++;
+                    }
+                }
+
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+                Toast.makeText(this.context,e.toString()+" add",Toast.LENGTH_LONG).show();
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,"Error in Accessing Data",Toast.LENGTH_LONG).show();
+        }
+
+        return map;
+
+    }
+
+    public void delete_buffer()
+    {
+        HashMap<String,String> map = new HashMap<>();
+
+        try
+        {
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.BUFFER_FILE);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(BUFFER_FILE,this.context.MODE_APPEND);
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
+            }
+            fileOutputStream.write("".getBytes());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,"Error in Accessing Data",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 }

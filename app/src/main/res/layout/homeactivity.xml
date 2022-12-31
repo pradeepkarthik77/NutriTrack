@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/homeactivity_toolbarr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/homeactivity_toolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/homeactivity_linear"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/homeactivity_toolbarr"-->
+<!--        android:orientation="vertical">-->
+
+    <ImageView
+        android:id="@+id/homeactivity_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/homepage"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toBottomOf="@+id/homeactivity_toolbarr"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <ListView
+            android:id="@+id/home_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/homeactivity_image"
+            />
+<!--    </LinearLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

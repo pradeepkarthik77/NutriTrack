@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -32,9 +35,16 @@ public class MainActivity extends AppCompatActivity
     private Context context;
     private ImageButton imageButton;
     private Dialog dialog;
+    private String email="";
+    private String user_name="";
+    private Boolean isloggedin = false;
 
     public static String chosen_time = "";
     public static String chosen_date = "";
+
+    private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
+    private int[] cardview_images = new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
+    private int cardview_count = 6;
 
     private void create_dialogbox()
     {
@@ -54,6 +64,16 @@ public class MainActivity extends AppCompatActivity
         TimePicker timePicker = (TimePicker) dialog.findViewById(R.id.select_time);
         Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
         Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
+
+        ImageView back_btn = findViewById(R.id.display_back_btn);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -166,10 +186,19 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        this.isloggedin = pref.getBoolean("isLoggedin",false);
+        this.email = pref.getString("email",null);
+        this.user_name = pref.getString("name",null);
+
         this.context = this;
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
-        toolBar.setTitle("Calorie Tracker");
+        TextView title = findViewById(R.id.toolbar_title);
+        title.setText("Mid-Meal Diet");
         setSupportActionBar(toolBar);
         create_dialogbox();
 
@@ -182,22 +211,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        ImageButton tablebtn = findViewById(R.id.edit_week);
-
-        tablebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(context,WeekTable.class);
-                intent.putExtra("chosen_date",chosen_date);
-                intent.putExtra("chosen_time",chosen_time);
-                context.startActivity(intent);
-            }
-        });
+//        ImageButton tablebtn = findViewById(R.id.edit_week);
+//
+//        tablebtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                Intent intent = new Intent(context,WeekTable.class);
+//                intent.putExtra("chosen_date",chosen_date);
+//                intent.putExtra("chosen_time",chosen_time);
+//                context.startActivity(intent);
+//            }
+//        });
 
         this.mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
 
-        this.mainCardAdapter = new MainCardAdapter(this);
+        this.mainCardAdapter = new MainCardAdapter(this,this.email,this.user_name,this.cardview_titles,this.cardview_count,this.cardview_images);
 
         this.mainRecycler.setAdapter(this.mainCardAdapter);
 

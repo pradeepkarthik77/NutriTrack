@@ -7,8 +7,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     >
+
+    <ImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/back_btn"
+        android:scaleType="fitXY"
+        android:background="@drawable/custom_ripple"
+        android:id="@+id/display_back_btn"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="left"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
 
     <TextView
         android:layout_width="match_parent"
@@ -28,8 +47,28 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         app:errorEnabled="true"
-        android:id="@+id/user_email_signup"
+        android:id="@+id/user_name_signup"
         app:startIconDrawable="@drawable/ic_baseline_person_24"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your Name"
+            android:inputType="text"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        app:errorEnabled="true"
+        android:id="@+id/user_email_signup"
+        app:startIconDrawable="@drawable/ic_baseline_mail_24"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -88,6 +127,53 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        app:errorEnabled="true"
+        android:id="@+id/gender_select"
+        >
+
+        <Spinner
+            android:id="@+id/gender_signup"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:spinnerMode="dropdown"
+            android:gravity="center"
+            android:layout_toRightOf="@+id/gender_text"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        app:errorEnabled="true"
+        android:id="@+id/age_select"
+        android:gravity="center"
+        >
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Choose Your Age"
+        android:id="@+id/choose_age_btn"
+        android:gravity="center"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,55 +185,7 @@
         android:id="@+id/signup_btn_signup"
         />
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
-
-        <TextView
-            android:id="@+id/tvText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="or"
-            android:textColor="?android:textColorPrimary"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toLeftOf="@id/tvText"
-            android:background="?android:textColorPrimary"
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/tvText"
-            android:background="?android:textColorPrimary"
-            />
-
-    </RelativeLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Sign Up with Google"
-        android:textAlignment="center"
-        android:id="@+id/google_signup_btn"
-        android:drawableLeft="@drawable/google_wrapper"
-        />
-
+    </LinearLayout>
 
 
 </LinearLayout>

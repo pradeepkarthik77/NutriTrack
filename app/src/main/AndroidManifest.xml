@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="false"
@@ -20,15 +21,16 @@
 
         <activity
             android:name=".OnOpenActivity"
-            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Onloadtheme"
+            android:exported="true"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
         </activity>
 
         <activity
@@ -36,6 +38,10 @@
             android:theme="@style/Onloadtheme">
 
         </activity>
+
+        <activity android:name=".HomeActivity"
+            android:screenOrientation="portrait"
+            />
 
         <activity android:name=".SignupActivity"
             android:theme="@style/Onloadtheme"/>
@@ -51,6 +57,8 @@
         <activity android:name=".ListActivity"></activity>
         <activity android:name=".DisplayTable"></activity>
         <activity android:name=".WeekTable" />
+        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".MidMealDiet"/>
     </application>
 
 </manifest>

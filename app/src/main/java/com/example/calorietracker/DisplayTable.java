@@ -3,14 +3,19 @@ package com.example.calorietracker;
 import static android.icu.lang.UProperty.INT_START;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +37,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DisplayTable extends AppCompatActivity
 {
@@ -45,12 +57,26 @@ public class DisplayTable extends AppCompatActivity
     private String item_type;
     public static String chosen_time="";
     public static String chosen_date="";
+    private String email = "";
+    private String user_name = "";
+    private String age = "";
+    private String gender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nutrition_table);
+
+        SharedPreferences pref = getSharedPreferences("Login",0);
+
+        this.email = pref.getString("email","");
+
+        this.user_name = pref.getString("name","");
+
+        this.age = pref.getString("age","");
+
+        this.gender  = pref.getString("gender","");
 
         Intent intent = getIntent();
 
@@ -175,10 +201,55 @@ public class DisplayTable extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-
-                //Toast.makeText(getApplicationContext(),chosen_date+" "+chosen_time,Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),String.join(",",item_values),Toast.LENGTH_LONG).show();
 
                 insertCSV.insert_into_csv(item_type,item_values,chosen_date,chosen_time);
+
+                String BASE_URL = getString(R.string.BASE_URL);
+
+                if(isConnected())
+                {
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+
+                    RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+                    //Toast.makeText(context,"Connected",Toast.LENGTH_SHORT).show();
+
+                    HashMap<String,String> map = insertCSV.read_from_buffer();
+
+                    //Toast.makeText(context,map.size()+"",Toast.LENGTH_SHORT).show();
+
+                    map.put("size",map.size()+"");
+
+                    map.put("email",email);
+                    map.put("name",user_name);
+                    map.put("age",age);
+                    map.put("gender",gender);
+
+                    Call<Void> call = retrofitInterface.executesend(map);
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response)
+                        {
+                            if(response.code() == 200) {
+                                insertCSV.delete_buffer();
+                            }
+                            //Toast.makeText(context,"Success ra",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            //Toast.makeText(context,"Failrue",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+                else
+                {
+                    //Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
+                }
+
+                dialog.dismiss();
 //                chosen_time = getIntent().getStringExtra("chosen_time");
 //                chosen_date = getIntent().getStringExtra("chosen_date");
                 finish();
@@ -193,5 +264,18 @@ public class DisplayTable extends AppCompatActivity
         });
 
         dialog.create();
+    }
+
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+            Log.e("Connectivity Exception", e.getMessage());
+        }
+        return connected;
     }
 }

@@ -7,8 +7,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     >
+
+    <ImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/back_btn"
+        android:scaleType="fitXY"
+        android:background="@drawable/custom_ripple"
+        android:id="@+id/display_back_btn"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="left"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
 
     <TextView
         android:layout_width="match_parent"
@@ -75,55 +93,7 @@
         android:id="@+id/login_btn_login"
         />
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
-
-        <TextView
-            android:id="@+id/tvText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="or"
-            android:textColor="?android:textColorPrimary"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toLeftOf="@id/tvText"
-            android:background="?android:textColorPrimary"
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/tvText"
-            android:background="?android:textColorPrimary"
-            />
-
-    </RelativeLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Sign In with Google"
-        android:textAlignment="center"
-        android:id="@+id/google_login_btn"
-        android:drawableLeft="@drawable/google_wrapper"
-        />
-
+    </LinearLayout>
 
 
 </LinearLayout>

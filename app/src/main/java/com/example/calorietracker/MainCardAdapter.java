@@ -20,12 +20,17 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
     private static String chosen_time="";
     private static String chosen_date="";
 
-    public MainCardAdapter(Context context)
+    private String email;
+    private String user_name;
+
+    public MainCardAdapter(Context context,String email,String user_name,String[] cardview_titles,int cardview_count,int[] cardview_images)
     {
         this.context = context;
-        this.cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
-        this.cardview_count =6;
-        this.cardview_images = new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
+        this.cardview_titles = cardview_titles;
+        this.cardview_count = cardview_count;
+        this.cardview_images = cardview_images;//new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
+        this.email = email;
+        this.user_name = user_name;
     }
 
     public static void set_chosen_time(String time)
@@ -57,6 +62,8 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
                     intent.putExtra("cardview_title",textView.getText().toString());
                     intent.putExtra("chosen_time",chosen_time);
                     intent.putExtra("chosen_date",chosen_date);
+                    intent.putExtra("email",email);
+                    intent.putExtra("user_name",user_name);
                     context.startActivity(intent);
                 }
             });
