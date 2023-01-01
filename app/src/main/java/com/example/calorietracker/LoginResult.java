@@ -6,6 +6,18 @@ public class LoginResult
 
     private String name;
 
+    private String age;
+
+    private String gender;
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
     public String getEmail() {
         return email;
     }

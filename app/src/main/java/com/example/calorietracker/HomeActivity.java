@@ -122,10 +122,9 @@ public class HomeActivity extends AppCompatActivity
                 }
                 else if(position == 6) {
 
-                    Toast.makeText(getApplicationContext(),"Place Your Eighth Option Code",Toast.LENGTH_SHORT).show();
-//                    Intent myIntent = new Intent(MainActivity.this, GoalActivity.class);
-//                    myIntent.putExtra("key", "Hello"); //Optional parameters
-//                    MainActivity.this.startActivity(myIntent);
+//                    Toast.makeText(getApplicationContext(),"Place Your Eighth Option Code",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(),GoalSettingActivity.class);
+                    startActivity(intent);
                 }
                 else if(position == 7) {
 
@@ -134,13 +133,7 @@ public class HomeActivity extends AppCompatActivity
 //                    myIntent.putExtra("key", "Hello"); //Optional parameters
 //                    MainActivity.this.startActivity(myIntent);
                 }
-//                else if(position == 8) {
-//
-//                    Toast.makeText(getApplicationContext(),"Place Your Sixth Option Code",Toast.LENGTH_SHORT).show();
-////                    Intent myIntent = new Intent(MainActivity.this, MonthlyActivity.class);
-////                    myIntent.putExtra("key", "Hello"); //Optional parameters
-////                    MainActivity.this.startActivity(myIntent);
-//                }
+
 
             }
         });

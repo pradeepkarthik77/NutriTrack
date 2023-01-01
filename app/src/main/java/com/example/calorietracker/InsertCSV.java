@@ -1,6 +1,7 @@
 package com.example.calorietracker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -260,6 +261,74 @@ public class InsertCSV
             Toast.makeText(this.context,"Error in Accessing Data",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public float get_today_calorie()
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        String chosen_date = formatter.format(date);
+
+        String data;
+
+        float total_calorie = 0f;
+
+        try
+        {
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.EXCEL_FILE);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
+                data = String.join(",",this.default_values)+"\n";
+                fileOutputStream.write(data.getBytes());
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
+            }
+
+                FileReader filereader = new FileReader(filer);
+
+                BufferedReader bufferedReader = new BufferedReader(filereader);
+
+                String nextline;
+
+                String[] nextlinearr = new String[]{};
+
+                nextline = bufferedReader.readLine();
+
+                while ((nextline = bufferedReader.readLine()) != null)
+                {
+                    nextlinearr = nextline.split(",");
+                    if(nextlinearr.length == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        if(nextlinearr[nextlinearr.length-2].equals(chosen_date))
+                        {
+                            //Toast.makeText(context,nextlinearr[3],Toast.LENGTH_SHORT).show();
+                            total_calorie += Float.parseFloat(nextlinearr[3]);
+                        }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+                Toast.makeText(this.context,e.toString()+" add",Toast.LENGTH_LONG).show();
+            }
+
+        SharedPreferences pref = context.getSharedPreferences("Goals",0);
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        editor.putString("today_cals",total_calorie+"");
+
+        editor.commit();
+
+        return total_calorie;
     }
 
 }

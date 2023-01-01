@@ -59,6 +59,7 @@
         <activity android:name=".WeekTable" />
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".MidMealDiet"/>
+        <activity android:name=".GoalSettingActivity"/>
     </application>
 
 </manifest>

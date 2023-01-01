@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class MainActivity extends AppCompatActivity
+public class MidMealDiet extends AppCompatActivity
 {
 
     private MainCardAdapter mainCardAdapter;
@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity
     public static String chosen_time = "";
     public static String chosen_date = "";
 
-    private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
-    private int[] cardview_images = new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
-    private int cardview_count = 6;
+    private String[] cardview_titles = new String[]{"Fruits","Snacks","Juices","Water","Other Items"};
+    private int[] cardview_images = new int[]{R.drawable.fruits_img, R.drawable.snacks, R.drawable.juices, R.drawable.water, R.drawable.other_items};
+    private int cardview_count = 5;
 
     private void create_dialogbox()
     {
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
                 finish();
             }
         });
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.midmeal_activity);
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
 
@@ -196,8 +197,11 @@ public class MainActivity extends AppCompatActivity
         this.context = this;
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+
         TextView title = findViewById(R.id.toolbar_title);
-        title.setText("Asses Meals");
+
+        title.setText("Mid-Meal Diet");
+
         setSupportActionBar(toolBar);
         create_dialogbox();
 
@@ -210,7 +214,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        this.mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
+        this.mainRecycler = (RecyclerView) findViewById(R.id.midmeal_recycler);
 
         this.mainCardAdapter = new MainCardAdapter(this,this.email,this.user_name,this.cardview_titles,this.cardview_count,this.cardview_images);
 
