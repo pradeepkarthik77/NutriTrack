@@ -83,11 +83,8 @@ public class HomeActivity extends AppCompatActivity
                 }
 
                 else if(position == 1) {
-                    //code specific to 2nd list item
-                    Toast.makeText(getApplicationContext(),"Place Your Second Option Code",Toast.LENGTH_SHORT).show();
-//                    Intent myIntent = new Intent(MainActivity.this, MealActivity.class);
-//                    myIntent.putExtra("key", "Hello"); //Optional parameters
-//                    MainActivity.this.startActivity(myIntent);
+                    Intent intent = new Intent(getApplicationContext(),HelpActivity.class);
+                    startActivity(intent);
                 }
 
                 else if(position == 2) {
@@ -127,13 +124,10 @@ public class HomeActivity extends AppCompatActivity
                     startActivity(intent);
                 }
                 else if(position == 7) {
-
-                    Toast.makeText(getApplicationContext(),"Place Your Eighth Option Code",Toast.LENGTH_SHORT).show();
-//                    Intent myIntent = new Intent(MainActivity.this, RecommendationActivity.class);
-//                    myIntent.putExtra("key", "Hello"); //Optional parameters
-//                    MainActivity.this.startActivity(myIntent);
+                    //Toast.makeText(getApplicationContext(),"Place Your Eighth Option Code",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(),ChartActivity.class);
+                    startActivity(intent);
                 }
-
 
             }
         });

@@ -180,7 +180,6 @@ public class InsertCSV
 
     public HashMap<String,String> read_from_buffer()
     {
-
         HashMap<String,String> map = new HashMap<>();
 
         try
@@ -331,4 +330,55 @@ public class InsertCSV
         return total_calorie;
     }
 
+    public Float[] get_past7_days(String[] past7dates) {
+        Float[] past7calories = new Float[]{0f, 0f, 0f, 0f, 0f, 0f, 0f};
+
+        String data;
+
+        try {
+            File filer = new File(this.context.getFilesDir().toString() + "/" + this.EXCEL_FILE);
+            if (!filer.exists()) {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+                data = String.join(",", this.default_values) + "\n";
+                fileOutputStream.write(data.getBytes());
+            } else {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+            }
+
+            FileReader filereader = new FileReader(filer);
+
+            int i = 0;
+
+            for (String dates : past7dates) {
+                Float cal_count = 0f;
+
+                BufferedReader bufferedReader = new BufferedReader(filereader);
+
+                String nextline;
+
+                String[] nextlinearr = new String[]{};
+
+                nextline = bufferedReader.readLine();
+
+                while ((nextline = bufferedReader.readLine()) != null) {
+                    nextlinearr = nextline.split(",");
+                    if (nextlinearr.length == 0) {
+                        continue;
+                    } else {
+                        if (nextlinearr[nextlinearr.length - 2].equals(dates)) {
+                            //Toast.makeText(context,nextlinearr[3],Toast.LENGTH_SHORT).show();
+                            cal_count += Float.parseFloat(nextlinearr[3]);
+                        }
+                    }
+                }
+
+                past7calories[i++] = cal_count;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this.context, e.toString() + " add", Toast.LENGTH_LONG).show();
+        }
+
+        return past7calories;
+    }
 }

@@ -59,7 +59,7 @@
         android:id="@+id/today_calorie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Today's Calories Consumed: "
+        android:text="Calorito Consume to Reach Today's Goal: "
         android:textColor="?android:textColorPrimary"
         android:textSize="20dp"
         android:textAlignment="center"

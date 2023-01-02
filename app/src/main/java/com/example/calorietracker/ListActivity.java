@@ -9,14 +9,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,15 +23,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +39,7 @@ import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,6 +76,8 @@ public class ListActivity extends AppCompatActivity
     private int imagesize = 32;
     private String email;
     private String user_name;
+    private String TEMP_FILE = "tempfile.png";
+    private Uri image_uri;
 //    @Override
 //    public void onBackPressed()
 //    {
@@ -166,40 +166,61 @@ public class ListActivity extends AppCompatActivity
 
        //ImageView sampleimg = findViewById(R.id.sampleimg);
 
-        this.activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result)
-                    {
-                        //TODO write logic for the result from takeaphoto
-                        int resultcode = result.getResultCode();
-                        Bitmap bitmap;
-
-                        if (resultcode == RESULT_OK)
-                        {
-                            bitmap = (Bitmap) Objects.requireNonNull(result.getData()).getExtras().get("data");
-                            //sampleimg.setImageBitmap(bitmap);
-                            //saveimage(bitmap);
-                            predictimage(bitmap);
-                            Toast.makeText(context,"Image Taken",Toast.LENGTH_LONG).show();
-                        }
-                        else
-                        {
-                            Toast.makeText(context,"Image not Taken",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-        this.pickaphotolauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri uri)
-                    {
-                        // Handle the returned Uri
-                        finish();
-                    }
-                });
+//        this.activityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result)
+//                    {
+//                        //TODO write logic for the result from takeaphoto
+//                        int resultcode = result.getResultCode();
+//                        Bitmap bitmap;
+//
+//                        if (resultcode == RESULT_OK)
+//                        {
+//                            bitmap = (Bitmap) Objects.requireNonNull(result.getData()).getExtras().get("data");
+//                            //sampleimg.setImageBitmap(bitmap);
+//                            //saveimage(bitmap);
+//                            //predictimage(bitmap);
+//                            //sendimagetobackend(bitmap);
+//
+////                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+////
+////                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+////
+////                            byte[] byteArray = byteArrayOutputStream.toByteArray();
+////
+////                            String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+////
+////                            byte[] decodedString = Base64.decode(encoded, Base64.DEFAULT);
+////                            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0,decodedString.length);
+//                            //imageview.setImageBitmap(decodedByte);
+//
+//                            //predictimage(bitmap);
+//
+//                            ImageView img = findViewById(R.id.imageview);
+//
+//                            img.setImageBitmap(bitmap);
+//
+//                            Toast.makeText(context,bitmap.getByteCount()+"",Toast.LENGTH_LONG).show();
+//                            Toast.makeText(context,"Image Taken",Toast.LENGTH_LONG).show();
+//                        }
+//                        else
+//                        {
+//                            Toast.makeText(context,"Image not Taken",Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+//
+//        this.pickaphotolauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
+//                new ActivityResultCallback<Uri>() {
+//                    @Override
+//                    public void onActivityResult(Uri uri)
+//                    {
+//                        // Handle the returned Uri
+//                        finish();
+//                    }
+//                });
 
        ImageView camera_btn = findViewById(R.id.add_photo);
 
@@ -215,8 +236,43 @@ public class ListActivity extends AppCompatActivity
                 {
 //                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 //                    activityResultLauncher.launch(takePicture);
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    activityResultLauncher.launch(cameraIntent);
+//                    File file = new File(getFilesDir().toString()+"/"+TEMP_FILE);
+//                    try {
+//
+//                        if(!file.exists())
+//                        {
+//                            file.createNewFile();
+//                        }
+//                        else{
+//
+//                        }
+//                    }
+//                    catch (Exception e)
+//                    {
+//                        Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+//                    }
+
+                    ContentValues values = new ContentValues();
+
+                    try {
+                        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+                        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
+                        values.put(MediaStore.Images.Media.DISPLAY_NAME, "image.jpg");
+                        values.put(MediaStore.Images.Media.RELATIVE_PATH,getFilesDir().toString());
+
+                        Toast.makeText(context, context.getFilesDir().toString(), Toast.LENGTH_LONG).show();
+
+                        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                        startActivityForResult(cameraIntent, 1234);
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+                    }
+
                 }
                 else
                 {
@@ -224,6 +280,33 @@ public class ListActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1234)
+        {
+                ImageView img = findViewById(R.id.imageview);
+
+//            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+//            saveimage(bitmap);
+//            Toast.makeText(context, "hiiii", Toast.LENGTH_SHORT).show();
+//            try {
+//                thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//            }
+//            catch(Exception e)
+//            {
+//                Toast.makeText(context,"Unable to retrive photo try again",Toast.LENGTH_LONG).show();
+//            }
+//
+//            ImageView img = findViewById(R.id.imageview);
+//
+//            String imageurl = getRealPathFromURI(imageUri);
+//            img.setImageBitmap(thumbnail);
+//
+//            Toast.makeText(context,imageurl,Toast.LENGTH_LONG).show();
+        }
     }
 
     public static boolean checkAndRequestPermissions(final Activity context) {
@@ -248,33 +331,33 @@ public class ListActivity extends AppCompatActivity
         return true;
     }
 
-//    private void saveimage(Bitmap bitmap) {
-//        Uri images;
-//        ContentResolver contentResolver = getContentResolver();
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            images = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-//        } else {
-//            images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-//        }
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, System.currentTimeMillis() + ".jpg");
-//        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "images/*");
-//        Uri uri = contentResolver.insert(images, contentValues);
-//        try {
-//            OutputStream outputStream = contentResolver.openOutputStream(Objects.requireNonNull(uri));
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-//            Objects.requireNonNull(outputStream);
-//
-//            //
-//
-//        } catch (Exception e) {
-//            //
-//            e.printStackTrace();
-//
-//        }
-//
-//    }
+    private void saveimage(Bitmap bitmap) {
+        Uri images;
+        ContentResolver contentResolver = getContentResolver();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            images = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+        } else {
+            images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        }
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, System.currentTimeMillis() + ".jpg");
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "images/*");
+        Uri uri = contentResolver.insert(images, contentValues);
+        try {
+            OutputStream outputStream = contentResolver.openOutputStream(Objects.requireNonNull(uri));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            Objects.requireNonNull(outputStream);
+
+            //
+
+        } catch (Exception e) {
+            //
+            e.printStackTrace();
+
+        }
+
+    }
 
     private void predictimage(Bitmap bitmap)
     {
@@ -380,4 +463,15 @@ public class ListActivity extends AppCompatActivity
         dialog.create();
         dialog.show();
     }
+
+    public String getRealPathFromURI(Uri contentUri)
+    {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+
 }
