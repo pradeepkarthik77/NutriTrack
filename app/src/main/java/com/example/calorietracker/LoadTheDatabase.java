@@ -52,6 +52,10 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             {
                 temp_type = "Fruits";
             }
+            else if(cardview_title.equals("Snacks"))
+            {
+                temp_type = "Snacks";
+            }
 
             Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT * FROM "+database_name+" where item_type = '"+temp_type+"'", null);
             //+" where item_type = '"+cardview_title+"'
@@ -199,6 +203,10 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             else if(cardview_title.equals("Fruits"))
             {
                 temp_type = "Fruits";
+            }
+            else if(cardview_title.equals("Snacks"))
+            {
+                temp_type = "Snacks";
             }
 
             Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id FROM "+database_name+" where item_id NOT IN "+querydata+" AND item_type='"+temp_type+"'", null);

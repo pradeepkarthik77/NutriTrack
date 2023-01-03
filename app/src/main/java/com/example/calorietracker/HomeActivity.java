@@ -103,7 +103,6 @@ public class HomeActivity extends AppCompatActivity
 
                 }
                 else if(position == 4) {
-
                     //Toast.makeText(getApplicationContext(),"Place Your Fifth Option Code",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MidMealDiet.class);
                     intent.putExtra("chosen_date","");
@@ -111,11 +110,8 @@ public class HomeActivity extends AppCompatActivity
                     startActivity(intent);
                 }
                 else if(position == 5) {
-
-                    Toast.makeText(getApplicationContext(),"Place Your Seventh Option Code",Toast.LENGTH_SHORT).show();
-//                    Intent myIntent = new Intent(MainActivity.this, MealActivity.class);
-//                    myIntent.putExtra("key", "Hello"); //Optional parameters
-//                    MainActivity.this.startActivity(myIntent);
+                    Intent intent = new Intent(getApplicationContext(),ChartActivity.class);
+                    startActivity(intent);
                 }
                 else if(position == 6) {
 

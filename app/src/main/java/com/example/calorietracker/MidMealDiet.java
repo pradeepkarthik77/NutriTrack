@@ -42,7 +42,7 @@ public class MidMealDiet extends AppCompatActivity
     public static String chosen_time = "";
     public static String chosen_date = "";
 
-    private String[] cardview_titles = new String[]{"Fruits","Snacks","Juices","Water","Other Items"};
+    private String[] cardview_titles = new String[]{"Fruits","Snacks","Juices","Water","Mid-Meals"};
     private int[] cardview_images = new int[]{R.drawable.fruits_img, R.drawable.snacks, R.drawable.juices, R.drawable.water, R.drawable.other_items};
     private int cardview_count = 5;
 

@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InsertCSV
 {
@@ -30,6 +31,8 @@ public class InsertCSV
     private FileOutputStream fileOutputStream;
 
     private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
+
+    private String[] week_cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Mid-Meals","Snacks","Fruits","Juices","Water"};
 
     public InsertCSV(Context context)
     {
@@ -82,7 +85,7 @@ public class InsertCSV
 
         String data;
 
-        int[] return_arr = new int[]{0,0,0,0,0,0};
+        int[] return_arr = new int[]{0,0,0,0,0,0,0,0};
 
         try
         {
@@ -121,9 +124,9 @@ public class InsertCSV
                     {
                         if(nextlinearr[nextlinearr.length-2].equals(current_date_string))
                         {
-                            for(i=0;i<cardview_titles.length;i++)
+                            for(i=0;i<week_cardview_titles.length;i++)
                             {
-                                if(nextlinearr[nextlinearr.length-3].equals(this.cardview_titles[i]))
+                                if(nextlinearr[nextlinearr.length-3].equals(this.week_cardview_titles[i]))
                                 {
                                     return_arr[i] = 1;
                                 }
@@ -262,12 +265,8 @@ public class InsertCSV
 
     }
 
-    public float get_today_calorie()
+    public float get_day_calorie(String chosen_date)
     {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        String chosen_date = formatter.format(date);
-
         String data;
 
         float total_calorie = 0f;
@@ -344,14 +343,12 @@ public class InsertCSV
             } else {
                 fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
             }
-
-            FileReader filereader = new FileReader(filer);
-
             int i = 0;
 
             for (String dates : past7dates) {
                 Float cal_count = 0f;
 
+                FileReader filereader = new FileReader(filer);
                 BufferedReader bufferedReader = new BufferedReader(filereader);
 
                 String nextline;
@@ -366,12 +363,10 @@ public class InsertCSV
                         continue;
                     } else {
                         if (nextlinearr[nextlinearr.length - 2].equals(dates)) {
-                            //Toast.makeText(context,nextlinearr[3],Toast.LENGTH_SHORT).show();
                             cal_count += Float.parseFloat(nextlinearr[3]);
                         }
                     }
                 }
-
                 past7calories[i++] = cal_count;
             }
         } catch (Exception e) {
@@ -381,4 +376,75 @@ public class InsertCSV
 
         return past7calories;
     }
+
+    public Map<String,String> get_givendata_week_values(String date_string,String cardview_title)
+    {
+        String data = "";
+
+        Map<String,String> map = new HashMap<>();
+
+        //Get the value of the items in the list and the total values of calories and protein and carbs and fat
+        try {
+            File filer = new File(this.context.getFilesDir().toString() + "/" + this.EXCEL_FILE);
+            if (!filer.exists()) {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+                data = String.join(",", this.default_values) + "\n";
+                fileOutputStream.write(data.getBytes());
+            } else {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+            }
+            int i = 0;
+
+            Float cal_count = 0f;
+            Float fat_count = 0f;
+            Float carbs_count = 0f;
+            Float protein_count = 0f;
+
+            String items = "";
+
+            FileReader filereader = new FileReader(filer);
+            BufferedReader bufferedReader = new BufferedReader(filereader);
+
+            String nextline;
+
+            String[] nextlinearr = new String[]{};
+
+            nextline = bufferedReader.readLine();
+
+            while ((nextline = bufferedReader.readLine()) != null) {
+                nextlinearr = nextline.split(",");
+                if (nextlinearr.length == 0) {
+                    continue;
+                } else {
+                    if (nextlinearr[nextlinearr.length - 2].equals(date_string) && nextlinearr[nextlinearr.length - 3].equals(cardview_title))
+                    {
+                        if(!items.contains(nextlinearr[1])) {
+                            items += nextlinearr[1] + ",";
+                        }
+
+                        cal_count += Float.parseFloat(nextlinearr[3]);
+                        fat_count += Float.parseFloat(nextlinearr[4]);
+                        carbs_count += Float.parseFloat(nextlinearr[9]);
+                        protein_count += Float.parseFloat(nextlinearr[13]);
+                    }
+                }
+            }
+
+        if(items.length()>0)
+        items = items.substring(0,items.length()-1);
+
+        map.put("Items",items);
+        map.put("Calories",cal_count+"");
+        map.put("Protein",protein_count+"");
+        map.put("Carbs",carbs_count+"");
+        map.put("Fat",fat_count+"");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this.context, e.toString() + " add", Toast.LENGTH_LONG).show();
+        }
+
+        return map;
+    }
+
 }

@@ -11,11 +11,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -48,8 +52,16 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import id.zelory.compressor.Compressor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListActivity extends AppCompatActivity
 {
@@ -78,6 +90,15 @@ public class ListActivity extends AppCompatActivity
     private String user_name;
     private String TEMP_FILE = "tempfile.png";
     private Uri image_uri;
+
+    public final String APP_TAG = "CalorieTracker";
+    public String photoFileName = "photo.jpg";
+    public File photoFile;
+
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String BASE_URL = "";
+
 //    @Override
 //    public void onBackPressed()
 //    {
@@ -100,6 +121,12 @@ public class ListActivity extends AppCompatActivity
         setContentView(R.layout.listactivity);
 
         Intent intent = getIntent();
+
+        BASE_URL = getString(R.string.BASE_URL);
+
+        retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
+
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         this.cardview_title = intent.getStringExtra("cardview_title");
         this.chosen_date = intent.getStringExtra("chosen_date");
@@ -234,44 +261,25 @@ public class ListActivity extends AppCompatActivity
             public void onClick(View view) {
                 if(checkAndRequestPermissions((Activity)context))
                 {
-//                    Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                    activityResultLauncher.launch(takePicture);
-//                    File file = new File(getFilesDir().toString()+"/"+TEMP_FILE);
-//                    try {
-//
-//                        if(!file.exists())
-//                        {
-//                            file.createNewFile();
-//                        }
-//                        else{
-//
-//                        }
-//                    }
-//                    catch (Exception e)
-//                    {
-//                        Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
-//                    }
-
-                    ContentValues values = new ContentValues();
-
                     try {
-                        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-                        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera");
-                        values.put(MediaStore.Images.Media.DISPLAY_NAME, "image.jpg");
-                        values.put(MediaStore.Images.Media.RELATIVE_PATH,getFilesDir().toString());
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                        Toast.makeText(context, context.getFilesDir().toString(), Toast.LENGTH_LONG).show();
+                        photoFile = getPhotoFileUri(photoFileName);
 
-                        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                        Uri fileprovider = FileProvider.getUriForFile(context, "com.codepath.fileprovider", photoFile);
 
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                        startActivityForResult(cameraIntent, 1234);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileprovider);
+
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            // Start the image capture intent to take photo
+                            startActivityForResult(intent, 1234);
+                        }
                     }
                     catch(Exception e)
                     {
                         Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
                     }
+
 
                 }
                 else
@@ -287,26 +295,36 @@ public class ListActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1234)
         {
-                ImageView img = findViewById(R.id.imageview);
-
-//            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-//            saveimage(bitmap);
-//            Toast.makeText(context, "hiiii", Toast.LENGTH_SHORT).show();
-//            try {
-//                thumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-//            }
-//            catch(Exception e)
-//            {
-//                Toast.makeText(context,"Unable to retrive photo try again",Toast.LENGTH_LONG).show();
-//            }
-//
-//            ImageView img = findViewById(R.id.imageview);
-//
-//            String imageurl = getRealPathFromURI(imageUri);
-//            img.setImageBitmap(thumbnail);
-//
-//            Toast.makeText(context,imageurl,Toast.LENGTH_LONG).show();
+            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+            uploadtobackend(bitmap);
         }
+    }
+
+    private void uploadtobackend(Bitmap bitmap)
+    {
+        //Toast.makeText(context,bitmap.getByteCount()+"",Toast.LENGTH_LONG).show();
+
+        String base = BitMapToString(bitmap);
+
+//        HashMap<String,String> map = new HashMap<>();
+//
+//        map.put("imagebase64",base);
+//
+//        Call<Void> call = retrofitInterface.executeimage(map);
+//        call.enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if(response.code() == 200)
+//                {
+//                    Toast.makeText(ListActivity.this, "Img send success", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(ListActivity.this, "Image send fail", Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     public static boolean checkAndRequestPermissions(final Activity context) {
@@ -331,33 +349,32 @@ public class ListActivity extends AppCompatActivity
         return true;
     }
 
-    private void saveimage(Bitmap bitmap) {
-        Uri images;
-        ContentResolver contentResolver = getContentResolver();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            images = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-        } else {
-            images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        }
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, System.currentTimeMillis() + ".jpg");
-        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "images/*");
-        Uri uri = contentResolver.insert(images, contentValues);
-        try {
-            OutputStream outputStream = contentResolver.openOutputStream(Objects.requireNonNull(uri));
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            Objects.requireNonNull(outputStream);
-
-            //
-
-        } catch (Exception e) {
-            //
-            e.printStackTrace();
-
-        }
-
-    }
+//    private void saveimage(Bitmap bitmap) {
+//        Uri images;
+//        ContentResolver contentResolver = getContentResolver();
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            images = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+//        } else {
+//            images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+//        }
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, System.currentTimeMillis() + ".jpg");
+//        contentValues.put(MediaStore.Images.Media.MIME_TYPE, "images/*");
+//        Uri uri = contentResolver.insert(images, contentValues);
+//        try {
+//            OutputStream outputStream = contentResolver.openOutputStream(Objects.requireNonNull(uri));
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+//            Objects.requireNonNull(outputStream);
+//
+//            //
+//
+//        } catch (Exception e) {
+//            //
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     private void predictimage(Bitmap bitmap)
     {
@@ -423,7 +440,6 @@ public class ListActivity extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
         }
-
     }
 
     private void createmodeldialog(String[] classes, int maxPos, float[] confidence, Bitmap oldbitmap)
@@ -464,14 +480,42 @@ public class ListActivity extends AppCompatActivity
         dialog.show();
     }
 
-    public String getRealPathFromURI(Uri contentUri)
-    {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
+    public File getPhotoFileUri(String fileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(APP_TAG, "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+        return file;
     }
 
+    public String BitMapToString(Bitmap userImage1)
+    {
+
+        Bitmap compressedfile  = userImage1;
+
+        try {
+            compressedfile = new Compressor(this).compressToBitmap(photoFile);
+        }
+        catch(Exception e)
+        {
+            compressedfile = userImage1;
+        }
+
+        Toast.makeText(context,userImage1.getByteCount()+" "+compressedfile.getByteCount(),Toast.LENGTH_LONG).show();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userImage1.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String Document_img1 = Base64.encodeToString(b, Base64.DEFAULT);
+        return Document_img1;
+    }
 
 }

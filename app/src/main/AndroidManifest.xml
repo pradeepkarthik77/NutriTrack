@@ -21,7 +21,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.codepath.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -70,7 +70,9 @@
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".MidMealDiet"/>
         <activity android:name=".GoalSettingActivity"/>
-        <activity android:name=".ChartActivity"/>
+        <activity android:name=".ChartActivity"
+            android:theme="@style/ChartLightTheme"/>
+        <activity android:name=".HelpActivity"/>
     </application>
 
 </manifest>

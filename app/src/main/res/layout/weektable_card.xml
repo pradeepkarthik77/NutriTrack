@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="150dp"
-    android:layout_height="275dp"
+    android:layout_height="350dp"
     app:cardCornerRadius="15dp"
     app:cardElevation="10dp"
     android:id="@+id/weektable_cardview"
@@ -33,6 +33,7 @@
             android:textStyle="bold"
             android:id="@+id/week_day"
             />
+
     </LinearLayout>
 
     <LinearLayout
@@ -68,6 +69,19 @@
         android:textSize="15sp"
         />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    <ImageButton
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/eye_btn_breakfast"
+        android:layout_marginRight="3dp"
+        android:background="@drawable/ic_baseline_eye_24"
+        />
+
     </LinearLayout>
 
     <LinearLayout
@@ -94,6 +108,19 @@
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/eye_btn_lunch"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/ic_baseline_eye_24"
             />
 
     </LinearLayout>
@@ -125,7 +152,61 @@
             android:textSize="15sp"
             />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/eye_btn_dinner"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/ic_baseline_eye_24"
+            />
+
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+
+            <CheckBox android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/midmeal_checkbox"
+                style="@style/CustomCheckbox02"
+                android:layout_marginLeft="10dp"
+                android:clickable="false"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mid-Meals"
+                android:id="@+id/midmeal_check_btn"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_ripple"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:textSize="15sp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/eye_btn_midmeal"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/ic_baseline_eye_24"
+                />
+
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,7 +234,61 @@
             android:textSize="15sp"
             />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/eye_btn_snacks"
+            android:background="@drawable/ic_baseline_eye_24"
+            android:layout_marginRight="3dp"
+            />
+
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+
+            <CheckBox android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fruits_checkbox"
+                style="@style/CustomCheckbox02"
+                android:layout_marginLeft="10dp"
+                android:clickable="false"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fruits"
+                android:id="@+id/fruits_check_btn"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/custom_ripple"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:textSize="15sp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/eye_btn_fruits"
+                android:layout_marginRight="3dp"
+                android:background="@drawable/ic_baseline_eye_24"
+                />
+
+        </LinearLayout>
 
 
     <LinearLayout
@@ -180,6 +315,19 @@
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:textSize="15sp"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/eye_btn_juices"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/ic_baseline_eye_24"
             />
 
     </LinearLayout>
@@ -210,9 +358,40 @@
             android:textSize="15sp"
             />
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/eye_btn_water"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/ic_baseline_eye_24"
+            />
+
     </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/day_calorie"
+        android:text="Calories: "
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="?android:textColorPrimary"
+        android:layout_marginBottom="5dp"
+        />
 
     </LinearLayout>
 

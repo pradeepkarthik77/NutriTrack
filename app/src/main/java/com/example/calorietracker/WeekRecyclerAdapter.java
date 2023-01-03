@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -30,11 +31,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapter.ViewHolder>
 {
     private InsertCSV insertCSV;
-    private String[] week_days = new String[]{"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+    private String[] week_days = new String[]{"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
     private Context context;
     private Date current_date= new Date();
     private Calendar calender;
@@ -48,6 +50,7 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         public TextView week_day;
         public Date item_date;
+        public TextView calorie_text;
 
         public ViewHolder(@NonNull View itemView)
         {
@@ -59,6 +62,7 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
             itemView.getLayoutParams().width = (int)((double)width / 2.15);
             this.week_day = itemView.findViewById(R.id.week_day);
             this.item_date = new Date();
+            this.calorie_text = itemView.findViewById(R.id.day_calorie);
 
         }
     }
@@ -185,6 +189,14 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         holder.week_day.setText(item_day_string+" - "+item_date_string);
 
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+
+        Float today_calorie = insertCSV.get_day_calorie(simpleDateFormat1.format(holder.item_date));
+
+        String Caltext = "<b>Calories</b>: "+today_calorie;
+
+        holder.calorie_text.setText(Html.fromHtml(Caltext));
+
         int[] card_values = this.insertCSV.return_marked(holder.item_date);
 
         CheckBox checkBox;
@@ -209,17 +221,29 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         if(card_values[3] == 1)
         {
-            checkBox = holder.itemView.findViewById(R.id.snacks_checkbox);
+            checkBox = holder.itemView.findViewById(R.id.midmeal_checkbox);
             checkBox.setChecked(true);
         }
 
         if(card_values[4] == 1)
         {
-            checkBox = holder.itemView.findViewById(R.id.juice_checkbox);
+            checkBox = holder.itemView.findViewById(R.id.snacks_checkbox);
             checkBox.setChecked(true);
         }
 
         if(card_values[5] == 1)
+        {
+            checkBox = holder.itemView.findViewById(R.id.fruits_checkbox);
+            checkBox.setChecked(true);
+        }
+
+        if(card_values[6] == 1)
+        {
+            checkBox = holder.itemView.findViewById(R.id.juice_checkbox);
+            checkBox.setChecked(true);
+        }
+
+        if(card_values[7] == 1)
         {
             checkBox = holder.itemView.findViewById(R.id.water_checkbox);
             checkBox.setChecked(true);
@@ -231,6 +255,8 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
         Button snacks_btn = holder.itemView.findViewById(R.id.snacks_check_btn);
         Button juice_btn = holder.itemView.findViewById(R.id.juice_check_btn);
         Button water_btn = holder.itemView.findViewById(R.id.water_check_btn);
+        Button fruits_btn = holder.itemView.findViewById(R.id.fruits_check_btn);
+        Button midmeal_btn = holder.itemView.findViewById(R.id.midmeal_check_btn);
 
         breakfast_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -273,6 +299,170 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
                 create_dialog("Water",holder.item_date,holder);
             }
         });
+
+        midmeal_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                create_dialog("Mid-Meals",holder.item_date,holder);
+            }
+        });
+        
+        fruits_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                create_dialog("Fruits",holder.item_date,holder);
+            }
+        });
+
+        ImageButton breakfast_eye = holder.itemView.findViewById(R.id.eye_btn_breakfast);
+        ImageButton lunch_eye = holder.itemView.findViewById(R.id.eye_btn_lunch);
+        ImageButton dinner_eye = holder.itemView.findViewById(R.id.eye_btn_dinner);
+        ImageButton midmeals_eye = holder.itemView.findViewById(R.id.eye_btn_midmeal);
+        ImageButton snacks_eye = holder.itemView.findViewById(R.id.eye_btn_snacks);
+        ImageButton fruits_eye = holder.itemView.findViewById(R.id.eye_btn_fruits);
+        ImageButton juices_eye = holder.itemView.findViewById(R.id.eye_btn_juices);
+        ImageButton water_eye = holder.itemView.findViewById(R.id.eye_btn_water);
+
+        breakfast_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_display_dialog("BreakFast",holder.item_date,holder);
+            }
+        });
+
+        lunch_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_display_dialog("Lunch",holder.item_date,holder);
+            }
+        });
+
+        dinner_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_display_dialog("Dinner",holder.item_date,holder);
+            }
+        });
+
+        snacks_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_display_dialog("Snacks",holder.item_date,holder);
+            }
+        });
+
+        juices_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_display_dialog("Juices",holder.item_date,holder);
+            }
+        });
+
+        water_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                create_display_dialog("Water",holder.item_date,holder);
+            }
+        });
+
+        midmeals_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                create_display_dialog("Mid-Meals",holder.item_date,holder);
+            }
+        });
+
+        fruits_eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                create_display_dialog("Fruits",holder.item_date,holder);
+            }
+        });
+
+    }
+
+    private void create_display_dialog(String card_title, Date item_date, ViewHolder holder)
+    {
+        //TODO: Display the items consumed during the date and that card_title and the cumulative calories,protein,fat,carbohydrates,fat
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.display_day_date_dialog);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
+
+        TextView title_date = dialog.findViewById(R.id.week_dialog_date);
+
+        InsertCSV insertCSV = new InsertCSV(context);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String date_string = simpleDateFormat.format(item_date);
+
+        TextView date_view = dialog.findViewById(R.id.item_date);
+
+        String tempstring = "<b>Date</b>: "+date_string;
+
+        date_view.setText(Html.fromHtml(tempstring));
+
+        date_view = dialog.findViewById(R.id.item_type);
+
+        tempstring = "<b>Type</b>: "+card_title;
+
+        date_view.setText(Html.fromHtml(tempstring));
+
+        Map<String,String> map = insertCSV.get_givendata_week_values(date_string,card_title);
+
+        //Toast.makeText(context,map.get("Items")+" "+map.get("Calories")+" "+map.get("Carbs")+" "+map.get("Protein")+" "+map.get("Fat"),Toast.LENGTH_LONG).show();
+        String string = "";
+        if(map.get("Items").equals(""))
+        {
+            string = "<b>Items</b>: None";
+        }
+        else {
+         string = "<b>Items</b>: " + map.get("Items");
+        }
+
+        TextView txtview = dialog.findViewById(R.id.items_list);
+
+        txtview.setText(Html.fromHtml(string));
+
+        string = "<b>Total Calories</b>: "+map.get("Calories");
+
+        txtview = dialog.findViewById(R.id.dialog_calories);
+
+        txtview.setText(Html.fromHtml(string));
+
+        string = "<b>Total Protein</b>:"+map.get("Protein")+" %";
+
+        txtview = dialog.findViewById(R.id.dialog_protein);
+
+        txtview.setText(Html.fromHtml(string));
+
+        string = "<b>Total Fat</b>:"+map.get("Fat")+" %";
+
+        txtview = dialog.findViewById(R.id.dialog_fat);
+
+        txtview.setText(Html.fromHtml(string));
+
+        string = "<b>Total Carbohydrates</b>:"+map.get("Carbs")+" %";
+
+        txtview = dialog.findViewById(R.id.dialog_carbs);
+
+        txtview.setText(Html.fromHtml(string));
+
+
+        apply_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.create();
+        dialog.show();
 
     }
 
