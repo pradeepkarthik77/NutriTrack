@@ -110,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="% Daily Value*"
+                    android:text="Values"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="15dp"
                     android:textStyle="bold" />
@@ -119,7 +119,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Total Fat (0.5mg)"
+                    android:text="Total Fat (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -139,7 +139,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Saturated Fat (0g)"
+                    android:text="Saturated Fat (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -158,7 +158,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Trans Fat (0g)"
+                    android:text="Trans Fat (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -178,7 +178,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Cholesterol (0g)"
+                    android:text="Cholesterol (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -198,7 +198,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Sodium (0mg)"
+                    android:text="Sodium (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -218,7 +218,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Total Carbohydrate (21g)"
+                    android:text="Total Carbohydrate (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -238,7 +238,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Dietary Fiber (4g)"
+                    android:text="Dietary Fiber (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -257,7 +257,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Total Sugars (15g)"
+                    android:text="Total Sugars (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -276,7 +276,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Added Sugars (0g)"
+                    android:text="Added Sugars (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -295,7 +295,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Protein (1g)"
+                    android:text="Protein (gms)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -315,7 +315,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Vitamin D (0mcg)"
+                    android:text="Vitamin D (mcg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -334,7 +334,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Calcium (10mcg)"
+                    android:text="Calcium (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -353,7 +353,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Iron (0.4mg)"
+                    android:text="Iron (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -372,7 +372,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Potassium (110mg)"
+                    android:text="Potassium (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -391,7 +391,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Vitamin A (0mcg)"
+                    android:text="Vitamin A (mcg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -410,7 +410,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Vitamin C (14mg)"
+                    android:text="Vitamin C (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -429,7 +429,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Manganese (0.5mg)"
+                    android:text="Manganese (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 
@@ -448,7 +448,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Vitamin K (0mcg)"
+                    android:text="Vitamin K (mcg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp" />
 

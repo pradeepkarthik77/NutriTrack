@@ -428,25 +428,25 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Calories</b>: "+map.get("Calories");
+        string = "<b>Total Calories</b>: "+map.get("Calories")+"g";
 
         txtview = dialog.findViewById(R.id.dialog_calories);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Protein</b>:"+map.get("Protein")+" %";
+        string = "<b>Total Protein</b>: "+map.get("Protein")+"g";
 
         txtview = dialog.findViewById(R.id.dialog_protein);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Fat</b>:"+map.get("Fat")+" %";
+        string = "<b>Total Fat</b>: "+map.get("Fat")+"g";
 
         txtview = dialog.findViewById(R.id.dialog_fat);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Carbohydrates</b>:"+map.get("Carbs")+" %";
+        string = "<b>Total Carbohydrates</b>: "+map.get("Carbs")+"g";
 
         txtview = dialog.findViewById(R.id.dialog_carbs);
 

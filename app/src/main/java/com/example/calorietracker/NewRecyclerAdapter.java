@@ -252,7 +252,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
         holder.item_text.setText(this_item.get(1));
         holder.item_id.setText(this_item.get(0));
-        holder.item_calories.setText("Calories: " + this_item.get(2) + " gms");
+        holder.item_calories.setText("Calories: " + this_item.get(2)+"g");
 
         if (holder.item_text.getText().toString().equals("Custom Value")) {
             holder.save_btn.setVisibility(View.GONE);
@@ -403,13 +403,13 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         str = "<b>Calories: </b>"+item_values.get(3)+"g";
         calories.setText(Html.fromHtml(str));
 
-        str = "<b>Protein: </b>"+item_values.get(13)+"%";
+        str = "<b>Protein: </b>"+item_values.get(13)+"g";
         protein.setText(Html.fromHtml(str));
 
-        str = "<b>Carbohydrates: </b>"+item_values.get(9)+"%";
+        str = "<b>Carbohydrates: </b>"+item_values.get(9)+"g";
         carbs.setText(Html.fromHtml(str));
 
-        str = "<b>Fat: </b>"+item_values.get(4)+"%";
+        str = "<b>Fat: </b>"+item_values.get(4)+"g";
         fat.setText(Html.fromHtml(str));
 
         apply_btn.setOnClickListener(new View.OnClickListener() {

@@ -185,16 +185,16 @@ public class DisplayTable extends AppCompatActivity
         str = "<b>Time: </b>"+chosen_time;
         time.setText(Html.fromHtml(str));
 
-        str = "<b>Calories: </b>"+this.item_values.get(3)+"g";
+        str = "<b>Calories: </b>"+this.item_values.get(3);
         calories.setText(Html.fromHtml(str));
 
-        str = "<b>Protein: </b>"+this.item_values.get(13)+"%";
+        str = "<b>Protein: </b>"+this.item_values.get(13);
         protein.setText(Html.fromHtml(str));
 
-        str = "<b>Carbohydrates: </b>"+this.item_values.get(9)+"%";
+        str = "<b>Carbohydrates: </b>"+this.item_values.get(9);
         carbs.setText(Html.fromHtml(str));
 
-        str = "<b>Fat: </b>"+this.item_values.get(4)+"%";
+        str = "<b>Fat: </b>"+this.item_values.get(4);
         fat.setText(Html.fromHtml(str));
 
         apply_btn.setOnClickListener(new View.OnClickListener() {

@@ -14,6 +14,8 @@ public class NutrtionValueSet
     private List<String> item_values;
     private int[] item_res_ids;
 
+    private String[] units = {"g","g","g","g","g","g","g","g","g","g","mcg","mg","mg","mg","mcg","mg","mg","mcg"};
+
 
     public NutrtionValueSet(Context context,String item_id)
     {
@@ -46,14 +48,15 @@ public class NutrtionValueSet
 
         txtview = activity.findViewById(R.id.calories);
 
-        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3));
+        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3)+"g");
 
         int indx = 2;
+        int j=0;
 
         for(int i=4;i<22;i++)
         {
             txtview = activity.findViewById(item_res_ids[indx]);
-            txtview.setText(this.item_values.get(i)+"%");
+            txtview.setText(this.item_values.get(i)+this.units[j++]);
             indx++;
         }
 
