@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0); //sharedpref
 
         SharedPreferences.Editor editor = pref.edit();
 
