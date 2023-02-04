@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -47,22 +49,27 @@ public class OnOpenActivity extends AppCompatActivity
             startActivity(newintent);
         }
 
-        ImageView imageView = findViewById(R.id.onopen_image);
-
-        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        imageView.getLayoutParams().height = (int)(((double)height)/ 1);//1.75);
-        imageView.setAlpha(0.55f);
-
         TextView textView = findViewById(R.id.welcome_calorie);
+
+        //TextView descView = findViewById(R.id.onopen_desc);
 
         String string = textView.getText().toString();
 
+        //String descstr = descView.getText().toString();
+
         SpannableString string1 = new SpannableString(string);
         string1.setSpan(new UnderlineSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        string1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//        SpannableString desc = new SpannableString(descstr);
+//
+//        desc.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)),14,18,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        desc.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)),23,32,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        desc.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)),38,42,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        desc.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)),49,53,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        //descView.setText(desc);
 
         textView.setText(string1);
 
