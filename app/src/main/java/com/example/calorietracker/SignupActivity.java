@@ -62,6 +62,9 @@ public class SignupActivity extends AppCompatActivity
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
 
+    private String name="";
+    private String email="";
+
     public void showspinner()
     {
         progressBar = findViewById(R.id.google_signup_progress);
@@ -172,7 +175,7 @@ public class SignupActivity extends AppCompatActivity
                             public void onResponse(Call<Void> call, Response<Void> response)
                             {
                                 if(response.code() == 200) {
-                                    Toast.makeText(getApplicationContext(), "Sign In Sucessful", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
                                 }
                                 else if(response.code() == 400)
                                 {
@@ -227,7 +230,16 @@ public class SignupActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
             }
 
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+            if(account!=null)
+            {
+                this.name = account.getDisplayName();
+                this.email = account.getEmail();
+            }
+
             Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+
+
         }
         else
         {
