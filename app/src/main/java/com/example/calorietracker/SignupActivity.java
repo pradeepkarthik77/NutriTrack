@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -17,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -27,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -47,6 +52,7 @@ public class SignupActivity extends AppCompatActivity
     private TextInputLayout textInputName;
     private MaterialButton google_sign_up;
     private Context context;
+    private ProgressBar progressBar;
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
@@ -55,6 +61,18 @@ public class SignupActivity extends AppCompatActivity
 
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
+
+    public void showspinner()
+    {
+        progressBar = findViewById(R.id.google_signup_progress);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hidespinner()
+    {
+        progressBar = findViewById(R.id.google_signup_progress);
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -76,9 +94,23 @@ public class SignupActivity extends AppCompatActivity
 
         this.google_sign_up = findViewById(R.id.google_signup_btn);
 
+        this.progressBar = findViewById(R.id.google_signup_progress);
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
         gsc = GoogleSignIn.getClient(this, gso);
+
+        ImageView back_btn = findViewById(R.id.signup_back_btn);
+
+        back_btn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        //this.progressBar = findViewById(R.id.google_signup_progress);
 
 //        this.activityResultLauncher = registerForActivityResult(
 //                new ActivityResultContracts.StartActivityForResult(),
@@ -110,6 +142,9 @@ public class SignupActivity extends AppCompatActivity
 //                        }
 //                    }
 //                });
+
+
+
         this.signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -125,26 +160,39 @@ public class SignupActivity extends AppCompatActivity
                 map.put("email",textInputEmail.getEditText().getText().toString());
                 map.put("password",textInputPassword.getEditText().getText().toString());
 
-                Call<Void> call = retrofitInterface.executeSignup(map);
-
-                call.enqueue(new Callback<Void>() {
+                class longthread extends Thread
+                {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response)
-                    {
-                        if(response.code() == 200) {
-                            Toast.makeText(getApplicationContext(), "Sign In Sucessful", Toast.LENGTH_LONG).show();
-                        }
-                        else if(response.code() == 400)
-                        {
-                            Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
-                        }
-                    }
+                    public void run() {
+                        runOnUiThread(SignupActivity.this::showspinner);
+                        Call<Void> call = retrofitInterface.executeSignup(map);
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response)
+                            {
+                                if(response.code() == 200) {
+                                    Toast.makeText(getApplicationContext(), "Sign In Sucessful", Toast.LENGTH_LONG).show();
+                                }
+                                else if(response.code() == 400)
+                                {
+                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
+                                }
+                                runOnUiThread(SignupActivity.this::hidespinner);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                                runOnUiThread(SignupActivity.this::hidespinner);
+                            }
+                        });
+
+                        //runOnUiThread(SignupActivity.this::hidespinner);
                     }
-                });
+                }
+
+                new longthread().start();
 
             }
         });

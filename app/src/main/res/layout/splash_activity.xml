@@ -33,6 +33,7 @@
         android:text="NutriTrack"
         android:textAlignment="center"
         android:textSize="30sp"
+        android:textStyle="bold"
         android:textColor="@color/white"/>
 
     </LinearLayout>

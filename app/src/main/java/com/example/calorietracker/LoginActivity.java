@@ -3,6 +3,7 @@ package com.example.calorietracker;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,15 @@ public class LoginActivity extends AppCompatActivity
         this.textInputEmail = findViewById(R.id.user_email_login);
         this.textInputPassword = findViewById(R.id.user_password_login);
         this.log_in_btn = findViewById(R.id.login_btn_login);
+
+        ImageButton back_btn = findViewById(R.id.login_back_btn);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         this.log_in_btn.setOnClickListener(new View.OnClickListener() {
             @Override

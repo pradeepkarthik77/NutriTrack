@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SplashActivity extends AppCompatActivity
 {
     private ImageView logo;
-    private static int splashTimeOut = 5000;
+    private static int splashTimeOut = 2500;
     private TextView splashtext;
 
     @Override
@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity
 
         Spannable wordtoSpan = new SpannableString("NutriTrack");
 
-        wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)), 5, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         splashtext.setText(wordtoSpan);
 
