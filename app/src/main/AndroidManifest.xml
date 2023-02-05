@@ -11,10 +11,10 @@
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/apple_bg_icon"
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/apple_bg"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calorietracker"
         tools:replace="android:allowBackup"
@@ -32,6 +32,13 @@
 
         <activity
             android:name=".OnOpenActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Onloadtheme"
             android:exported="true"
