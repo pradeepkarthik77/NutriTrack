@@ -1,26 +1,26 @@
 package com.example.calorietracker;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.NumberPicker;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.TaskStackBuilder;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -31,10 +31,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,98 +48,33 @@ public class SignupActivity extends AppCompatActivity
     private TextInputLayout textInputPassword;
     private TextInputLayout textInputreenter;
     private MaterialButton signup_btn;
-    private String BASE_URL = "";//"http://14.139.187.130:3000"; //
-    private TextInputLayout textInputgender;
-    private TextInputLayout textInputage;
+    private String BASE_URL = "http://10.0.2.2:3000";
+    private TextInputLayout textInputName;
+    private MaterialButton google_sign_up;
+    private Context context;
+    private ProgressBar progressBar;
+
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
 
-    private TextInputLayout textInputName;
-    private Spinner spinner;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient gsc;
 
-    //private MaterialButton google_sign_up;
-    private Context context;
+    private String name="";
+    private String email="";
 
-    private MaterialButton age_btn;
-
-    private Dialog dialog;
-
-    private int age_value = 0;
-
-//    private GoogleSignInOptions gso;
-//    private GoogleSignInClient gsc;
-
-
-    private void create_dialog()
+    public void showspinner()
     {
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.age_dialog);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+        progressBar = findViewById(R.id.google_signup_progress);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
-        Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
-        Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
-
-        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.age_picker);
-
-        String numval = "0";
-
-        numberPicker.setMaxValue(1);
-        numberPicker.setMinValue(0);
-
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(100);
-
-        numberPicker.setTextColor(Color.WHITE);
-
-        ImageButton back_btn = findViewById(R.id.display_back_btn);
-
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
-            @Override
-            public String format(int value) {
-                int diff = value;
-                return "" + diff;
-            }
-        };
-        numberPicker.setFormatter(formatter);
-
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                age_value = newVal;
-                MaterialButton age_btn = findViewById(R.id.choose_age_btn);
-                age_btn.setText("Choose Your Age: "+age_value);
-            }
-        });
-
-        apply_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                dialog.dismiss();
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dialog.dismiss();
-            }
-        });
-
-        dialog.create();
-
+    public void hidespinner()
+    {
+        progressBar = findViewById(R.id.google_signup_progress);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -151,8 +85,6 @@ public class SignupActivity extends AppCompatActivity
 
         this.context = this;
 
-        this.BASE_URL = getString(R.string.BASE_URL);
-
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
@@ -162,86 +94,59 @@ public class SignupActivity extends AppCompatActivity
         this.textInputreenter = findViewById(R.id.user_repassword_signup);
         this.signup_btn = findViewById(R.id.signup_btn_signup);
         this.textInputName = findViewById(R.id.user_name_signup);
-        this.textInputgender = findViewById(R.id.gender_select);
-        this.textInputage = findViewById(R.id.age_select);
 
-        spinner = (Spinner) findViewById(R.id.gender_signup);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.gender, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        this.google_sign_up = findViewById(R.id.google_signup_btn);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-            }
+        this.progressBar = findViewById(R.id.google_signup_progress);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
-            }
-        });
+        gsc = GoogleSignIn.getClient(this, gso);
 
-        this.age_btn = findViewById(R.id.choose_age_btn);
+        ImageView back_btn = findViewById(R.id.signup_back_btn);
 
-        this.age_btn.setText(this.age_btn.getText().toString()+": "+age_value+" yrs");
+        back_btn.setOnClickListener(new View.OnClickListener(){
 
-        create_dialog();
-
-        this.age_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.show();
+                finish();
             }
         });
 
-//        NumberPicker numberPicker = (NumberPicker) findViewById(R.id.age_picker);
-//
-//        String numval = "0";
-//
-//        numberPicker.setMaxValue(1);
-//        numberPicker.setMinValue(0);
-////        numberPicker2.setValue(0);
-////
-////        String[] vals = {"ml",""};
-////
-////        numberPicker2.setFormatter(new NumberPicker.Formatter() {
-////            @Override
-////            public String format(int value) {
-////                // TODO Auto-generated method stub
-////                return vals[value];
-////            }
-////        });
-//
-//        numberPicker.setMinValue(0);
-//        numberPicker.setMaxValue(100);
-//
-//        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
-//            @Override
-//            public String format(int value) {
-//                int diff = value * 10;
-//                return "" + diff;
-//            }
-//        };
-//        numberPicker.setFormatter(formatter);
-//
+        //this.progressBar = findViewById(R.id.google_signup_progress);
 
-//        AdapterView.OnItemSelectedListener OnCatSpinnerCL = new AdapterView.OnItemSelectedListener() {
-//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-////                ((TextView) parent.getChildAt(0)).setTextSize(5);
-//            }
+//        this.activityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result)
+//                    {
+//                        //TODO write logic for the result from takeaphoto
+//                        int resultcode = result.getResultCode();
 //
-//            public void onNothingSelected(AdapterView<?> parent) {
+//                        if (resultcode == Activity.RESULT_OK)
+//                        {
+//                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
 //
-//            }
-//        };
+//                            try {
+//                                task.getResult(ApiException.class);
+//                                finish();
+//                                Intent intent = new Intent(context,MainActivity.class);
+//                                startActivity(intent);
+//                            }
+//                            catch(Exception e)
+//                            {
+//                                Toast.makeText(getApplicationContext(),"Cannot Sign-In using Google",Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//                        else
+//                        {
+//                            Toast.makeText(context,"Sign In Unsuccessful",Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
 
-//        this.google_sign_up = findViewById(R.id.google_signup_btn);
-//
-//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-//
-//        gsc = GoogleSignIn.getClient(this, gso);
+
 
         this.signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,131 +159,113 @@ public class SignupActivity extends AppCompatActivity
 
                 HashMap<String,String> map = new HashMap<>();
 
+                map.put("name",textInputName.getEditText().getText().toString());
                 map.put("email",textInputEmail.getEditText().getText().toString());
                 map.put("password",textInputPassword.getEditText().getText().toString());
-                map.put("name",textInputName.getEditText().getText().toString());
-                map.put("gender",spinner.getSelectedItem().toString());
-                map.put("age",age_value+"");
 
-                Call<Void> call = retrofitInterface.executeSignup(map);
-
-                call.enqueue(new Callback<Void>() {
+                class longthread extends Thread
+                {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response)
-                    {
-                        if(response.code() == 200)
-                        {
-                            Toast.makeText(getApplicationContext(),"SignUp Successful",Toast.LENGTH_LONG).show();
-                            Intent newintent = new Intent(context,LoginActivity.class);
-                            newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(newintent);
-                        }
-                        else if(response.code() == 400){
-                            Toast.makeText(context,"User Already Registered",Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(),"Unable to SignUp",Toast.LENGTH_LONG).show();
-                        }
-                    }
+                    public void run() {
+                        runOnUiThread(SignupActivity.this::showspinner);
+                        Call<Void> call = retrofitInterface.executeSignup(map);
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response)
+                            {
+                                if(response.code() == 200) {
+                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
+                                }
+                                else if(response.code() == 400)
+                                {
+                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
+                                }
+                                runOnUiThread(SignupActivity.this::hidespinner);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                                runOnUiThread(SignupActivity.this::hidespinner);
+                            }
+                        });
+
+                        //runOnUiThread(SignupActivity.this::hidespinner);
                     }
-                });
+                }
+
+                new longthread().start();
 
             }
         });
 
-
-//        this.google_sign_up.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                google_sign_up_fn();
-//            }
-//        });
-
+        this.google_sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                google_sign_up_fn();
+            }
+        });
     }
 
-//    private void google_sign_up_fn()
-//    {
-//        Intent intent = gsc.getSignInIntent();
-//        startActivityForResult(intent,1000);
-//    }
+    private void google_sign_up_fn()
+    {
+        Intent intent = gsc.getSignInIntent();
+        startActivityForResult(intent,1000);
+    }
 
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(requestCode == 1000)
-//        {
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//
-//            try {
-//                task.getResult(ApiException.class);
-//
-//                HashMap<String,String> map = new HashMap<>();
-//
-//                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(context);
-//
-//                if(acct!=null) {
-//
-//                    String email = acct.getEmail();
-//                    String name = acct.getDisplayName();
-//
-//                    map.put("email", email);
-//                    map.put("name", name);
-//
-//                    Call<Void> call = retrofitInterface.executeSignup(map);
-//
-//                    call.enqueue(new Callback<Void>() {
-//                        @Override
-//                        public void onResponse(Call<Void> call, Response<Void> response)
-//                        {
-//                            if(response.code() == 200)
-//                            {
-//                                Toast.makeText(getApplicationContext(),"Sign In Sucessful",Toast.LENGTH_LONG).show();
-//                                Intent newintent = new Intent(getApplicationContext(),MainActivity.class);
-//                                startActivity(newintent);
-//                            }
-//                            else if(response.code() == 400)
-//                            {
-//                                Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
-//                            }
-//                            else {
-//                                Toast.makeText(getApplicationContext(),"Unable to SignUp",Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Void> call, Throwable t) {
-//                            Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//                }
-//                else
-//                {
-//                    throw new Exception("Hi");
-//                }
-//            }
-//            catch(Exception e)
-//            {
-//                //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
-//                Toast.makeText(getApplicationContext(),"Unable to Sign-In",Toast.LENGTH_LONG).show();
-//            }
-//        }
-//        else
-//        {
-//            Toast.makeText(getApplicationContext(),"Unable to Sign-in",Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1000)
+        {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+            try {
+                task.getResult(ApiException.class);
+            }
+            catch(ApiException e)
+            {
+                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+            }
+
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+            if(account!=null)
+            {
+                this.name = account.getDisplayName();
+                this.email = account.getEmail();
+            }
+
+            Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+
+
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     private Boolean validate_signup()
     {
         String email_text  =  this.textInputEmail.getEditText().getText().toString().trim();
 
+        String name_text = this.textInputName.getEditText().getText().toString().trim();
+
         boolean boole = true;
 
+        if(name_text.isEmpty() || name_text.length() <5)
+        {
+            this.textInputName.setError("Name cannot be less than 5 characters");
+            boole = false;
+        }
+        else
+        {
+            this.textInputName.setError(null);
+            this.textInputName.setErrorEnabled(false);
+        }
 
         if(email_text.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email_text).matches())
         {
@@ -389,43 +276,6 @@ public class SignupActivity extends AppCompatActivity
         {
             this.textInputEmail.setError(null);
             this.textInputEmail.setErrorEnabled(false);
-        }
-
-        String gender_text = spinner.getSelectedItem().toString();
-
-        if(gender_text.equals("Select Your Gender"))
-        {
-            this.textInputgender.setError("Choose a gender");
-            boole = false;
-        }
-        else
-        {
-            this.textInputgender.setError(null);
-            this.textInputgender.setErrorEnabled(false);
-        }
-
-        if(age_value == 0)
-        {
-            this.textInputage.setError("Choose a valid age");
-            boole = false;
-        }
-        else
-        {
-            this.textInputage.setError(null);
-            this.textInputage.setErrorEnabled(false);
-        }
-
-        String name_text = this.textInputName.getEditText().getText().toString().trim();
-
-        if(name_text.isEmpty() || name_text.length() < 5)
-        {
-            this.textInputName.setError("Name should not be less than 5 characters");
-            boole = false;
-        }
-        else
-        {
-            this.textInputName.setError(null);
-            this.textInputName.setErrorEnabled(false);
         }
 
         String password_text = this.textInputPassword.getEditText().getText().toString().trim();

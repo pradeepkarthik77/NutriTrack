@@ -12,10 +12,10 @@
          <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="Onloadtheme" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Onloadtheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/cardview_dark_background</item>
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">#2AD181</item>
+        <item name="colorPrimaryVariant">#2AD181</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

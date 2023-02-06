@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity
         this.textInputPassword = findViewById(R.id.user_password_login);
         this.log_in_btn = findViewById(R.id.login_btn_login);
 
-        ImageButton back_btn = findViewById(R.id.display_back_btn);
+        ImageButton back_btn = findViewById(R.id.login_back_btn);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
