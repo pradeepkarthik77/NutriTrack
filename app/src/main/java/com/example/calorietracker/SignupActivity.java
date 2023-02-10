@@ -48,7 +48,7 @@ public class SignupActivity extends AppCompatActivity
     private TextInputLayout textInputPassword;
     private TextInputLayout textInputreenter;
     private MaterialButton signup_btn;
-    private String BASE_URL = "http://10.0.2.2:3000";
+    private String BASE_URL = "";
     private TextInputLayout textInputName;
     private MaterialButton google_sign_up;
     private Context context;
@@ -84,6 +84,8 @@ public class SignupActivity extends AppCompatActivity
         setContentView(R.layout.signup_layout);
 
         this.context = this;
+
+        this.BASE_URL = getString(R.string.BASE_URL);
 
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -154,48 +156,63 @@ public class SignupActivity extends AppCompatActivity
             {
                 //TODO add the logic to contact the backend and log the user into the system
                 if(!validate_signup()){
-                    return;
+                    //return;
                 }
 
-                HashMap<String,String> map = new HashMap<>();
+                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
+                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(newintent);
 
-                map.put("name",textInputName.getEditText().getText().toString());
-                map.put("email",textInputEmail.getEditText().getText().toString());
-                map.put("password",textInputPassword.getEditText().getText().toString());
-
-                class longthread extends Thread
-                {
-                    @Override
-                    public void run() {
-                        runOnUiThread(SignupActivity.this::showspinner);
-                        Call<Void> call = retrofitInterface.executeSignup(map);
-
-                        call.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response)
-                            {
-                                if(response.code() == 200) {
-                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
-                                }
-                                else if(response.code() == 400)
-                                {
-                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
-                                }
-                                runOnUiThread(SignupActivity.this::hidespinner);
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
-                                runOnUiThread(SignupActivity.this::hidespinner);
-                            }
-                        });
-
-                        //runOnUiThread(SignupActivity.this::hidespinner);
-                    }
-                }
-
-                new longthread().start();
+                return;
+//
+//
+//                HashMap<String,String> map = new HashMap<>();
+//
+//                map.put("name",textInputName.getEditText().getText().toString());
+//                map.put("email",textInputEmail.getEditText().getText().toString());
+//                map.put("password",textInputPassword.getEditText().getText().toString());
+//
+//                class longthread extends Thread
+//                {
+//                    @Override
+//                    public void run() {
+//                        runOnUiThread(SignupActivity.this::showspinner);
+//                        Call<Void> call = retrofitInterface.executeSignup(map);
+//
+//                        call.enqueue(new Callback<Void>() {
+//                            @Override
+//                            public void onResponse(Call<Void> call, Response<Void> response)
+//                            {
+//                                if(response.code() == 200)
+//                                {
+//                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
+//                                    Intent newintent = new Intent(context,LoginActivity.class);
+//                                    newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                    startActivity(newintent);
+//                                }
+//                                else if(response.code() == 400)
+//                                {
+//                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
+//                                }
+//                                runOnUiThread(SignupActivity.this::hidespinner);
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<Void> call, Throwable t) {
+//                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+//                                runOnUiThread(SignupActivity.this::hidespinner);
+//
+//                                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
+//                                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(newintent);
+//                            }
+//                        });
+//
+//                        //runOnUiThread(SignupActivity.this::hidespinner);
+//                    }
+//                }
+//
+//                new longthread().start();
 
             }
         });

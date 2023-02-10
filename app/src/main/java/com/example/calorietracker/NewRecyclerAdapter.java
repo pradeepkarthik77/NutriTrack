@@ -1,14 +1,9 @@
 package com.example.calorietracker;
 
-import static android.provider.Settings.System.getString;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.Html;
@@ -16,11 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -28,8 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -499,7 +488,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
         Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
 
-        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.age_picker);
+        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.weight_picker);
 
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(100);
