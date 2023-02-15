@@ -3,6 +3,7 @@ package com.example.calorietracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -87,6 +88,10 @@ public class SignupActivity extends AppCompatActivity
 
         this.BASE_URL = getString(R.string.BASE_URL);
 
+        SharedPreferences pref = context.getSharedPreferences("Login",0);
+
+        SharedPreferences.Editor editor = pref.edit();
+
         retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
         retrofitInterface = retrofit.create(RetrofitInterface.class);
@@ -156,63 +161,69 @@ public class SignupActivity extends AppCompatActivity
             {
                 //TODO add the logic to contact the backend and log the user into the system
                 if(!validate_signup()){
-                    //return;
+                    return;
                 }
 
-                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
-                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(newintent);
+//                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
+//                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(newintent);
+//
+//                return;
 
-                return;
-//
-//
-//                HashMap<String,String> map = new HashMap<>();
-//
-//                map.put("name",textInputName.getEditText().getText().toString());
-//                map.put("email",textInputEmail.getEditText().getText().toString());
-//                map.put("password",textInputPassword.getEditText().getText().toString());
-//
-//                class longthread extends Thread
-//                {
-//                    @Override
-//                    public void run() {
-//                        runOnUiThread(SignupActivity.this::showspinner);
-//                        Call<Void> call = retrofitInterface.executeSignup(map);
-//
-//                        call.enqueue(new Callback<Void>() {
-//                            @Override
-//                            public void onResponse(Call<Void> call, Response<Void> response)
-//                            {
-//                                if(response.code() == 200)
-//                                {
-//                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
-//                                    Intent newintent = new Intent(context,LoginActivity.class);
-//                                    newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                                    startActivity(newintent);
-//                                }
-//                                else if(response.code() == 400)
-//                                {
-//                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
-//                                }
-//                                runOnUiThread(SignupActivity.this::hidespinner);
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<Void> call, Throwable t) {
-//                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
-//                                runOnUiThread(SignupActivity.this::hidespinner);
-//
+
+                HashMap<String,String> map = new HashMap<>();
+
+                map.put("name",textInputName.getEditText().getText().toString());
+                map.put("email",textInputEmail.getEditText().getText().toString());
+                map.put("password",textInputPassword.getEditText().getText().toString());
+
+                class longthread extends Thread
+                {
+                    @Override
+                    public void run() {
+                        runOnUiThread(SignupActivity.this::showspinner);
+                        Call<Void> call = retrofitInterface.executeSignup(map);
+
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response)
+                            {
+                                if(response.code() == 200)
+                                {
+                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
+
+                                    editor.putString("email",textInputEmail.getEditText().getText().toString());
+                                    editor.putString("name",textInputName.getEditText().getText().toString());
+                                    editor.putBoolean("isSignedin",true);
+                                    editor.commit();
+
+                                    Intent newintent = new Intent(context,Signup_details.class);
+                                    newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(newintent);
+                                }
+                                else if(response.code() == 400)
+                                {
+                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
+                                }
+                                runOnUiThread(SignupActivity.this::hidespinner);
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                                runOnUiThread(SignupActivity.this::hidespinner);
+
 //                                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
 //                                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                                startActivity(newintent);
-//                            }
-//                        });
-//
-//                        //runOnUiThread(SignupActivity.this::hidespinner);
-//                    }
-//                }
-//
-//                new longthread().start();
+                            }
+                        });
+
+                        //runOnUiThread(SignupActivity.this::hidespinner);
+                    }
+                }
+
+                new longthread().start();
 
             }
         });

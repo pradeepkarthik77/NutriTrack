@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 public class signin_fragmentadapter extends FragmentPagerAdapter {
-    private static int NUM_ITEMS = 2;
+    private static int NUM_ITEMS = 3;
     private Context context;
 
     public signin_fragmentadapter(FragmentManager fragmentManager,Context context) {
@@ -21,6 +21,8 @@ public class signin_fragmentadapter extends FragmentPagerAdapter {
                 return new gender_age_fragment(context);
             case 1:
                 return new weight_calorie_fragment(context);
+            case 2:
+                return new goal_calorie_signup_fragment(context);
             default:
                 return new gender_age_fragment(context);
         }

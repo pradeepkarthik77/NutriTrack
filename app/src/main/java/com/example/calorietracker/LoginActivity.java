@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity
                             editor.putString("gender",result.getGender());
                             editor.commit();
 
-                            Toast.makeText(getApplicationContext(),"Log In Succesful!!!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(),"Log In Successful!!!",Toast.LENGTH_LONG).show();
                             Intent newintent = new Intent(getApplicationContext(),HomeActivity.class);
                             newintent.putExtra("email",result.getEmail());
                             newintent.putExtra("name",result.getName());

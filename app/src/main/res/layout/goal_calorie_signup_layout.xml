@@ -19,9 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Choose your Weight:"
+            android:text="Enter Your Daily Calorie Intake:"
             android:textSize="20sp"
-            android:id="@+id/weight_text"
+            android:id="@+id/cal_text"
             />
 
         <LinearLayout
@@ -34,15 +34,15 @@
             <NumberPicker
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/weight_picker"
+                android:id="@+id/cal_pick"
                 android:gravity="center"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="kgs"
+                android:text="cal"
                 android:textSize="20sp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
@@ -50,25 +50,6 @@
                 />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Choose your Level fo physical Activity:"
-            android:textSize="20sp"
-            android:id="@+id/lifestyle_text"
-            />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"/>
-
-
 
     </LinearLayout>
 

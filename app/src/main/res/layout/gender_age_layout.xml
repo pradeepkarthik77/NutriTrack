@@ -79,7 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="cms"
+                android:text="yrs"
                 android:textSize="20sp"
                 android:layout_marginLeft="20dp"
                 android:gravity="center"
@@ -92,7 +92,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Choose your Age:"
+        android:text="Choose your Height:"
         android:textSize="20sp"
         android:id="@+id/cal_text"
         />
@@ -107,7 +107,7 @@
     <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/cal_number"
+        android:id="@+id/height_picker"
         android:gravity="center"
         android:layout_gravity="center"
         />

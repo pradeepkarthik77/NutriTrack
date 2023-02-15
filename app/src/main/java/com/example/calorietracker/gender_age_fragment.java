@@ -35,8 +35,6 @@ public class gender_age_fragment extends Fragment {
     private TextView gender_text;
     private TextView height_text;
 
-    private static String radiovalue;
-
 
     public gender_age_fragment(Context context)
     {
@@ -55,9 +53,25 @@ public class gender_age_fragment extends Fragment {
         this.age_text = view.findViewById(R.id.weight_text);
         this.height_text = view.findViewById(R.id.cal_text);
 
+        this.radioGroup = view.findViewById(R.id.gender_radiogroup);
+
         SharedPreferences pref = context.getSharedPreferences("Login",0);
 
         SharedPreferences.Editor editor = pref.edit();
+
+        editor.putString("Gender","Male");
+        editor.putInt("Age",30);
+        editor.putInt("Height",150);
+        editor.commit();
+
+        this.radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton radioButton = view.findViewById(checkedId);
+                editor.putString("Gender",radioButton.getText().toString());
+                editor.commit();
+            }
+        });
 
         class CustomBulletSpan extends BulletSpan {
             private int color;
@@ -109,7 +123,7 @@ public class gender_age_fragment extends Fragment {
         this.age_picker.setMinValue(1);
         this.age_picker.setValue(30);
 
-        NumberPicker height_picker = view.findViewById(R.id.cal_number);
+        NumberPicker height_picker = view.findViewById(R.id.height_picker);
 
         height_picker.setMaxValue(250);
         height_picker.setMinValue(50);
@@ -119,6 +133,22 @@ public class gender_age_fragment extends Fragment {
         ssb.append("Choose Your Height (in cms):");
 
         ssb.setSpan(new CustomBulletSpan(bulletcolor),0,ssb.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        this.age_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                editor.putInt("Age",newVal);
+                editor.commit();
+            }
+        });
+
+        height_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                editor.putInt("Height",newVal);
+                editor.commit();
+            }
+        });
 
         this.height_text.setText(ssb);
         editor.commit();

@@ -21,4 +21,7 @@ public interface RetrofitInterface
 
     @POST("/imagesend")
     Call<Void> executeimage(@Body HashMap<String,String> map);
+
+    @POST("/send_signup_details")
+    Call<Void> executesignupdetails(@Body HashMap<String,String> map);
 }

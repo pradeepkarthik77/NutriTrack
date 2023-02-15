@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -33,6 +34,34 @@ public class OnOpenActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.onopen_layout);
+
+        this.context = this;
+
+        Boolean loggedin = false;
+        Boolean signedin = false;
+
+        SharedPreferences pref = this.getSharedPreferences("Login",0);
+
+        SharedPreferences.Editor editor = pref.edit();
+
+        loggedin = pref.getBoolean("isLoggedin",false);
+        signedin = pref.getBoolean("isSignedin",false);
+
+        if(loggedin)
+        {
+            Intent newintent = new Intent(context,HomeActivity.class);
+            startActivity(newintent);
+        }
+
+        else if(signedin)
+        {
+            Intent newintent = new Intent(context,Signup_details.class);
+            startActivity(newintent);
+        }
+        else
+        {
+
+        }
 
         //ImageView imageView = findViewById(R.id.onopen_image);
 
