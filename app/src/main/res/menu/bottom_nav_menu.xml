@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/dashboard_icon"/>
+    <item
+        android:id="@+id/report"
+        android:title="Report"
+        android:icon="@drawable/chart_icon"/>
+    <item
+        android:id="@+id/goals"
+        android:title="Goals"
+        android:icon="@drawable/goal_icon"/>
+    <item
+        android:id="@+id/weekly"
+        android:title="WeekLog"
+        android:icon="@drawable/week_icon"/>
+    <item
+        android:id="@+id/user"
+        android:title="Me"
+        android:icon="@drawable/user_icon"/>
+</menu>

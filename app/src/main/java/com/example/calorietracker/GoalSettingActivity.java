@@ -34,7 +34,7 @@ public class GoalSettingActivity extends AppCompatActivity
 
         SharedPreferences.Editor editor = pref.edit();
 
-        String goal = pref.getString("calorie_goals","");
+        String goal = pref.getString("Goal_Calorie","");
         Float parse = 0f;
         if(goal.equals(""))
         {
@@ -42,8 +42,7 @@ public class GoalSettingActivity extends AppCompatActivity
         }
         else {
             parse = Float.parseFloat(goal);
-
-            //Toast.makeText(getApplicationContext(),Math.round(parse)+"",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),Math.round(parse)+"",Toast.LENGTH_LONG).show();
         }
 
         numberPicker.setMinValue(5);
@@ -84,7 +83,7 @@ public class GoalSettingActivity extends AppCompatActivity
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 calorie_val = newVal*100;
-                editor.putString("calorie_goals",calorie_val+"");
+                editor.putString("Goal_Calorie",calorie_val+"");
                 editor.commit();
                 Float val = calorie_val - Float.parseFloat(current_cals);
                 if(val<0)

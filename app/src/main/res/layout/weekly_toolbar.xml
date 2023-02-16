@@ -5,7 +5,7 @@
     android:id="@+id/list_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/purple_700"
+    android:background="@color/default_color"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
     app:titleTextColor="@color/white">

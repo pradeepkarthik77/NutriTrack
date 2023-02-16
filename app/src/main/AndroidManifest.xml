@@ -50,6 +50,10 @@
         </activity>
 
         <activity
+            android:name=".HomeActivity_holder"
+            android:theme="@style/Onloadtheme"/>
+
+        <activity
             android:name=".LoginActivity"
             android:theme="@style/Onloadtheme">
 
