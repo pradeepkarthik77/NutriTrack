@@ -20,7 +20,7 @@ public class ProfileActivity extends AppCompatActivity
     private String email_id;
     private String name;
     private Context context;
-    private String age;
+    private int age;
     private String gender;
 
     @Override
@@ -32,8 +32,8 @@ public class ProfileActivity extends AppCompatActivity
 
         this.email_id = pref.getString("email","");
         this.name = pref.getString("name","");
-        this.age = pref.getString("age","age");
-        this.gender = pref.getString("gender","gender");
+        this.age = pref.getInt("Age",0);
+        this.gender = pref.getString("Gender","gender");
 
         this.context = this;
 

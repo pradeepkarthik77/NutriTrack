@@ -50,12 +50,14 @@ public class OnOpenActivity extends AppCompatActivity
         if(loggedin)
         {
             Intent newintent = new Intent(context,HomeActivity.class);
+            newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(newintent);
         }
 
         else if(signedin)
         {
             Intent newintent = new Intent(context,Signup_details.class);
+            newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(newintent);
         }
         else

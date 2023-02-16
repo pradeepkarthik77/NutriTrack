@@ -6,11 +6,16 @@ public class LoginResult
 
     private String name;
 
-    private String age;
+    private int age;
 
     private String gender;
 
-    public String getAge() {
+    private int activity_level;
+    private int goal_calorie;
+    private int height;
+    private int weight;
+
+    public int getAge() {
         return age;
     }
 
@@ -22,4 +27,20 @@ public class LoginResult
         return email;
     }
     public String getName(){return name;}
+
+    public int getActivity_level() {
+        return activity_level;
+    }
+
+    public int getGoal_calorie() {
+        return goal_calorie;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
 }

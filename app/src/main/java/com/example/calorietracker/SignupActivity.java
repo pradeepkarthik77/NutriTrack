@@ -28,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -78,6 +79,79 @@ public class SignupActivity extends AppCompatActivity
         progressBar.setVisibility(View.GONE);
     }
 
+    protected void signup_the_user(String email,String name,String password)
+    {
+        SharedPreferences pref = context.getSharedPreferences("Login",0);
+        SharedPreferences.Editor editor = pref.edit();
+
+        HashMap<String,String> map = new HashMap<>();
+
+        map.put("name",name);
+        map.put("email",email);
+        map.put("password",password);
+
+        class longthread extends Thread
+        {
+            @Override
+            public void run() {
+                runOnUiThread(SignupActivity.this::showspinner);
+                Call<Void> call = retrofitInterface.executeSignup(map);
+
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response)
+                    {
+                        if(response.code() == 200)
+                        {
+                            Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
+
+                            editor.putString("email",email);
+                            editor.putString("name",name);
+                            editor.putBoolean("isSignedin",true);
+                            editor.commit();
+
+                            Intent newintent = new Intent(context,Signup_details.class);
+                            newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(newintent);
+                        }
+                        else if(response.code() == 400)
+                        {
+                            Toast.makeText(getApplicationContext(),"User Already Registered. Try Logging In.",Toast.LENGTH_LONG).show();
+
+                            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+                            gsc = GoogleSignIn.getClient(context,gso);
+
+                            gsc.signOut();
+                        }
+                        runOnUiThread(SignupActivity.this::hidespinner);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
+                        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+                        gsc = GoogleSignIn.getClient(context,gso);
+                        runOnUiThread(SignupActivity.this::hidespinner);
+
+                        gsc.signOut();
+
+//                                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
+//                                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(newintent);
+                    }
+                });
+
+                //runOnUiThread(SignupActivity.this::hidespinner);
+            }
+        }
+
+        new longthread().start();
+
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -106,9 +180,9 @@ public class SignupActivity extends AppCompatActivity
 
         this.progressBar = findViewById(R.id.google_signup_progress);
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        this.gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
-        gsc = GoogleSignIn.getClient(this, gso);
+        this.gsc = GoogleSignIn.getClient(this, gso);
 
         ImageView back_btn = findViewById(R.id.signup_back_btn);
 
@@ -170,61 +244,11 @@ public class SignupActivity extends AppCompatActivity
 //
 //                return;
 
+                String email = textInputEmail.getEditText().getText().toString();
+                String name = textInputName.getEditText().getText().toString();
+                String password = textInputPassword.getEditText().getText().toString();
 
-                HashMap<String,String> map = new HashMap<>();
-
-                map.put("name",textInputName.getEditText().getText().toString());
-                map.put("email",textInputEmail.getEditText().getText().toString());
-                map.put("password",textInputPassword.getEditText().getText().toString());
-
-                class longthread extends Thread
-                {
-                    @Override
-                    public void run() {
-                        runOnUiThread(SignupActivity.this::showspinner);
-                        Call<Void> call = retrofitInterface.executeSignup(map);
-
-                        call.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response)
-                            {
-                                if(response.code() == 200)
-                                {
-                                    Toast.makeText(getApplicationContext(), "Sign In Successful", Toast.LENGTH_LONG).show();
-
-                                    editor.putString("email",textInputEmail.getEditText().getText().toString());
-                                    editor.putString("name",textInputName.getEditText().getText().toString());
-                                    editor.putBoolean("isSignedin",true);
-                                    editor.commit();
-
-                                    Intent newintent = new Intent(context,Signup_details.class);
-                                    newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(newintent);
-                                }
-                                else if(response.code() == 400)
-                                {
-                                    Toast.makeText(getApplicationContext(),"User Already Registered",Toast.LENGTH_LONG).show();
-                                }
-                                runOnUiThread(SignupActivity.this::hidespinner);
-                            }
-
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),"Unable to SignUp. Try Again",Toast.LENGTH_LONG).show();
-                                runOnUiThread(SignupActivity.this::hidespinner);
-
-//                                Intent newintent = new Intent(getApplicationContext(),Signup_details.class);
-//                                newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                                startActivity(newintent);
-                            }
-                        });
-
-                        //runOnUiThread(SignupActivity.this::hidespinner);
-                    }
-                }
-
-                new longthread().start();
-
+                signup_the_user(email,name,password);
             }
         });
 
@@ -250,24 +274,29 @@ public class SignupActivity extends AppCompatActivity
         {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
+            GoogleSignInAccount account;
+
             try {
+                account = task.getResult(ApiException.class);
                 task.getResult(ApiException.class);
             }
             catch(ApiException e)
             {
-                Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                account = null;
+                //Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                return;
             }
 
-            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(context);
+            //GoogleSignInAccount account = task.getResult();//GoogleSignIn.getLastSignedInAccount(context);
             if(account!=null)
             {
                 this.name = account.getDisplayName();
                 this.email = account.getEmail();
             }
 
-            Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
 
-
+            signup_the_user(this.email,this.name,"google_user");
         }
         else
         {
