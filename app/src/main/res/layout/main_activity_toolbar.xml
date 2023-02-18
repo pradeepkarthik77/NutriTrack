@@ -8,6 +8,8 @@
     android:background="@color/default_color"
     android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:layout_collapseMode="pin"
     app:titleTextColor="@color/white">
     <LinearLayout
         android:layout_width="match_parent"

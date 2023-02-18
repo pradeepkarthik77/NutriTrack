@@ -1,17 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/dashboard_drawer"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    xmlns:tools = "http://schemas.android.com/tools"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HomeActivity"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        >
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/default_color"
+            app:layout_scrollFlags="scroll|snap|enterAlways"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                >
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/dashboard_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/dashboard_tabDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabBackground="@drawable/dashboard_tab_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    android:layout_gravity="center_horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@color/default_color"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include layout="@layout/main_activity_toolbar" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!--In textview we will be adding the text that i have
+            added earlier in strings.xml file.This is simply the
+            the content to be scrolled -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="8sp"
+            android:padding="16dp"
+            android:text="The CoordinatorLayout in Android is most similar to the RelativeLayout in terms of its behavior and functionality. Both CoordinatorLayout and RelativeLayout are designed to allow for flexible and complex layouts by positioning child views relative to each other.
+
+Like the RelativeLayout, the CoordinatorLayout allows child views to be positioned and resized based on the position and size of other views. The CoordinatorLayout also allows for behaviors to be attached to child views, which can modify the layout or appearance of other views in response to user actions or other events.
+
+In contrast, the ConstraintLayout and LinearLayout are designed to manage the layout of child views in a more structured and linear way, without the complex interactions and behaviors provided by the RelativeLayout and CoordinatorLayout. The ConstraintLayout allows child views to be positioned and sized based on constraints to other views, while the LinearLayout arranges child views in a linear orientation, either horizontally or vertically."
+            android:textSize="20sp" />
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu= "@menu/activity_main_drawer"
+        app:itemShapeAppearanceOverlay="@style/ShapeAppearance.NavView"
+        app:itemBackground="@drawable/nav_bar_square"
+        android:background="@drawable/nav_bar_square"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    app:headerLayout= "@layout/nav_header_main"-->
+
+</androidx.drawerlayout.widget.DrawerLayout>

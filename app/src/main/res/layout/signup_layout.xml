@@ -16,10 +16,10 @@
             android:layout_height="36dp"
             android:src="@drawable/back_btn"
             android:scaleType="fitXY"
-            android:background="@drawable/custom_ripple"
             android:id="@+id/signup_back_btn"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:background="?selectableItemBackgroundBorderless"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             />

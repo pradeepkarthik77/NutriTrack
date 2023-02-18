@@ -57,7 +57,6 @@ public class Signup_details extends AppCompatActivity
         setContentView(R.layout.signup_details_layout);
 
         SharedPreferences pref = this.getSharedPreferences("Login",0);
-
         SharedPreferences.Editor editor = pref.edit();
 
         this.context = this;

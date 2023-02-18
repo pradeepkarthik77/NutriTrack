@@ -62,7 +62,6 @@ public class OnOpenActivity extends AppCompatActivity
         }
         else
         {
-
         }
 
         //ImageView imageView = findViewById(R.id.onopen_image);
