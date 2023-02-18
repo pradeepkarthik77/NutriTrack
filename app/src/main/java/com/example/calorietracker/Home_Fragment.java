@@ -2,6 +2,11 @@ package com.example.calorietracker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,8 +22,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.pavlospt.roundedletterview.RoundedLetterView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.Locale;
 
 public class Home_Fragment extends Fragment {
 
@@ -42,9 +54,10 @@ public class Home_Fragment extends Fragment {
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
+        SharedPreferences pref = activity.getSharedPreferences("Login",0);
+
         setHasOptionsMenu(true);
         activity.setSupportActionBar(toolbar);
-
 
         this.viewPager = view.findViewById(R.id.dashboard_viewpager);
         this.tabLayout = view.findViewById(R.id.dashboard_tabDots);
@@ -52,6 +65,30 @@ public class Home_Fragment extends Fragment {
         viewPager.setAdapter(this.fragmentPagerAdapter);
         this.tabLayout.setupWithViewPager(this.viewPager,true);
 
+        NavigationView navigationView = view.findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+
+        TextView user_sidebar_name = header.findViewById(R.id.user_name_sidebar);
+        TextView user_sidebar_email = header.findViewById(R.id.user_email_sidebar);
+        RoundedLetterView user_profile_icon = header.findViewById(R.id.sidebar_user_profile);
+
+        String name = pref.getString("name","");
+        String email = pref.getString("email","");
+        String firstletter = name.trim();
+
+        if(!firstletter.equals(""))
+        {
+            firstletter = firstletter.charAt(0)+"";
+            firstletter = firstletter.toUpperCase();
+        }
+
+        user_profile_icon.setTitleText(firstletter);
+        user_sidebar_name.setText(name);
+        user_sidebar_email.setText(email);
+
+
+//        ImageView sidebar_background = header.findViewById(R.id.sidebar_background);
+//        sidebar_background.setColorFilter(Color.BLACK,PorterDuff.Mode.LIGHTEN);
 
         DrawerLayout drawerLayout = view.findViewById(R.id.dashboard_drawer);
 
