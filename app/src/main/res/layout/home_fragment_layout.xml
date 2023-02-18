@@ -53,7 +53,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include layout="@layout/main_activity_toolbar" />
+            <include layout="@layout/home_fragment_toolbar" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

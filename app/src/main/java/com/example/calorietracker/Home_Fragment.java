@@ -18,6 +18,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +54,12 @@ public class Home_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment_layout, container, false);
 
-         Toolbar toolbar = view.findViewById(R.id.toolbar);
+        //Toolbar and its relatedvalues
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        Spannable wordtoSpan = new SpannableString("NutriTrack");
+        wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        TextView toolbar_title = toolbar.findViewById(R.id.tool_title);
+        toolbar_title.setText(wordtoSpan);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
