@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
             android:text="Today"
-            android:id="@+id/chosen_date"
+            android:id="@+id/calender_text"
             android:layout_gravity="center_vertical"
             android:textSize="15dp"
             android:textColor="@color/white"
@@ -51,7 +51,7 @@
             android:background="@drawable/custom_ripple"
             android:layout_marginRight="12dp"
             android:layout_gravity="center_vertical"
-            android:id="@+id/edit_time"
+            android:id="@+id/homeactivity_calender"
             />
 
     </LinearLayout>

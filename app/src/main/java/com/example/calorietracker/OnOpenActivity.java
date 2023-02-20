@@ -24,6 +24,9 @@ import androidx.core.app.TaskStackBuilder;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class OnOpenActivity extends AppCompatActivity
 {
 
@@ -46,6 +49,15 @@ public class OnOpenActivity extends AppCompatActivity
 
         loggedin = pref.getBoolean("isLoggedin",false);
         signedin = pref.getBoolean("isSignedin",false);
+
+        SharedPreferences date_pref = this.getSharedPreferences("date",0);
+        SharedPreferences.Editor edit = date_pref.edit();
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
+        String chosen_date = dateFormat.format(date);
+        edit.putString("chosen_date",chosen_date);
+        edit.commit();
 
         if(loggedin)
         {

@@ -27,13 +27,13 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 >
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/dashboard_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="375dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -64,20 +64,125 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!--In textview we will be adding the text that i have
-            added earlier in strings.xml file.This is simply the
-            the content to be scrolled -->
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="8sp"
-            android:padding="16dp"
-            android:text="The CoordinatorLayout in Android is most similar to the RelativeLayout in terms of its behavior and functionality. Both CoordinatorLayout and RelativeLayout are designed to allow for flexible and complex layouts by positioning child views relative to each other.
+            >
 
-Like the RelativeLayout, the CoordinatorLayout allows child views to be positioned and resized based on the position and size of other views. The CoordinatorLayout also allows for behaviors to be attached to child views, which can modify the layout or appearance of other views in response to user actions or other events.
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/log_linear"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
-In contrast, the ConstraintLayout and LinearLayout are designed to manage the layout of child views in a more structured and linear way, without the complex interactions and behaviors provided by the RelativeLayout and CoordinatorLayout. The ConstraintLayout allows child views to be positioned and sized based on constraints to other views, while the LinearLayout arranges child views in a linear orientation, either horizontally or vertically."
-            android:textSize="20sp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:overScrollMode="never"
+            />
+
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:id="@+id/water_log_card"
+            android:backgroundTint="@color/water_blue"
+            app:layout_constraintTop_toBottomOf="@+id/log_linear"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Log Water"
+                    android:textSize="20dp"
+                    android:id="@+id/log_water_text"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <ImageButton
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:src="@drawable/round_add_icon"
+                    android:id="@+id/current_log_btn"
+                    android:padding="0dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginRight="7dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Current Log: 0ml"
+                    android:textSize="17dp"
+                    android:id="@+id/current_water_log_text"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/log_water_text"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <SeekBar
+                    android:id="@+id/seek_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="1000"
+                    android:progress="250"
+                    android:layout_marginTop="10dp"
+                    android:progressTint="@color/white"
+                    android:thumbTint="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/current_water_log_text"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today's Log: 0ml"
+                    android:textSize="17dp"
+                    android:id="@+id/todays_water_log"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/seek_bar"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/water_log_card"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

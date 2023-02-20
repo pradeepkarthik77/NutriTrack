@@ -212,7 +212,8 @@ public class MainActivity extends AppCompatActivity
 
         this.mainRecycler = (RecyclerView) findViewById(R.id.main_recycler);
 
-        this.mainCardAdapter = new MainCardAdapter(this,this.email,this.user_name,this.cardview_titles,this.cardview_count,this.cardview_images);
+//        this.mainCardAdapter = new MainCardAdapter(this,this.email,this.user_name,this.cardview_titles,this.cardview_count,this.cardview_images);
+        this.mainCardAdapter = new MainCardAdapter(this,this.cardview_titles,this.cardview_count,this.cardview_images);
 
         this.mainRecycler.setAdapter(this.mainCardAdapter);
 

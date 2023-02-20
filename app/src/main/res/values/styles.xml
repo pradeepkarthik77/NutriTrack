@@ -27,6 +27,17 @@
     </style>
 
     <style name="ChartLightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:textColorPrimary">@color/cardview_dark_background</item>
+        <item name="colorPrimary">#2AD181</item>
+        <item name="colorPrimaryVariant">#2AD181</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondary_green</item>
+        <item name="colorSecondaryVariant">@color/secondary_green</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryContainer">@color/cardview_light_background</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
 
     <style name="ShapeAppearance.NavView" parent="ShapeAppearance.MaterialComponents.SmallComponent">

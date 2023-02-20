@@ -12,6 +12,7 @@
     android:layout_marginBottom="20dp"
     android:layout_marginLeft="5dp"
     android:layout_gravity="center_horizontal"
+    android:backgroundTint="@color/white"
     >
 
     <LinearLayout
@@ -36,12 +37,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardview_text"
-        android:textSize="20dp"
+        android:textSize="17dp"
         android:textStyle="bold"
-        android:paddingLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:textColor="?android:textColorPrimary"
+        android:layout_gravity="center_vertical"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         />
 
     </LinearLayout>

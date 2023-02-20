@@ -23,14 +23,14 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
     private String email;
     private String user_name;
 
-    public MainCardAdapter(Context context,String email,String user_name,String[] cardview_titles,int cardview_count,int[] cardview_images)
+    public MainCardAdapter(Context context,String[] cardview_titles,int cardview_count,int[] cardview_images)
     {
         this.context = context;
         this.cardview_titles = cardview_titles;
         this.cardview_count = cardview_count;
         this.cardview_images = cardview_images;//new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
-        this.email = email;
-        this.user_name = user_name;
+        this.email = "";
+        this.user_name = "";
     }
 
     public static void set_chosen_time(String time)
@@ -82,7 +82,7 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull MainCardAdapter.ViewHolder holder, int position)
     {
-        holder.textView.setText(this.cardview_titles[position]);
+        holder.textView.setText("Log "+this.cardview_titles[position]);
         holder.imageView.setClipToOutline(true);
         holder.imageView.setImageResource(this.cardview_images[position]);
     }

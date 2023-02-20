@@ -15,18 +15,19 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class dashboard_chart_1_fragment extends Fragment {
+public class dashboard_chart_2_fragment extends Fragment {
 
     private Context context;
 
-    public dashboard_chart_1_fragment(Context context)
+
+    public dashboard_chart_2_fragment(Context context)
     {
         this.context = context;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dashboard_1_fragment, container, false);
+        View view = inflater.inflate(R.layout.dashboard_2_fragment, container, false);
 
         return view;
     }

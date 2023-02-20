@@ -216,7 +216,8 @@ public class MidMealDiet extends AppCompatActivity
 
         this.mainRecycler = (RecyclerView) findViewById(R.id.midmeal_recycler);
 
-        this.mainCardAdapter = new MainCardAdapter(this,this.email,this.user_name,this.cardview_titles,this.cardview_count,this.cardview_images);
+//        this.mainCardAdapter = new MainCardAdapter(this,this.email,this.user_name,this.cardview_titles,this.cardview_count,this.cardview_images);
+        this.mainCardAdapter = new MainCardAdapter(this,this.cardview_titles,this.cardview_count,this.cardview_images);
 
         this.mainRecycler.setAdapter(this.mainCardAdapter);
 
