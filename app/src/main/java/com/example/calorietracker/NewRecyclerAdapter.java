@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,6 +49,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
     private String[] favorites_list;
     private Dialog dialog;
     private String BASE_URL = "";
+    private List<List<String>> one_item_value;
 
     public String chosen_date="";
     private int quantity_val = 1;
@@ -313,6 +318,8 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         InsertCSV insertCSV = new InsertCSV(context);
         LoadTheDatabase loadTheDatabase = new LoadTheDatabase(context);
         List<String> item_values = loadTheDatabase.get_nutrition(holder.item_id.getText().toString());
+        List<String> one_item_values = new ArrayList<String>();
+        one_item_values.addAll(item_values);
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.save_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -331,6 +338,65 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         TextView name = dialog.findViewById(R.id.dialog_name);
         TextView type = dialog.findViewById(R.id.dialog_type);
 
+        EditText quantity_value = dialog.findViewById(R.id.quantity_val);
+        TextView quantity_unit = dialog.findViewById(R.id.quantity_unit);
+
+        quantity_value.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                int value = 1;
+                if(!s.toString().equals("")) {
+                    value = Integer.parseInt(s.toString());
+                }
+                else
+                {
+                    value =1;
+                }
+
+                float x;
+
+                for(int i=0;i<one_item_values.size();i++)
+                {
+                    try
+                    {
+                        x = Float.parseFloat(one_item_values.get(i));
+                        item_values.set(i,(x*value)+"");
+                    }
+                    catch(Exception e)
+                    {
+                        Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                String str;
+
+                str = "<b>Calories: </b>"+item_values.get(3)+"g";
+                calories.setText(Html.fromHtml(str));
+
+                str = "<b>Protein: </b>"+item_values.get(13)+"g";
+                protein.setText(Html.fromHtml(str));
+
+                str = "<b>Carbohydrates: </b>"+item_values.get(9)+"g";
+                carbs.setText(Html.fromHtml(str));
+
+                str = "<b>Fat: </b>"+item_values.get(4)+"g";
+                fat.setText(Html.fromHtml(str));
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         if(chosen_date.equals(""))
         {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -339,32 +405,25 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
             //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
         }
 
-//        if(chosen_time.equals(""))
-//        {
-//            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-//            Date date1 = new Date();
-//            chosen_time = formatter.format(date1);
-//        }
-
         String str;
 
         float x=1.0f;
 
-        if(cardview_name.equals("Fruits"))
-        {
-            for(int i=0;i<item_values.size();i++)
-            {
-                try
-                {
-                    x = Float.parseFloat(item_values.get(i));
-                    item_values.set(i,(x*quantity_val)+"");
-                }
-                catch(Exception e)
-                {
-                    Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+//        if(cardview_name.equals("Fruits"))
+//        {
+//            for(int i=0;i<item_values.size();i++)
+//            {
+//                try
+//                {
+//                    x = Float.parseFloat(item_values.get(i));
+//                    item_values.set(i,(x*quantity_val)+"");
+//                }
+//                catch(Exception e)
+//                {
+//                    Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
 
         str = "<b>Name: </b>"+holder.item_text.getText().toString();
         name.setText(Html.fromHtml(str));
