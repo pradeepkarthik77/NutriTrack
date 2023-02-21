@@ -30,7 +30,7 @@ public class InsertCSV
 
     private FileOutputStream fileOutputStream;
 
-    private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
+    private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"}; //TODO change the values here to remove water and add Mid-Meals
 
     private String[] week_cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Mid-Meals","Snacks","Fruits","Juices","Water"};
 
@@ -41,8 +41,7 @@ public class InsertCSV
         };
     }
 
-
-    public void insert_into_csv(String cardview_name,List<String> values,String chosen_date,String chosen_time)
+    public void insert_into_csv(String cardview_name,List<String> values,String chosen_date)
     {
         String data;
 
@@ -62,7 +61,7 @@ public class InsertCSV
             {
                 fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
             }
-            data = String.join(",",this.item_values)+","+cardview_name+","+chosen_date+","+chosen_time+"\n";
+            data = String.join(",",this.item_values)+","+cardview_name+","+chosen_date;
             Enter_into_buffer_csv(data);
             fileOutputStream.write(data.getBytes());
             Toast.makeText(this.context, "Data Saved!!!", Toast.LENGTH_SHORT).show();

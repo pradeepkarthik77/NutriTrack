@@ -76,7 +76,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".ListActivity"></activity>
+        <activity android:name=".ListActivity"
+            android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".DisplayTable"></activity>
         <activity android:name=".WeekTable" />
         <activity android:name=".ProfileActivity"/>

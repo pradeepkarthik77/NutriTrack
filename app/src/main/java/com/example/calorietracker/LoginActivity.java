@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity
                     editor.commit();
 
                     Toast.makeText(getApplicationContext(),"Log In Successful!!!",Toast.LENGTH_LONG).show();
-                    Intent newintent = new Intent(getApplicationContext(),HomeActivity.class);
+                    Intent newintent = new Intent(getApplicationContext(),HomeActivity_holder.class);
                     newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(newintent);
                 }

@@ -55,12 +55,9 @@ public class DisplayTable extends AppCompatActivity
     private FloatingActionButton floatingActionButton;
     private List<String> item_values;
     private String item_type;
-    public static String chosen_time="";
     public static String chosen_date="";
     private String email = "";
     private String user_name = "";
-    private String age = "";
-    private String gender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,18 +71,18 @@ public class DisplayTable extends AppCompatActivity
 
         this.user_name = pref.getString("name","");
 
-        this.age = pref.getString("age","");
-
-        this.gender  = pref.getString("gender","");
-
         Intent intent = getIntent();
 
         this.item_title = intent.getStringExtra("item_name");
         this.item_id = intent.getStringExtra("item_id");
         this.item_type = intent.getStringExtra("item_type");
 
-        this.chosen_time = intent.getStringExtra("chosen_time");
-        this.chosen_date = intent.getStringExtra("chosen_date");
+        SharedPreferences date_pref = getSharedPreferences("date",0);
+
+        SimpleDateFormat formatter = new SimpleDateFormat();
+        String today_date = formatter.format(new Date());
+
+        this.chosen_date = date_pref.getString("chosen_date",today_date);
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -123,16 +120,6 @@ public class DisplayTable extends AppCompatActivity
 
     }
 
-    public static void set_chosen_date(String chosen)
-    {
-        DisplayTable.chosen_date = chosen;
-    }
-
-    public static void set_chosen_time(String chosen)
-    {
-        DisplayTable.chosen_time = chosen;
-    }
-
     private void create_dialogbox()
     {
         InsertCSV insertCSV = new InsertCSV(this);
@@ -147,27 +134,11 @@ public class DisplayTable extends AppCompatActivity
         Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
 
         TextView date = dialog.findViewById(R.id.dialog_date);
-        TextView time = dialog.findViewById(R.id.dialog_time);
         TextView calories = dialog.findViewById(R.id.dialog_calories);
         TextView protein = dialog.findViewById(R.id.dialog_protein);
         TextView fat = dialog.findViewById(R.id.dialog_fat);
         TextView carbs = dialog.findViewById(R.id.dialog_carbs);
         TextView type = dialog.findViewById(R.id.dialog_type);
-
-        if(chosen_date.equals(""))
-        {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date1 = new Date();
-            chosen_date = formatter.format(date1);
-            //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
-        }
-
-        if(chosen_time.equals(""))
-        {
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-            Date date1 = new Date();
-            chosen_time = formatter.format(date1);
-        }
 
         String str;
 
@@ -181,9 +152,6 @@ public class DisplayTable extends AppCompatActivity
 
         str = "<b>Date: </b>"+chosen_date;
         date.setText(Html.fromHtml(str));
-
-        str = "<b>Time: </b>"+chosen_time;
-        time.setText(Html.fromHtml(str));
 
         str = "<b>Calories: </b>"+this.item_values.get(3);
         calories.setText(Html.fromHtml(str));
@@ -203,7 +171,7 @@ public class DisplayTable extends AppCompatActivity
             {
                 Toast.makeText(getApplicationContext(),String.join(",",item_values),Toast.LENGTH_LONG).show();
 
-                insertCSV.insert_into_csv(item_type,item_values,chosen_date,chosen_time);
+                insertCSV.insert_into_csv(item_type,item_values,chosen_date);
 
                 String BASE_URL = getString(R.string.BASE_URL);
 
@@ -223,8 +191,6 @@ public class DisplayTable extends AppCompatActivity
 
                     map.put("email",email);
                     map.put("name",user_name);
-                    map.put("age",age);
-                    map.put("gender",gender);
 
                     Call<Void> call = retrofitInterface.executesend(map);
                     call.enqueue(new Callback<Void>() {

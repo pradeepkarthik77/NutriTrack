@@ -17,11 +17,6 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
     private String[] cardview_titles;
     private int cardview_count;
     private int[] cardview_images;
-    private static String chosen_time="";
-    private static String chosen_date="";
-
-    private String email;
-    private String user_name;
 
     public MainCardAdapter(Context context,String[] cardview_titles,int cardview_count,int[] cardview_images)
     {
@@ -29,18 +24,6 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
         this.cardview_titles = cardview_titles;
         this.cardview_count = cardview_count;
         this.cardview_images = cardview_images;//new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
-        this.email = "";
-        this.user_name = "";
-    }
-
-    public static void set_chosen_time(String time)
-    {
-        MainCardAdapter.chosen_time = time;
-    }
-
-    public static void set_chosen_date(String date)
-    {
-        MainCardAdapter.chosen_date = date;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -59,11 +42,7 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
                 public void onClick(View view)
                 {
                     Intent intent = new Intent(context,ListActivity.class);
-                    intent.putExtra("cardview_title",textView.getText().toString());
-                    intent.putExtra("chosen_time",chosen_time);
-                    intent.putExtra("chosen_date",chosen_date);
-                    intent.putExtra("email",email);
-                    intent.putExtra("user_name",user_name);
+                    intent.putExtra("cardview_title",textView.getText().toString().substring(4));
                     context.startActivity(intent);
                 }
             });

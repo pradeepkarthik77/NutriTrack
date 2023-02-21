@@ -41,8 +41,10 @@ import com.github.pavlospt.roundedletterview.RoundedLetterView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Locale;
 
 public class Home_Fragment extends Fragment
@@ -78,7 +80,7 @@ public class Home_Fragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment_layout, container, false);
 
-        //Toolbar and its relatedvalues
+        //Toolbar and its related values
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         Spannable wordtoSpan = new SpannableString("NutriTrack");
         wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_green)), 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -90,14 +92,30 @@ public class Home_Fragment extends Fragment
         SharedPreferences pref = context.getSharedPreferences("Login",0);
         SharedPreferences.Editor editor = pref.edit();
 
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true); //to allow for sidebar
         activity.setSupportActionBar(toolbar);
 
         this.calender_text = view.findViewById(R.id.calender_text);
 
+        SharedPreferences date_pref = context.getSharedPreferences("date",0);
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        String today_date = dateFormat.format(date);
+
+        if(date_pref.getString("chosen_date","Today").equals(today_date))
+        {
+            this.calender_text.setText("Today");
+        }
+        else
+        {
+            this.calender_text.setText(date_pref.getString("chosen_date","Today"));
+        }
+
         this.viewPager = view.findViewById(R.id.dashboard_viewpager);
 
-        this.viewPager.setSaveEnabled(false);
+        this.viewPager.setSaveEnabled(false); //to allow for fragmentadapters to be changed
         this.tabLayout = view.findViewById(R.id.dashboard_tabDots);
         this.fragmentPagerAdapter = new Dashboard_ViewPage_Adapter(getChildFragmentManager(),context);
         this.calendar_viewGroup_adapter = new Calendar_ViewGroup_Adapter(getChildFragmentManager(),context);
@@ -169,7 +187,6 @@ public class Home_Fragment extends Fragment
 
         current_water_log.setText("Current Log: 250ml");
 
-
         this.water_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -186,8 +203,6 @@ public class Home_Fragment extends Fragment
 
             }
         });
-        
-
 
 
         return view;

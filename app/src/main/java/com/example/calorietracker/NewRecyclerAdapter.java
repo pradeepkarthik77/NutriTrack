@@ -36,8 +36,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 {
     private String email;
     private String user_name;
-    private String age;
-    private String gender;
     private Context context;
     private String cardview_name;
     private int cardview_count;
@@ -49,89 +47,88 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
     private String BASE_URL = "";
 
     public String chosen_date="";
-    public String chosen_time="";
     private int quantity_val = 1;
 
-    private void create_water()
-    {
-        Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.water_dialog);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-
-        Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
-        Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
-
-        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.numberPicker1);
-
-        String numval = "0";
-
-        numberPicker.setMaxValue(1);
-        numberPicker.setMinValue(0);
-//        numberPicker2.setValue(0);
+//    private void create_water()
+//    {
+//        Dialog dialog = new Dialog(context);
+//        dialog.setContentView(R.layout.water_dialog);
+//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        dialog.setCancelable(false);
+//        dialog.setCanceledOnTouchOutside(true);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
 //
-//        String[] vals = {"ml",""};
+//        Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
+//        Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
 //
-//        numberPicker2.setFormatter(new NumberPicker.Formatter() {
+//        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.numberPicker1);
+//
+//        String numval = "0";
+//
+//        numberPicker.setMaxValue(1);
+//        numberPicker.setMinValue(0);
+////        numberPicker2.setValue(0);
+////
+////        String[] vals = {"ml",""};
+////
+////        numberPicker2.setFormatter(new NumberPicker.Formatter() {
+////            @Override
+////            public String format(int value) {
+////                // TODO Auto-generated method stub
+////                return vals[value];
+////            }
+////        });
+//
+//        numberPicker.setMinValue(0);
+//        numberPicker.setMaxValue(100);
+//
+//        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
 //            @Override
 //            public String format(int value) {
-//                // TODO Auto-generated method stub
-//                return vals[value];
+//                int diff = value * 10;
+//                return "" + diff;
+//            }
+//        };
+//        numberPicker.setFormatter(formatter);
+//
+//        apply_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                if (chosen_date.equals("")) {
+//                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//                    Date date = new Date();
+//                    chosen_date = formatter.format(date);
+//                    //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
+//                }
+//
+//                if (chosen_time.equals("")) {
+//                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+//                    Date date = new Date();
+//                    chosen_time = formatter.format(date);
+//                }
+//
+//                String numval = numberPicker.getValue()*10+"";
+//                List<String> item_val = loadTheDatabase.get_nutrition("122");
+//                item_val.set(2,numval);
+//                InsertCSV insertCSV = new InsertCSV(context);
+//                insertCSV.insert_into_csv("Water",item_val,chosen_date,chosen_time);
+//                dialog.dismiss();
 //            }
 //        });
+//
+//        cancel_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        dialog.create();
+//        dialog.show();
+//    }
 
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(100);
-
-        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
-            @Override
-            public String format(int value) {
-                int diff = value * 10;
-                return "" + diff;
-            }
-        };
-        numberPicker.setFormatter(formatter);
-
-        apply_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                if (chosen_date.equals("")) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                    Date date = new Date();
-                    chosen_date = formatter.format(date);
-                    //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
-                }
-
-                if (chosen_time.equals("")) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-                    Date date = new Date();
-                    chosen_time = formatter.format(date);
-                }
-
-                String numval = numberPicker.getValue()*10+"";
-                List<String> item_val = loadTheDatabase.get_nutrition("122");
-                item_val.set(2,numval);
-                InsertCSV insertCSV = new InsertCSV(context);
-                insertCSV.insert_into_csv("Water",item_val,chosen_date,chosen_time);
-                dialog.dismiss();
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.create();
-        dialog.show();
-    }
-
-    public NewRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass,String[] favorites_list,String chosen_date,String chosen_time)
+    public NewRecyclerAdapter(Context context, String cardview_name, int cardview_count, LoadTheDatabase loadTheDatabase, List<List<String>> item_values,ExcelClass excelClass,String[] favorites_list,String chosen_date)
     {
         this.context = context;
         this.cardview_name = cardview_name;
@@ -140,7 +137,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         this.item_values = item_values;
         this.excelClass = excelClass;
         this.chosen_date = chosen_date;
-        this.chosen_time = chosen_time;
         this.favorites_list = favorites_list;
         this.BASE_URL = this.context.getString(R.string.BASE_URL);
 
@@ -149,10 +145,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         this.email = pref.getString("email","");
 
         this.user_name = pref.getString("name","");
-
-        this.age = pref.getString("age","");
-
-        this.gender = pref.getString("gender","");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -178,18 +170,16 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                 @Override
                 public void onClick(View view)
                 {
-                    if(item_text.getText().toString().equals("Custom Value"))
-                    {
-                        create_water();
-                        return;
-                    }
+//                    if(item_text.getText().toString().equals("Custom Value"))
+//                    {
+//                        create_water();
+//                        return;
+//                    }
 
                     Intent newintent = new Intent(context,DisplayTable.class);
                     newintent.putExtra("item_id",item_id.getText().toString());
                     newintent.putExtra("item_name",item_text.getText().toString());
                     newintent.putExtra("item_type",cardview_name);
-                    newintent.putExtra("chosen_date",chosen_date);
-                    newintent.putExtra("chosen_time",chosen_time);
                     context.startActivity(newintent);
                 }
             });
@@ -334,7 +324,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
 
         TextView date = dialog.findViewById(R.id.dialog_date);
-        TextView time = dialog.findViewById(R.id.dialog_time);
         TextView calories = dialog.findViewById(R.id.dialog_calories);
         TextView protein = dialog.findViewById(R.id.dialog_protein);
         TextView fat = dialog.findViewById(R.id.dialog_fat);
@@ -350,12 +339,12 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
             //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
         }
 
-        if(chosen_time.equals(""))
-        {
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
-            Date date1 = new Date();
-            chosen_time = formatter.format(date1);
-        }
+//        if(chosen_time.equals(""))
+//        {
+//            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+//            Date date1 = new Date();
+//            chosen_time = formatter.format(date1);
+//        }
 
         String str;
 
@@ -386,9 +375,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         str = "<b>Date: </b>"+chosen_date;
         date.setText(Html.fromHtml(str));
 
-        str = "<b>Time: </b>"+chosen_time;
-        time.setText(Html.fromHtml(str));
-
         str = "<b>Calories: </b>"+item_values.get(3)+"g";
         calories.setText(Html.fromHtml(str));
 
@@ -408,7 +394,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                 //Toast.makeText(getApplicationContext(),chosen_date+" "+chosen_time,Toast.LENGTH_LONG).show();
 
-                insertCSV.insert_into_csv(cardview_name,item_values,chosen_date,chosen_time);
+                insertCSV.insert_into_csv(cardview_name,item_values,chosen_date);
 
                 if(isConnected())
                 {
@@ -426,8 +412,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                     map.put("email",email);
                     map.put("name",user_name);
-                    map.put("age",age);
-                    map.put("gender",gender);
 
                     Call<Void> call = retrofitInterface.executesend(map);
                     call.enqueue(new Callback<Void>() {
@@ -476,6 +460,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(true);
         dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_outer_round);
 
         TextView side_text = dialog.findViewById(R.id.side_text);
 
@@ -500,6 +485,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                 return "" + diff;
             }
         };
+        numberPicker.setFormatter(formatter);
         numberPicker.setFormatter(formatter);
 
         numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {

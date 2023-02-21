@@ -27,7 +27,6 @@ public class Calendar_fragment extends Fragment {
     private Context context;
     private CalendarView calendarView;
 
-
     public Calendar_fragment(Context context)
     {
         this.context = context;
@@ -63,7 +62,7 @@ public class Calendar_fragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth)
             {
-                edit.putString("chosen_date",dayOfMonth+"/"+month+"/"+year);
+                edit.putString("chosen_date",dayOfMonth+"/"+(month+1)+"/"+year);
                 edit.commit();
                 home_fragment.set_calender_text(pref.getString("chosen_date","Today"));
             }

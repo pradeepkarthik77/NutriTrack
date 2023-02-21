@@ -79,7 +79,6 @@ public class ListActivity extends AppCompatActivity
     private String[] not_favorite_list;
     private GridLayoutManager gridLayoutManager;
     private String chosen_date;
-    private String chosen_time;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
     private Activity activity;
@@ -100,17 +99,10 @@ public class ListActivity extends AppCompatActivity
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "";
 
-//    @Override
-//    public void onBackPressed()
-//    {
-//        super.onBackPressed();
-//        this.recyclerView.getAdapter().notifyDataSetChanged();
-//    }
-
     public void onBackPressed()
     {
         Intent intent = new Intent();
-        intent.putExtra("recycler_id", this.recycler_id);
+//        intent.putExtra("recycler_id", this.recycler_id);
         setResult(0, intent);
         finish();
     }
@@ -130,9 +122,6 @@ public class ListActivity extends AppCompatActivity
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         this.cardview_title = intent.getStringExtra("cardview_title");
-        this.chosen_date = intent.getStringExtra("chosen_date");
-        this.chosen_time = intent.getStringExtra("chosen_time");
-        this.recycler_id = intent.getStringExtra("recycler_id");
         this.context = this;
         this.activity = this;
 
@@ -141,6 +130,14 @@ public class ListActivity extends AppCompatActivity
         this.email = pref.getString("email","");
 
         this.user_name = pref.getString("name","");
+
+        SharedPreferences date_pref = getSharedPreferences("date",0);
+
+        SimpleDateFormat formatter = new SimpleDateFormat();
+
+        String today_date = formatter.format(new Date());
+
+        this.chosen_date = date_pref.getString("chosen_date",today_date);
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -152,7 +149,6 @@ public class ListActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra("recycler_id", recycler_id);
                 setResult(0, intent);
                 finish();
             }
@@ -182,7 +178,7 @@ public class ListActivity extends AppCompatActivity
 
         this.recyclerView = findViewById(R.id.listActivity_recycler);
 
-       this.newRecyclerAdapter = new NewRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values,this.excelClass,this.favorites_list,this.chosen_date,this.chosen_time);
+       this.newRecyclerAdapter = new NewRecyclerAdapter(this.context,this.cardview_title,this.cardview_count,this.loadTheDatabase,this.item_values,this.excelClass,this.favorites_list,this.chosen_date);
 
        this.recyclerView.setAdapter(this.newRecyclerAdapter);
 
@@ -280,7 +276,6 @@ public class ListActivity extends AppCompatActivity
                     {
                         Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
                     }
-
 
                 }
                 else

@@ -90,13 +90,13 @@ public class HomeActivity extends AppCompatActivity
                 else if(position == 2) {
 
                     //Toast.makeText(getApplicationContext(),"Place Your Third Option Code",Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent myIntent = new Intent(getApplicationContext(),HelpActivity.class);
                     startActivity(myIntent);
                 }
                 else if(position == 3) {
 
                     //Toast.makeText(getApplicationContext(),"Place Your Forth Option Code",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(),WeekTable.class);
+                    Intent intent = new Intent(getApplicationContext(),HelpActivity.class);
                     intent.putExtra("chosen_date","");
                     intent.putExtra("chosen_time","");
                     startActivity(intent);
@@ -104,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
                 }
                 else if(position == 4) {
                     //Toast.makeText(getApplicationContext(),"Place Your Fifth Option Code",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MidMealDiet.class);
+                    Intent intent = new Intent(getApplicationContext(), HelpActivity.class);
                     intent.putExtra("chosen_date","");
                     intent.putExtra("chosen_time","");
                     startActivity(intent);
