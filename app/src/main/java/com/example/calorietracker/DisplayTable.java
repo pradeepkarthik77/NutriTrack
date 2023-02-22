@@ -10,10 +10,12 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,7 +38,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -106,24 +111,26 @@ public class DisplayTable extends AppCompatActivity
 
         this.item_values = this.nutrtionValueSet.setvalues(item_type);
 
-        create_dialogbox();
-
         floatingActionButton = findViewById(R.id.add_nutrition);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.show();
+                create_dialogbox();
             }
         });
 
 
     }
 
-    private void create_dialogbox()
+    private void  create_dialogbox()
     {
         InsertCSV insertCSV = new InsertCSV(this);
-        dialog = new Dialog(this);
+        LoadTheDatabase loadTheDatabase = new LoadTheDatabase(this);
+        List<String> item_values = loadTheDatabase.get_nutrition(this.item_id);
+        List<String> one_item_values = new ArrayList<String>();
+        one_item_values.addAll(item_values);
+        Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.save_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(false);
@@ -138,42 +145,175 @@ public class DisplayTable extends AppCompatActivity
         TextView protein = dialog.findViewById(R.id.dialog_protein);
         TextView fat = dialog.findViewById(R.id.dialog_fat);
         TextView carbs = dialog.findViewById(R.id.dialog_carbs);
+        TextView name = dialog.findViewById(R.id.dialog_name);
         TextView type = dialog.findViewById(R.id.dialog_type);
+        TextView item_unit = dialog.findViewById(R.id.quantity_val);
+
+        EditText quantity_value = dialog.findViewById(R.id.quantity_val);
+        TextView quantity_unit = dialog.findViewById(R.id.quantity_unit);
+
+        quantity_unit.setText(one_item_values.get(one_item_values.size()-1));
+
+        float serve_size = 1.0f;
+
+        if(quantity_unit.getText().toString().equals("g"))
+        {
+
+            try
+            {
+                serve_size = Float.parseFloat(item_values.get(2));
+            }
+            catch(Exception e)
+            {
+                serve_size = 1.0f;
+            }
+
+            quantity_value.setText(Math.round(serve_size)+"");
+
+            float x = 0.0f;
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+            for(int i=0;i<one_item_values.size();i++)
+            {
+                try
+                {
+                    x = Float.parseFloat(item_values.get(i));
+                    x = Float.parseFloat(decimalFormat.format(x/serve_size));
+                    one_item_values.set(i,(x)+"");
+                }
+                catch(Exception e)
+                {
+//                        Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+                    System.out.println(item_values.get(i));
+                }
+            }
+
+//            quantity_value.setText(serve_size+"");
+
+        }
+        else
+        {
+        }
+
+        quantity_value.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                int value = 1;
+                if(!s.toString().equals("")) {
+                    value = Integer.parseInt(s.toString());
+                }
+                else
+                {
+                    value = 1;
+                }
+
+                float x;
+
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+                for(int i=0;i<one_item_values.size();i++)
+                {
+                    try
+                    {
+                        x = Float.parseFloat(one_item_values.get(i));
+                        x = Float.parseFloat(decimalFormat.format(x*value));
+                        item_values.set(i,(x)+"");
+                    }
+                    catch(Exception e)
+                    {
+//                        Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+                        System.out.println(item_values.get(i));
+                    }
+                }
+
+                String str;
+
+                str = "<b>Calories: </b>"+item_values.get(3)+"g";
+                calories.setText(Html.fromHtml(str));
+
+                str = "<b>Protein: </b>"+item_values.get(13)+"g";
+                protein.setText(Html.fromHtml(str));
+
+                str = "<b>Carbohydrates: </b>"+item_values.get(9)+"g";
+                carbs.setText(Html.fromHtml(str));
+
+                str = "<b>Fat: </b>"+item_values.get(4)+"g";
+                fat.setText(Html.fromHtml(str));
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        if(chosen_date.equals(""))
+        {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date1 = new Date();
+            chosen_date = formatter.format(date1);
+            //Toast.makeText(getApplicationContext(),formatter.format(date),Toast.LENGTH_SHORT).show();
+        }
 
         String str;
 
-        TextView name = dialog.findViewById(R.id.dialog_name);
+        float x=1.0f;
 
-        str = "<b>Name: </b>"+item_title;
+//        if(cardview_name.equals("Fruits"))
+//        {
+//            for(int i=0;i<item_values.size();i++)
+//            {
+//                try
+//                {
+//                    x = Float.parseFloat(item_values.get(i));
+//                    item_values.set(i,(x*quantity_val)+"");
+//                }
+//                catch(Exception e)
+//                {
+//                    Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }
+
+        str = "<b>Name: </b>"+this.item_title;
         name.setText(Html.fromHtml(str));
 
-        str = "<b>Type: </b>"+item_type;
+        str = "<b>Type: </b>"+this.item_type;
         type.setText(Html.fromHtml(str));
 
         str = "<b>Date: </b>"+chosen_date;
         date.setText(Html.fromHtml(str));
 
-        str = "<b>Calories: </b>"+this.item_values.get(3);
+        str = "<b>Calories: </b>"+item_values.get(3)+"g";
         calories.setText(Html.fromHtml(str));
 
-        str = "<b>Protein: </b>"+this.item_values.get(13);
+        str = "<b>Protein: </b>"+item_values.get(13)+"g";
         protein.setText(Html.fromHtml(str));
 
-        str = "<b>Carbohydrates: </b>"+this.item_values.get(9);
+        str = "<b>Carbohydrates: </b>"+item_values.get(9)+"g";
         carbs.setText(Html.fromHtml(str));
 
-        str = "<b>Fat: </b>"+this.item_values.get(4);
+        str = "<b>Fat: </b>"+item_values.get(4)+"g";
         fat.setText(Html.fromHtml(str));
+
+        String BASE_URL = getString(R.string.BASE_URL);
 
         apply_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(),String.join(",",item_values),Toast.LENGTH_LONG).show();
+
+                //Toast.makeText(getApplicationContext(),chosen_date+" "+chosen_time,Toast.LENGTH_LONG).show();
 
                 insertCSV.insert_into_csv(item_type,item_values,chosen_date);
-
-                String BASE_URL = getString(R.string.BASE_URL);
 
                 if(isConnected())
                 {
@@ -214,11 +354,9 @@ public class DisplayTable extends AppCompatActivity
                 {
                     //Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
                 }
-
                 dialog.dismiss();
 //                chosen_time = getIntent().getStringExtra("chosen_time");
 //                chosen_date = getIntent().getStringExtra("chosen_date");
-                finish();
             }
         });
 
@@ -230,6 +368,7 @@ public class DisplayTable extends AppCompatActivity
         });
 
         dialog.create();
+        dialog.show();
     }
 
     public boolean isConnected() {

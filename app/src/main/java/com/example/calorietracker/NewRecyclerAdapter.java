@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -337,9 +340,54 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         TextView carbs = dialog.findViewById(R.id.dialog_carbs);
         TextView name = dialog.findViewById(R.id.dialog_name);
         TextView type = dialog.findViewById(R.id.dialog_type);
+        TextView item_unit = dialog.findViewById(R.id.quantity_val);
 
         EditText quantity_value = dialog.findViewById(R.id.quantity_val);
         TextView quantity_unit = dialog.findViewById(R.id.quantity_unit);
+
+        quantity_unit.setText(one_item_values.get(one_item_values.size()-1));
+
+        float serve_size = 1.0f;
+
+        if(quantity_unit.getText().toString().equals("g"))
+        {
+
+            try
+            {
+                serve_size = Float.parseFloat(item_values.get(2));
+            }
+            catch(Exception e)
+            {
+                serve_size = 1.0f;
+            }
+
+            quantity_value.setText(Math.round(serve_size)+"");
+
+            float x = 0.0f;
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+            for(int i=0;i<one_item_values.size();i++)
+            {
+                try
+                {
+                    x = Float.parseFloat(item_values.get(i));
+                    x = Float.parseFloat(decimalFormat.format(x/serve_size));
+                    one_item_values.set(i,(x)+"");
+                }
+                catch(Exception e)
+                {
+//                        Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+                    System.out.println(item_values.get(i));
+                }
+            }
+
+//            quantity_value.setText(serve_size+"");
+
+        }
+        else
+        {
+        }
 
         quantity_value.addTextChangedListener(new TextWatcher() {
             @Override
@@ -356,21 +404,25 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                 }
                 else
                 {
-                    value =1;
+                    value = 1;
                 }
 
                 float x;
+
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
                 for(int i=0;i<one_item_values.size();i++)
                 {
                     try
                     {
                         x = Float.parseFloat(one_item_values.get(i));
-                        item_values.set(i,(x*value)+"");
+                        x = Float.parseFloat(decimalFormat.format(x*value));
+                        item_values.set(i,(x)+"");
                     }
                     catch(Exception e)
                     {
-                        Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,item_values.get(i),Toast.LENGTH_SHORT).show();
+                          System.out.println(item_values.get(i));
                     }
                 }
 
@@ -387,7 +439,6 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                 str = "<b>Fat: </b>"+item_values.get(4)+"g";
                 fat.setText(Html.fromHtml(str));
-
 
             }
 
