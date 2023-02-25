@@ -349,9 +349,8 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
         float serve_size = 1.0f;
 
-        if(quantity_unit.getText().toString().equals("g"))
+        if(quantity_unit.getText().toString().equals("g") || quantity_unit.getText().toString().equals("ml"))
         {
-
             try
             {
                 serve_size = Float.parseFloat(item_values.get(2));

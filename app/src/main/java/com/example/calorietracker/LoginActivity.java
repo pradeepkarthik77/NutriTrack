@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,9 +48,22 @@ public class LoginActivity extends AppCompatActivity
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = ""; //TODO UPDATE THIS VALUE AFTER SETTING UP BACKEND
+    private ProgressBar progressBar;
 
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
+
+    public void showspinner()
+    {
+        progressBar = findViewById(R.id.progressBar1);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hidespinner()
+    {
+        progressBar = findViewById(R.id.progressBar1);
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,7 +81,7 @@ public class LoginActivity extends AppCompatActivity
         this.textInputEmail = findViewById(R.id.user_email_login);
         this.textInputPassword = findViewById(R.id.user_password_login);
         this.log_in_btn = findViewById(R.id.login_btn_login);
-
+        this.progressBar = findViewById(R.id.progressBar1);
         this.google_log_in = findViewById(R.id.google_login_btn);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
@@ -159,71 +173,89 @@ public class LoginActivity extends AppCompatActivity
         map.put("email",email);
         map.put("password",password);
 
-        Call<LoginResult> call = retrofitInterface.executeLogin(map);
-
-        call.enqueue(new Callback<LoginResult>() {
+        class longthread extends Thread {
             @Override
-            public void onResponse(Call<LoginResult> call, Response<LoginResult> response)
+            public void run()
             {
-                //TODO code this after coding the server side
+                runOnUiThread(LoginActivity.this::showspinner);
 
-                if(response.code() == 200)
-                {
-                    LoginResult result = response.body();
+                Call<LoginResult> call = retrofitInterface.executeLogin(map);
 
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
+                call.enqueue(new Callback<LoginResult>() {
+                    @Override
+                    public void onResponse(Call<LoginResult> call, Response<LoginResult> response)
+                    {
+                        //TODO code this after coding the server side
 
-                    SharedPreferences.Editor editor = pref.edit();
+                        if(response.code() == 200)
+                        {
+                            LoginResult result = response.body();
 
-                    editor.putBoolean("isLoggedin",true);
-                    editor.putString("email",result.getEmail());
-                    editor.putString("name",result.getName());
-                    editor.putString("Gender",result.getGender());
-                    editor.putInt("Age",result.getAge());
-                    editor.putInt("Height",result.getHeight());
-                    editor.putInt("Weight", result.getWeight());
-                    editor.putInt("Activity_Level",result.getActivity_level());
-                    editor.putInt("Goal_Calorie",result.getGoal_calorie());
+                            SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
 
-                    //TODO GET GENDER,AGE,ACTIVITY_LEVEL,ETC,ETC.
-                    editor.commit();
+                            SharedPreferences.Editor editor = pref.edit();
 
-                    Toast.makeText(getApplicationContext(),"Log In Successful!!!",Toast.LENGTH_LONG).show();
-                    Intent newintent = new Intent(getApplicationContext(),HomeActivity_holder.class);
-                    newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(newintent);
-                }
-                else if(response.code() == 404)
-                {
-                    Toast.makeText(getApplicationContext(),"Wrong Application Credentials",Toast.LENGTH_LONG).show();
-                    gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+                            editor.putBoolean("isLoggedin",true);
+                            editor.putString("email",result.getEmail());
+                            editor.putString("name",result.getName());
+                            editor.putString("Gender",result.getGender());
+                            editor.putInt("Age",result.getAge());
+                            editor.putInt("Height",result.getHeight());
+                            editor.putInt("Weight", result.getWeight());
+                            editor.putInt("Activity_Level",result.getActivity_level());
+                            editor.putInt("Goal_Calorie",result.getGoal_calorie());
 
-                    gsc = GoogleSignIn.getClient(context,gso);
+                            //TODO GET GENDER,AGE,ACTIVITY_LEVEL,ETC,ETC.
+                            editor.commit();
 
-                    gsc.signOut();
-                }
-                else if(response.code() == 400)
-                {
-                    Toast.makeText(getApplicationContext(),"This email is not registered with us yet! Try Signing Up.",Toast.LENGTH_LONG).show();
-                    gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+                            Toast.makeText(getApplicationContext(),"Log In Successful!!!",Toast.LENGTH_LONG).show();
+                            Intent newintent = new Intent(getApplicationContext(),HomeActivity_holder.class);
+                            newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(newintent);
+                        }
+                        else if(response.code() == 404)
+                        {
+                            Toast.makeText(getApplicationContext(),"Wrong Application Credentials",Toast.LENGTH_LONG).show();
+                            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
-                    gsc = GoogleSignIn.getClient(context,gso);
+                            gsc = GoogleSignIn.getClient(context,gso);
 
-                    gsc.signOut();
-                }
+                            gsc.signOut();
+
+                            runOnUiThread(LoginActivity.this::hidespinner);
+                        }
+                        else if(response.code() == 400)
+                        {
+                            Toast.makeText(getApplicationContext(),"This email is not registered with us yet! Try Signing Up.",Toast.LENGTH_LONG).show();
+                            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+                            gsc = GoogleSignIn.getClient(context,gso);
+
+                            gsc.signOut();
+                            runOnUiThread(LoginActivity.this::hidespinner);
+
+                        }
+                        runOnUiThread(LoginActivity.this::hidespinner);
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResult> call, Throwable t)
+                    {
+                        Toast.makeText(getApplicationContext(),"Unable to Login. Try Again",Toast.LENGTH_LONG).show();
+                        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+                        gsc = GoogleSignIn.getClient(context,gso);
+
+                        gsc.signOut();
+                        runOnUiThread(LoginActivity.this::hidespinner);
+                    }
+                });
+
             }
+        }
 
-            @Override
-            public void onFailure(Call<LoginResult> call, Throwable t)
-            {
-                Toast.makeText(getApplicationContext(),"Unable to Login. Try Again",Toast.LENGTH_LONG).show();
-                gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        new longthread().start();
 
-                gsc = GoogleSignIn.getClient(context,gso);
-
-                gsc.signOut();
-            }
-        });
     }
 
     private Boolean validate_login()

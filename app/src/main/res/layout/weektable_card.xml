@@ -3,13 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="150dp"
-    android:layout_height="350dp"
+    android:layout_height="265dp"
     app:cardCornerRadius="15dp"
     app:cardElevation="10dp"
     android:id="@+id/weektable_cardview"
     android:layout_marginBottom="10dp"
     android:layout_marginStart="5dp"
+    android:backgroundTint="@color/white"
     >
+
+    <!-- #4188FF-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background= "#4188FF"
+        android:background= "@color/default_color"
         >
         <TextView
             android:layout_width="match_parent"
@@ -47,67 +50,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         >
 
-    <CheckBox android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/breakfast_checkbox"
-        style="@style/CustomCheckbox02"
-        android:layout_marginLeft="10dp"
-        android:clickable="false"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BreakFast"
-        android:id="@+id/breakfast_check_btn"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/custom_ripple"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:textSize="15sp"
-        />
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/breakfast_checkbox"
+            style="@style/CustomCheckbox02"
+            android:clickable="false"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            android:padding="0dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:layout_marginLeft="5dp"
+            />
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-    <ImageButton
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:id="@+id/eye_btn_breakfast"
-        android:layout_marginRight="3dp"
-        android:background="@drawable/ic_baseline_eye_24"
-        />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
-
-        <CheckBox android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/lunch_checkbox"
-            style="@style/CustomCheckbox02"
-            android:layout_marginLeft="10dp"
-            android:clickable="false"/>
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lunch"
-            android:id="@+id/lunch_check_btn"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/custom_ripple"
-            android:minWidth="0dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:text="BreakFast"
+            android:id="@+id/breakfast_check_btn"
+            android:textSize="14sp"
+            android:textColor="@color/secondary_green"
+            android:padding="0dp"
             android:minHeight="0dp"
-            android:textSize="15sp"
+            android:minWidth="0dp"
+            android:layout_marginLeft="5dp"
             />
 
         <View
@@ -118,52 +93,13 @@
         <ImageButton
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:id="@+id/eye_btn_lunch"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/ic_baseline_eye_24"
+            android:id="@+id/eye_btn_breakfast"
+            android:src="@drawable/ic_baseline_eye_24"
+            android:background="?selectableItemBackgroundBorderless"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center_vertical"
             />
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
-
-        <CheckBox android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dinner_checkbox"
-            style="@style/CustomCheckbox02"
-            android:layout_marginLeft="10dp"
-            android:clickable="false"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dinner"
-            android:id="@+id/dinner_check_btn"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/custom_ripple"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:textSize="15sp"
-            />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:id="@+id/eye_btn_dinner"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/ic_baseline_eye_24"
-            />
 
     </LinearLayout>
 
@@ -171,26 +107,152 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
             >
 
-            <CheckBox android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/midmeal_checkbox"
-                style="@style/CustomCheckbox02"
-                android:layout_marginLeft="10dp"
-                android:clickable="false"/>
-
-            <Button
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/lunch_checkbox"
+                style="@style/CustomCheckbox02"
+                android:clickable="false"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:padding="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:text="Lunch"
+                android:id="@+id/lunch_check_btn"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_green"
+                android:padding="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/eye_btn_lunch"
+                android:src="@drawable/ic_baseline_eye_24"
+            android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dinner_checkbox"
+                style="@style/CustomCheckbox02"
+                android:clickable="false"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:padding="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:text="Dinner"
+                android:id="@+id/dinner_check_btn"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_green"
+                android:padding="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/eye_btn_dinner"
+                android:src="@drawable/ic_baseline_eye_24"
+            android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/midmeals_checkbox"
+                style="@style/CustomCheckbox02"
+                android:clickable="false"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:padding="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="Mid-Meals"
-                android:id="@+id/midmeal_check_btn"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/custom_ripple"
-                android:minWidth="0dp"
+                android:id="@+id/midmeals_check_btn"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_green"
+                android:padding="0dp"
                 android:minHeight="0dp"
-                android:textSize="15sp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="5dp"
                 />
 
             <View
@@ -201,78 +263,53 @@
             <ImageButton
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:id="@+id/eye_btn_midmeal"
-                android:layout_marginRight="3dp"
-                android:background="@drawable/ic_baseline_eye_24"
+                android:id="@+id/eye_btn_midmeals"
+                android:src="@drawable/ic_baseline_eye_24"
+            android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
                 />
 
+
         </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
-
-        <CheckBox android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/snacks_checkbox"
-            style="@style/CustomCheckbox02"
-            android:layout_marginLeft="10dp"
-            android:clickable="false"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Snacks"
-            android:id="@+id/snacks_check_btn"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/custom_ripple"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:textSize="15sp"
-            />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:id="@+id/eye_btn_snacks"
-            android:background="@drawable/ic_baseline_eye_24"
-            android:layout_marginRight="3dp"
-            />
-
-    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
             >
 
-            <CheckBox android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/fruits_checkbox"
-                style="@style/CustomCheckbox02"
-                android:layout_marginLeft="10dp"
-                android:clickable="false"/>
-
-            <Button
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fruits"
-                android:id="@+id/fruits_check_btn"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/custom_ripple"
+                android:id="@+id/snacks_checkbox"
+                style="@style/CustomCheckbox02"
+                android:clickable="false"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:padding="0dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:textSize="15sp"
+                android:layout_marginLeft="5dp"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:text="Snacks"
+                android:id="@+id/snacks_check_btn"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_green"
+                android:padding="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="5dp"
                 />
 
             <View
@@ -283,95 +320,361 @@
             <ImageButton
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:id="@+id/eye_btn_fruits"
-                android:layout_marginRight="3dp"
-                android:background="@drawable/ic_baseline_eye_24"
+                android:id="@+id/eye_btn_snacks"
+                android:src="@drawable/ic_baseline_eye_24"
+            android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
                 />
+
 
         </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
-
-        <CheckBox android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/juice_checkbox"
-            style="@style/CustomCheckbox02"
-            android:layout_marginLeft="10dp"
-            android:clickable="false"/>
+            android:orientation="horizontal"
+            >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Juices"
-            android:id="@+id/juice_check_btn"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/custom_ripple"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:textSize="15sp"
-            />
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/juice_checkbox"
+                style="@style/CustomCheckbox02"
+                android:clickable="false"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:padding="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_marginLeft="5dp"
+                />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:id="@+id/eye_btn_juices"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/ic_baseline_eye_24"
-            />
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:text="Juices"
+                android:id="@+id/juice_check_btn"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_green"
+                android:padding="0dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="5dp"
+                />
 
-    </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        >
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:id="@+id/eye_btn_juice"
+                android:src="@drawable/ic_baseline_eye_24"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center_vertical"
+                />
 
-        <CheckBox android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/water_checkbox"
-            style="@style/CustomCheckbox02"
-            android:layout_marginLeft="10dp"
-            android:clickable="false"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Water"
-            android:id="@+id/water_check_btn"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/custom_ripple"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:textSize="15sp"
-            />
+        </LinearLayout>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        >-->
 
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:id="@+id/eye_btn_water"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/ic_baseline_eye_24"
-            />
+<!--        <CheckBox android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/lunch_checkbox"-->
+<!--            style="@style/CustomCheckbox02"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:clickable="false"/>-->
 
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Lunch"-->
+<!--            android:id="@+id/lunch_check_btn"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:background="@drawable/custom_ripple"-->
+<!--            android:minWidth="0dp"-->
+<!--            android:minHeight="0dp"-->
+<!--            android:textSize="15sp"-->
+<!--            />-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1" />-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:id="@+id/eye_btn_lunch"-->
+<!--            android:layout_marginRight="3dp"-->
+<!--            android:background="@drawable/ic_baseline_eye_24"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        >-->
+
+<!--        <CheckBox android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/dinner_checkbox"-->
+<!--            style="@style/CustomCheckbox02"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:clickable="false"/>-->
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Dinner"-->
+<!--            android:id="@+id/dinner_check_btn"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:background="@drawable/custom_ripple"-->
+<!--            android:minWidth="0dp"-->
+<!--            android:minHeight="0dp"-->
+<!--            android:textSize="15sp"-->
+<!--            />-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1" />-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:id="@+id/eye_btn_dinner"-->
+<!--            android:layout_marginRight="3dp"-->
+<!--            android:background="@drawable/ic_baseline_eye_24"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            >-->
+
+<!--            <CheckBox android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/midmeal_checkbox"-->
+<!--                style="@style/CustomCheckbox02"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:clickable="false"/>-->
+
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Mid-Meals"-->
+<!--                android:id="@+id/midmeal_check_btn"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:background="@drawable/custom_ripple"-->
+<!--                android:minWidth="0dp"-->
+<!--                android:minHeight="0dp"-->
+<!--                android:textSize="15sp"-->
+<!--                />-->
+
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1" />-->
+
+<!--            <ImageButton-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:id="@+id/eye_btn_midmeal"-->
+<!--                android:layout_marginRight="3dp"-->
+<!--                android:background="@drawable/ic_baseline_eye_24"-->
+<!--                />-->
+
+<!--        </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        >-->
+
+<!--        <CheckBox android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/snacks_checkbox"-->
+<!--            style="@style/CustomCheckbox02"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:clickable="false"/>-->
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Snacks"-->
+<!--            android:id="@+id/snacks_check_btn"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:background="@drawable/custom_ripple"-->
+<!--            android:minWidth="0dp"-->
+<!--            android:minHeight="0dp"-->
+<!--            android:textSize="15sp"-->
+<!--            />-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1" />-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:id="@+id/eye_btn_snacks"-->
+<!--            android:background="@drawable/ic_baseline_eye_24"-->
+<!--            android:layout_marginRight="3dp"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            >-->
+
+<!--            <CheckBox android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:id="@+id/fruits_checkbox"-->
+<!--                style="@style/CustomCheckbox02"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:clickable="false"/>-->
+
+<!--            <Button-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Fruits"-->
+<!--                android:id="@+id/fruits_check_btn"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:background="@drawable/custom_ripple"-->
+<!--                android:minWidth="0dp"-->
+<!--                android:minHeight="0dp"-->
+<!--                android:textSize="15sp"-->
+<!--                />-->
+
+<!--            <View-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_weight="1" />-->
+
+<!--            <ImageButton-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:id="@+id/eye_btn_fruits"-->
+<!--                android:layout_marginRight="3dp"-->
+<!--                android:background="@drawable/ic_baseline_eye_24"-->
+<!--                />-->
+
+<!--        </LinearLayout>-->
+
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        >-->
+
+<!--        <CheckBox android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/juice_checkbox"-->
+<!--            style="@style/CustomCheckbox02"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:clickable="false"/>-->
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Juices"-->
+<!--            android:id="@+id/juice_check_btn"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:background="@drawable/custom_ripple"-->
+<!--            android:minWidth="0dp"-->
+<!--            android:minHeight="0dp"-->
+<!--            android:textSize="15sp"-->
+<!--            />-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1" />-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:id="@+id/eye_btn_juices"-->
+<!--            android:layout_marginRight="3dp"-->
+<!--            android:background="@drawable/ic_baseline_eye_24"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        >-->
+
+<!--        <CheckBox android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/water_checkbox"-->
+<!--            style="@style/CustomCheckbox02"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:clickable="false"/>-->
+
+<!--        <Button-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Water"-->
+<!--            android:id="@+id/water_check_btn"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:background="@drawable/custom_ripple"-->
+<!--            android:minWidth="0dp"-->
+<!--            android:minHeight="0dp"-->
+<!--            android:textSize="15sp"-->
+<!--            />-->
+
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:layout_weight="1" />-->
+
+<!--        <ImageButton-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:id="@+id/eye_btn_water"-->
+<!--            android:layout_marginRight="3dp"-->
+<!--            android:background="@drawable/ic_baseline_eye_24"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
 
     </LinearLayout>
 

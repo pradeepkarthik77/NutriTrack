@@ -30,9 +30,9 @@ public class InsertCSV
 
     private FileOutputStream fileOutputStream;
 
-    private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"}; //TODO change the values here to remove water and add Mid-Meals
+//    private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"}; //TODO change the values here to remove water and add Mid-Meals
 
-    private String[] week_cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Mid-Meals","Snacks","Fruits","Juices","Water"};
+    private String[] week_cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Mid-Meals","Snacks","Juices"};
 
     public InsertCSV(Context context)
     {
@@ -73,7 +73,7 @@ public class InsertCSV
         }
     }
 
-    public int[] return_marked(Date current_date)
+    public int[] return_marked(Date current_date) //for retuning for weeklog
     {
 
         int i=0;
@@ -84,7 +84,7 @@ public class InsertCSV
 
         String data;
 
-        int[] return_arr = new int[]{0,0,0,0,0,0,0,0};
+        int[] return_arr = new int[]{0,0,0,0,0,0};
 
         try
         {
@@ -429,8 +429,9 @@ public class InsertCSV
                 }
             }
 
-        if(items.length()>0)
-        items = items.substring(0,items.length()-1);
+        if(items.length()>0) {
+            items = items.substring(0, items.length() - 1);
+        }
 
         map.put("Items",items);
         map.put("Calories",cal_count+"");

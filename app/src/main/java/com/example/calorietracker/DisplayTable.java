@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -120,6 +122,24 @@ public class DisplayTable extends AppCompatActivity
             }
         });
 
+        ScrollView scrollView = findViewById(R.id.scrollview);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    if(scrollY > oldScrollY)
+                    {
+                        floatingActionButton.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
 
     }
 

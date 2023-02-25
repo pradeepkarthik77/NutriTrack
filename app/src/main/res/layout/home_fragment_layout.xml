@@ -200,6 +200,4 @@
         android:background="@drawable/nav_bar_square"
         />
 
-    <!--    app:headerLayout= "@layout/nav_header_main"-->
-
 </androidx.drawerlayout.widget.DrawerLayout>

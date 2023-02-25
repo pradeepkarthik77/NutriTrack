@@ -44,14 +44,14 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             {
                 temp_type = "Juices";
             }
-            else if(cardview_title.equals("Water"))
-            {
-                temp_type = "Water";
-            }
-            else if(cardview_title.equals("Fruits"))
-            {
-                temp_type = "Fruits";
-            }
+//            else if(cardview_title.equals("Water"))
+//            {
+//                temp_type = "Water";
+//            }
+//            else if(cardview_title.equals("Fruits"))
+//            {
+//                temp_type = "Fruits";
+//            }
             else if(cardview_title.equals("Snacks"))
             {
                 temp_type = "Snacks";
@@ -196,14 +196,14 @@ public class LoadTheDatabase extends SQLiteOpenHelper
             {
                 temp_type = "Juices";
             }
-            else if(cardview_title.equals("Water"))
-            {
-                temp_type = "Water";
-            }
-            else if(cardview_title.equals("Fruits"))
-            {
-                temp_type = "Fruits";
-            }
+//            else if(cardview_title.equals("Water"))
+//            {
+//                temp_type = "Water";
+//            }
+//            else if(cardview_title.equals("Fruits"))
+//            {
+//                temp_type = "Fruits";
+//            }
             else if(cardview_title.equals("Snacks"))
             {
                 temp_type = "Snacks";

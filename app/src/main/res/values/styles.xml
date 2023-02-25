@@ -9,7 +9,7 @@
 
     <style name="CustomCheckbox02" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
          <item name="android:button">@drawable/checkbox_selector</item>
-         <item name="android:background">@android:color/transparent</item>
+         <item name="android:background">@null</item>
     </style>
 
     <style name="Onloadtheme" parent="Theme.Material3.Light.NoActionBar">
@@ -44,5 +44,9 @@
         <item name="cornerRadius">0dp</item>
     </style>
 
+    <style name="RoundedCorner">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 
 </resources>

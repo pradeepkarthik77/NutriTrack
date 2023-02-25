@@ -27,6 +27,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,8 +45,6 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
     private Calendar calender;
     private int item_day_id;
     private ActivityResultLauncher<Intent> activityResultLaunch;
-
-    private String chosen_time="";
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
@@ -77,7 +78,6 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
         this.insertCSV = new InsertCSV(context);
         this.activityResultLaunch = activityResultLaunch;
 
-
     }
 
 
@@ -105,35 +105,6 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
             title_date.setText(Html.fromHtml(printtxt));
 
-            timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-                @Override
-                public void onTimeChanged(TimePicker timePicker, int hr, int min)
-                {
-                    String hour = "";
-                    String time = "";
-
-                    if(hr<10)
-                    {
-                        hour = "0"+hr;
-                    }
-                    else
-                    {
-                        hour = hr+"";
-                    }
-
-                    if(min<10)
-                    {
-                        time = "0"+min;
-                    }
-                    else
-                    {
-                        time = min+"";
-                    }
-
-                    chosen_time = hour+":"+time;
-                }
-            });
-
             apply_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view)
@@ -143,7 +114,6 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
                     date_string = simpleDateFormat.format(chosen_date);
                     Intent intent = new Intent(context,ListActivity.class);
                     intent.putExtra("cardview_title",cardview_title);
-                    intent.putExtra("chosen_time",chosen_time);
                     intent.putExtra("chosen_date",date_string);
                     intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
                     activityResultLaunch.launch(intent);
@@ -219,11 +189,11 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
             checkBox.setChecked(true);
         }
 
-        if(card_values[3] == 1)
-        {
-            checkBox = holder.itemView.findViewById(R.id.midmeal_checkbox);
-            checkBox.setChecked(true);
-        }
+//        if(card_values[3] == 1)
+//        {
+//            checkBox = holder.itemView.findViewById(R.id.midmeal_checkbox);
+//            checkBox.setChecked(true);
+//        }
 
         if(card_values[4] == 1)
         {
@@ -231,97 +201,110 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
             checkBox.setChecked(true);
         }
 
-        if(card_values[5] == 1)
-        {
-            checkBox = holder.itemView.findViewById(R.id.fruits_checkbox);
-            checkBox.setChecked(true);
-        }
+//        if(card_values[5] == 1)
+//        {
+//            checkBox = holder.itemView.findViewById(R.id.fruits_checkbox);
+//            checkBox.setChecked(true);
+//        }
 
         if(card_values[6] == 1)
         {
             checkBox = holder.itemView.findViewById(R.id.juice_checkbox);
             checkBox.setChecked(true);
         }
+//
+//        if(card_values[7] == 1)
+//        {
+//            checkBox = holder.itemView.findViewById(R.id.water_checkbox);
+//            checkBox.setChecked(true);
+//        }
 
-        if(card_values[7] == 1)
-        {
-            checkBox = holder.itemView.findViewById(R.id.water_checkbox);
-            checkBox.setChecked(true);
-        }
-
-        Button breakfast_btn = holder.itemView.findViewById(R.id.breakfast_check_btn);
-        Button lunch_btn = holder.itemView.findViewById(R.id.lunch_check_btn);
-        Button dinner_btn = holder.itemView.findViewById(R.id.dinner_check_btn);
-        Button snacks_btn = holder.itemView.findViewById(R.id.snacks_check_btn);
-        Button juice_btn = holder.itemView.findViewById(R.id.juice_check_btn);
-        Button water_btn = holder.itemView.findViewById(R.id.water_check_btn);
-        Button fruits_btn = holder.itemView.findViewById(R.id.fruits_check_btn);
-        Button midmeal_btn = holder.itemView.findViewById(R.id.midmeal_check_btn);
+        MaterialButton breakfast_btn = holder.itemView.findViewById(R.id.breakfast_check_btn);
+        MaterialButton lunch_btn = holder.itemView.findViewById(R.id.lunch_check_btn);
+        MaterialButton dinner_btn = holder.itemView.findViewById(R.id.dinner_check_btn);
+        MaterialButton snacks_btn = holder.itemView.findViewById(R.id.snacks_check_btn);
+        MaterialButton juice_btn = holder.itemView.findViewById(R.id.juice_check_btn);
+//        MaterialButton water_btn = holder.itemView.findViewById(R.id.water_check_btn);
+//        MaterialButton fruits_btn = holder.itemView.findViewById(R.id.fruits_check_btn);
+        MaterialButton midmeal_btn = holder.itemView.findViewById(R.id.midmeals_check_btn);
 
         breakfast_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_dialog("BreakFast",holder.item_date,holder);
+//                create_dialog("BreakFast",holder.item_date,holder);
+
+                Intent intent = new Intent(context,ListActivity.class);
+                intent.putExtra("cardview_title","Breakfast");
+                intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
+                activityResultLaunch.launch(intent);
             }
         });
 
         lunch_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_dialog("Lunch",holder.item_date,holder);
+                Intent intent = new Intent(context,ListActivity.class);
+                intent.putExtra("cardview_title","Lunch");
+                intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
+                activityResultLaunch.launch(intent);
             }
         });
 
         dinner_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_dialog("Dinner",holder.item_date,holder);
+                Intent intent = new Intent(context,ListActivity.class);
+                intent.putExtra("cardview_title","Dinner");
+                intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
+                activityResultLaunch.launch(intent);
             }
         });
 
         snacks_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_dialog("Snacks",holder.item_date,holder);
+                Intent intent = new Intent(context,ListActivity.class);
+                intent.putExtra("cardview_title","Snacks");
+                intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
+                activityResultLaunch.launch(intent);
             }
         });
 
         juice_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                create_dialog("Juices",holder.item_date,holder);
+                Intent intent = new Intent(context,ListActivity.class);
+                intent.putExtra("cardview_title","Juices");
+                intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
+                activityResultLaunch.launch(intent);
             }
         });
 
-        water_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_dialog("Water",holder.item_date,holder);
-            }
-        });
+//        water_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                create_dialog("Water",holder.item_date,holder);
+//            }
+//        });
 
         midmeal_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                create_dialog("Mid-Meals",holder.item_date,holder);
-            }
-        });
-        
-        fruits_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                create_dialog("Fruits",holder.item_date,holder);
+                Intent intent = new Intent(context,ListActivity.class);
+                intent.putExtra("cardview_title","Mid-Meals");
+                intent.putExtra("recycler_id",holder.getAdapterPosition()+"");
+                activityResultLaunch.launch(intent);
             }
         });
 
         ImageButton breakfast_eye = holder.itemView.findViewById(R.id.eye_btn_breakfast);
         ImageButton lunch_eye = holder.itemView.findViewById(R.id.eye_btn_lunch);
         ImageButton dinner_eye = holder.itemView.findViewById(R.id.eye_btn_dinner);
-        ImageButton midmeals_eye = holder.itemView.findViewById(R.id.eye_btn_midmeal);
+        ImageButton midmeals_eye = holder.itemView.findViewById(R.id.eye_btn_midmeals);
         ImageButton snacks_eye = holder.itemView.findViewById(R.id.eye_btn_snacks);
-        ImageButton fruits_eye = holder.itemView.findViewById(R.id.eye_btn_fruits);
-        ImageButton juices_eye = holder.itemView.findViewById(R.id.eye_btn_juices);
-        ImageButton water_eye = holder.itemView.findViewById(R.id.eye_btn_water);
+//        ImageButton fruits_eye = holder.itemView.findViewById(R.id.eye_btn_fruits);
+        ImageButton juices_eye = holder.itemView.findViewById(R.id.eye_btn_juice);
+//        ImageButton water_eye = holder.itemView.findViewById(R.id.eye_btn_water);
 
         breakfast_eye.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,24 +341,17 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
             }
         });
 
-        water_eye.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                create_display_dialog("Water",holder.item_date,holder);
-            }
-        });
+//        water_eye.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                create_display_dialog("Water",holder.item_date,holder);
+//            }
+//        });
 
         midmeals_eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 create_display_dialog("Mid-Meals",holder.item_date,holder);
-            }
-        });
-
-        fruits_eye.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                create_display_dialog("Fruits",holder.item_date,holder);
             }
         });
 

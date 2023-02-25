@@ -3,10 +3,6 @@ package com.example.calorietracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,12 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -42,10 +35,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Locale;
 
 public class Home_Fragment extends Fragment
 {
@@ -57,6 +47,8 @@ public class Home_Fragment extends Fragment
     private Calendar_ViewGroup_Adapter calendar_viewGroup_adapter;
     private ActionBarDrawerToggle toggle;
     private TextView calender_text;
+
+    private View global_view;
 
     private String[] cardview_titles = new String[]{"BreakFast","Lunch","Dinner","Mid-Meals","Snacks","Juices"};
     private int[] cardview_images = new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.other_items, R.drawable.snacks, R.drawable.juices};
@@ -70,6 +62,8 @@ public class Home_Fragment extends Fragment
     private TextView todays_water_log;
     private ImageButton current_water_btn;
     private SeekBar water_bar;
+    private SharedPreferences water_log_pref;
+    private SharedPreferences.Editor water_edit;
 
     public Home_Fragment(Context context)
     {
@@ -96,6 +90,7 @@ public class Home_Fragment extends Fragment
         activity.setSupportActionBar(toolbar);
 
         this.calender_text = view.findViewById(R.id.calender_text);
+        this.global_view = view;
 
         SharedPreferences date_pref = context.getSharedPreferences("date",0);
 
@@ -205,6 +200,41 @@ public class Home_Fragment extends Fragment
         });
 
 
+        TextView todays_log = view.findViewById(R.id.todays_water_log);
+
+        this.water_log_pref = activity.getSharedPreferences("water_log",0);
+        this.water_edit = water_log_pref.edit();
+
+        String water_chosen_date = date_pref.getString("chosen_date",dateFormat.format(new Date()));
+
+        int values = water_log_pref.getInt(water_chosen_date,0);
+
+        todays_log.setText("Today's Log: "+values+"ml");
+
+
+        ImageButton current_water_add = view.findViewById(R.id.current_log_btn);
+
+        SeekBar seekBar = view.findViewById(R.id.seek_bar);
+
+        current_water_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int value = seekBar.getProgress();
+
+                String water_chosen_date = date_pref.getString("chosen_date",dateFormat.format(new Date()));
+
+                int values = value+water_log_pref.getInt(water_chosen_date,0);
+
+                water_edit.putInt(water_chosen_date,values);
+                water_edit.commit();
+
+                todays_log.setText("Today's Log: "+values+"ml");
+
+                seekBar.setProgress(250);
+
+            }
+        });
+
         return view;
     }
 
@@ -219,6 +249,13 @@ public class Home_Fragment extends Fragment
     public void set_calender_text(String newString)
     {
         this.calender_text.setText(newString);
+
+        TextView chosen_date_todays_log = this.global_view.findViewById(R.id.todays_water_log);
+
+        int values = water_log_pref.getInt(newString,0);
+
+        chosen_date_todays_log.setText("Today's Log: "+values+"ml");
+
     }
 
 }

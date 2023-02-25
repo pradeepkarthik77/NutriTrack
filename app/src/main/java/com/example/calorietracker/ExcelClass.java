@@ -42,7 +42,7 @@ public class ExcelClass
         this.APP_PATH = this.context.getApplicationInfo().dataDir;
         this.thisFile = this.context.getFilesDir();
         this.csvFile = new File(this.thisFile,this.EXCEL_FILE);
-        this.default_cards = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Water"};
+        this.default_cards = new String[]{"BreakFast","Lunch","Dinner","Snacks","Juices","Mid-Meals"};
         //TODO write logic to create a new Excelfile if not exisits and load values into it
     }
 

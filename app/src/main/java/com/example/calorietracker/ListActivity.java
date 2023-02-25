@@ -102,7 +102,7 @@ public class ListActivity extends AppCompatActivity
     public void onBackPressed()
     {
         Intent intent = new Intent();
-//        intent.putExtra("recycler_id", this.recycler_id);
+        intent.putExtra("recycler_id", this.recycler_id);
         setResult(0, intent);
         finish();
     }

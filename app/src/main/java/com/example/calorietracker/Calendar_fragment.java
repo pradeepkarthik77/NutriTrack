@@ -62,7 +62,29 @@ public class Calendar_fragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth)
             {
-                edit.putString("chosen_date",dayOfMonth+"/"+(month+1)+"/"+year);
+                String monthstr = "";
+                String daystr = "";
+
+                month++;
+
+                if(dayOfMonth <=9)
+                {
+                    daystr = "0"+dayOfMonth;
+                }
+                else
+                {
+                    daystr = dayOfMonth+"";
+                }
+
+                if(month <=9)
+                {
+                    monthstr = "0"+month;
+                }
+                else {
+                    monthstr = month+"";
+                }
+
+                edit.putString("chosen_date",daystr+"/"+monthstr+"/"+year);
                 edit.commit();
                 home_fragment.set_calender_text(pref.getString("chosen_date","Today"));
             }
