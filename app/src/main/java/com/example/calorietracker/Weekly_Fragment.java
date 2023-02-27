@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -98,7 +99,8 @@ public class Weekly_Fragment extends Fragment {
                             //result.getData().getStringExtra("recycler_id")
                             int id = 0;
                             id = Integer.valueOf(result.getData().getStringExtra("recycler_id"));
-                            weekRecycler.getAdapter().notifyDataSetChanged();
+//                            weekRecycler.getAdapter().notifyDataSetChanged();
+                            weekRecycler.getAdapter().notifyItemChanged(id);
                         }
                     }
                 });
@@ -110,6 +112,8 @@ public class Weekly_Fragment extends Fragment {
         } catch (ParseException e) {
             today_date = new Date();
         }
+
+//        Toast.makeText(context,dateFormat.format(today_date),Toast.LENGTH_LONG).show();
 
         this.weekRecyclerAdapter = new WeekRecyclerAdapter(context,today_date,activityResultLaunch);
 

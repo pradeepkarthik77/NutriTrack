@@ -10,6 +10,8 @@
     <style name="CustomCheckbox02" parent="@style/Widget.AppCompat.CompoundButton.CheckBox">
          <item name="android:button">@drawable/checkbox_selector</item>
          <item name="android:background">@null</item>
+            <item name="buttonTint">@color/secondary_green</item>
+
     </style>
 
     <style name="Onloadtheme" parent="Theme.Material3.Light.NoActionBar">

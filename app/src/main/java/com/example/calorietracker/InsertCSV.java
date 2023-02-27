@@ -37,7 +37,7 @@ public class InsertCSV
     public InsertCSV(Context context)
     {
         this.context = context;
-        default_values = new String[]{"item_id","item_name","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","item_type","Date","Time"
+        default_values = new String[]{"item_id","item_name","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","item_type","Date"
         };
     }
 
@@ -61,7 +61,7 @@ public class InsertCSV
             {
                 fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
             }
-            data = String.join(",",this.item_values)+","+cardview_name+","+chosen_date;
+            data = String.join(",",this.item_values)+","+cardview_name+","+chosen_date+"\n";
             Enter_into_buffer_csv(data);
             fileOutputStream.write(data.getBytes());
             Toast.makeText(this.context, "Data Saved!!!", Toast.LENGTH_SHORT).show();
@@ -121,11 +121,11 @@ public class InsertCSV
                     }
                     else
                     {
-                        if(nextlinearr[nextlinearr.length-2].equals(current_date_string))
+                        if(nextlinearr[nextlinearr.length-1].equals(current_date_string))
                         {
                             for(i=0;i<week_cardview_titles.length;i++)
                             {
-                                if(nextlinearr[nextlinearr.length-3].equals(this.week_cardview_titles[i]))
+                                if(nextlinearr[nextlinearr.length-2].equals(this.week_cardview_titles[i]))
                                 {
                                     return_arr[i] = 1;
                                 }
@@ -303,7 +303,7 @@ public class InsertCSV
                     }
                     else
                     {
-                        if(nextlinearr[nextlinearr.length-2].equals(chosen_date))
+                        if(nextlinearr[nextlinearr.length-1].equals(chosen_date))
                         {
                             //Toast.makeText(context,nextlinearr[3],Toast.LENGTH_SHORT).show();
                             total_calorie += Float.parseFloat(nextlinearr[3]);

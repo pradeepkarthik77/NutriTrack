@@ -2,6 +2,7 @@ package com.example.calorietracker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHolder>
 {
+    private final SimpleDateFormat dateFormat;
     private Context context;
     private String[] cardview_titles;
     private int cardview_count;
     private int[] cardview_images;
+    private SharedPreferences date_pref;
 
     public MainCardAdapter(Context context,String[] cardview_titles,int cardview_count,int[] cardview_images)
     {
@@ -24,6 +30,8 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
         this.cardview_titles = cardview_titles;
         this.cardview_count = cardview_count;
         this.cardview_images = cardview_images;//new int[]{R.drawable.breakfast, R.drawable.lunch, R.drawable.dinner, R.drawable.snacks, R.drawable.juices, R.drawable.water};
+        this.date_pref = context.getSharedPreferences("date",0);
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -43,6 +51,7 @@ public class MainCardAdapter extends RecyclerView.Adapter<MainCardAdapter.ViewHo
                 {
                     Intent intent = new Intent(context,ListActivity.class);
                     intent.putExtra("cardview_title",textView.getText().toString().substring(4));
+                    intent.putExtra("chosen_date",date_pref.getString("chosen_date",dateFormat.format(new Date())));
                     context.startActivity(intent);
                 }
             });

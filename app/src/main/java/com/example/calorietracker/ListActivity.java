@@ -78,7 +78,7 @@ public class ListActivity extends AppCompatActivity
     private List<List<String>> item_values;
     private String[] not_favorite_list;
     private GridLayoutManager gridLayoutManager;
-    private String chosen_date;
+    private String chosen_date = "";
     private ActivityResultLauncher<Intent> activityResultLauncher;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
     private Activity activity;
@@ -124,6 +124,7 @@ public class ListActivity extends AppCompatActivity
         this.cardview_title = intent.getStringExtra("cardview_title");
         this.context = this;
         this.activity = this;
+        this.recycler_id = intent.getStringExtra("recycler_id");
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("Login",0);
 
@@ -135,9 +136,10 @@ public class ListActivity extends AppCompatActivity
 
         SimpleDateFormat formatter = new SimpleDateFormat();
 
-        String today_date = formatter.format(new Date());
+//        String today_date = formatter.format(new Date());
 
-        this.chosen_date = date_pref.getString("chosen_date",today_date);
+        this.chosen_date = intent.getStringExtra("chosen_date");
+
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -149,6 +151,7 @@ public class ListActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
+                intent.putExtra("recycler_id",recycler_id);
                 setResult(0, intent);
                 finish();
             }
