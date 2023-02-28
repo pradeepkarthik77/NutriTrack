@@ -46,8 +46,7 @@ public class OnOpenActivity extends AppCompatActivity
         SharedPreferences pref = this.getSharedPreferences("Login",0);
 
         SharedPreferences.Editor editor = pref.edit();
-
-        loggedin = pref.getBoolean("isLoggedin",true);
+        loggedin = pref.getBoolean("isLoggedin",false);
         signedin = pref.getBoolean("isSignedin",false);
 
         SharedPreferences date_pref = this.getSharedPreferences("date",0);

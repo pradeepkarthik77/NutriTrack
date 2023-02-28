@@ -80,6 +80,8 @@
             android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".DisplayTable"
             android:theme="@style/Onloadtheme"></activity>
+        <activity android:name=".Edit_User_Profile"
+            android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".WeekTable" />
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".MidMealDiet"/>

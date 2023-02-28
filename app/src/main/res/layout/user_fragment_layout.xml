@@ -1,17 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/user_drawer"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawer_layout">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="@color/default_color"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/default_color">
+
+                    <com.github.pavlospt.roundedletterview.RoundedLetterView
+                        android:id="@+id/user_profile_icon"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:rlv_backgroundColorValue="@color/secondary_green"
+
+                        app:rlv_titleColor="@color/white"
+                        app:rlv_titleSize="35dp"
+                        app:rlv_titleText="A" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/user_profile_name"
+                            android:text="SomeOne"
+                            android:textSize="20dp"
+                            android:layout_marginTop="5dp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            app:layout_constraintTop_toBottomOf="@+id/user_profile_icon"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/user_profile_email"
+                            android:text="SomeOne@gmail.com"
+                            android:textSize="17dp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
+                            app:layout_constraintTop_toBottomOf="@+id/user_profile_name"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <include layout="@layout/user_profile_toolbar" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/log_linear"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/user_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:overScrollMode="never"
+                    />
+
+            </LinearLayout>
+
+
+
+        </androidx.core.widget.NestedScrollView>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UserActivity"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu= "@menu/activity_main_drawer"
+        app:itemShapeAppearanceOverlay="@style/ShapeAppearance.NavView"
+        app:itemBackground="@drawable/nav_bar_square"
+        android:background="@drawable/nav_bar_square"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    app:headerLayout= "@layout/nav_header_main"-->
+
+</androidx.drawerlayout.widget.DrawerLayout>

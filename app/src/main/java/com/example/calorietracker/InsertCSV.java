@@ -361,7 +361,7 @@ public class InsertCSV
                     if (nextlinearr.length == 0) {
                         continue;
                     } else {
-                        if (nextlinearr[nextlinearr.length - 2].equals(dates)) {
+                        if (nextlinearr[nextlinearr.length - 1].equals(dates)) {
                             cal_count += Float.parseFloat(nextlinearr[3]);
                         }
                     }
@@ -415,7 +415,7 @@ public class InsertCSV
                 if (nextlinearr.length == 0) {
                     continue;
                 } else {
-                    if (nextlinearr[nextlinearr.length - 2].equals(date_string) && nextlinearr[nextlinearr.length - 3].equals(cardview_title))
+                    if (nextlinearr[nextlinearr.length - 1].equals(date_string) && nextlinearr[nextlinearr.length - 2].equals(cardview_title))
                     {
                         if(!items.contains(nextlinearr[1])) {
                             items += nextlinearr[1] + ",";
