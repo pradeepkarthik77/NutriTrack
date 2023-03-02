@@ -44,6 +44,15 @@ public class User_Fragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for(int i =0;i<6;i++)
+        {
+            this.profileRecyclerAdapter.notifyItemChanged(i);
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.user_fragment_layout, container, false);
 
@@ -98,7 +107,7 @@ public class User_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,Edit_User_Profile.class);
-                startActivity(intent);
+                startActivityForResult(intent,1000);
             }
         });
 
@@ -111,6 +120,8 @@ public class User_Fragment extends Fragment {
         this.userRecycler.setLayoutManager(gridLayoutManager);
 
         this.userRecycler.setNestedScrollingEnabled(false);
+
+        new Sidebar_Class().navigation_onclick(navigationView,context);
 
         return view;
     }

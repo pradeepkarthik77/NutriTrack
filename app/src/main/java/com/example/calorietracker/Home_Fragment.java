@@ -235,6 +235,8 @@ public class Home_Fragment extends Fragment
             }
         });
 
+        new Sidebar_Class().navigation_onclick(navigationView,context);
+
         return view;
     }
 

@@ -122,6 +122,7 @@ public class Weekly_Fragment extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.context,2);
         this.weekRecycler.setLayoutManager(gridLayoutManager);
 
+        new Sidebar_Class().navigation_onclick(navigationView,context);
 
         return view;
     }

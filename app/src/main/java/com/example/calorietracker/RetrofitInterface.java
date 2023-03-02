@@ -24,4 +24,8 @@ public interface RetrofitInterface
 
     @POST("/send_signup_details")
     Call<Void> executesignupdetails(@Body HashMap<String,String> map);
+
+    @POST("/send_edit_profile")
+    Call<Void> executeeditprofile(@Body HashMap<String,String> map);
+
 }
