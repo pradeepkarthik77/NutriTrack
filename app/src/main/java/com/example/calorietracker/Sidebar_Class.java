@@ -40,6 +40,8 @@ public class Sidebar_Class
                     case R.id.edit_profile: intent = new Intent(context,Edit_User_Profile.class);context.startActivity(intent);return true;
 
                     case R.id.logout: create_logout_dialog(context);return true;
+
+                    case R.id.help: intent = new Intent(context,HelpActivity.class);context.startActivity(intent);return true;
                 }
                 return false;
             }

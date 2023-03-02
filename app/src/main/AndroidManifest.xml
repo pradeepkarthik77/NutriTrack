@@ -88,7 +88,8 @@
         <activity android:name=".GoalSettingActivity"/>
         <activity android:name=".ChartActivity"
             android:theme="@style/ChartLightTheme"/>
-        <activity android:name=".HelpActivity"/>
+        <activity android:name=".HelpActivity"
+            android:theme="@style/Onloadtheme"/>
 
         <activity android:name=".Signup_details"
             android:theme="@style/Onloadtheme"/>

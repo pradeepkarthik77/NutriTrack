@@ -1,12 +1,19 @@
 package com.example.calorietracker;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
 
 public class HelpActivity extends AppCompatActivity
 {
@@ -15,9 +22,11 @@ public class HelpActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.helpactivity_layout);
 
-        TextView txtview = findViewById(R.id.help_content);
+        ListView help_list = findViewById(R.id.help_listview);
 
-        txtview.setText("Welcome to our 24/7 Dietery Assesment App which helps you keep track of your health by tracking your nutritional diet.\n\nUse our Assess Meal module to enter your daily food intake into our app!\n\nHaving Doubts in User Profile? Profile is here to help you out!!!\n\nDid you forget to log in the data for previous days? Use Notice Board to log previous days!!!\n\nAre you a irregular foodie? Mid-day meal is here to help you with your Brunching activities!!!\n\nDo you want to set and acheive Goals? Goal Setting is here!!!\n\nDo you want visualized charts of your data? head on to REports!!!");
+        Help_ListView_Adapter help_listView_adapter = new Help_ListView_Adapter(this);
+
+        help_list.setAdapter(help_listView_adapter);
 
         ImageButton imgbtn = findViewById(R.id.display_back_btn);
 
