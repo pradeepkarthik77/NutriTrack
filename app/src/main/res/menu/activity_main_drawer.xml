@@ -25,6 +25,10 @@
                 android:id= "@+id/help"
                 android:icon= "@drawable/help_icon"
                 android:title= "Help" />
+            <item
+                android:id= "@+id/report_a_bug"
+                android:icon= "@drawable/bug_icon"
+                android:title= "Report A Bug" />
         </menu>
     </item>
 </menu>

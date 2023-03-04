@@ -3,6 +3,8 @@ package com.example.calorietracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,14 @@ import androidx.viewpager.widget.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,13 +37,22 @@ import android.widget.Toast;
 import com.github.pavlospt.roundedletterview.RoundedLetterView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Home_Fragment extends Fragment
 {
 
+    private final Activity activity;
     private Context context;
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -64,10 +77,22 @@ public class Home_Fragment extends Fragment
     private SeekBar water_bar;
     private SharedPreferences water_log_pref;
     private SharedPreferences.Editor water_edit;
+    private ProgressBar progressBar;
 
     public Home_Fragment(Context context)
     {
         this.context = context;
+        this.activity = (Activity) getActivity();
+    }
+
+    public void showspinner()
+    {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hidespinner()
+    {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -91,6 +116,7 @@ public class Home_Fragment extends Fragment
 
         this.calender_text = view.findViewById(R.id.calender_text);
         this.global_view = view;
+        this.progressBar = view.findViewById(R.id.home_progressbar);
 
         SharedPreferences date_pref = context.getSharedPreferences("date",0);
 
@@ -232,6 +258,75 @@ public class Home_Fragment extends Fragment
 
                 seekBar.setProgress(250);
 
+                InsertCSV insertCSV = new InsertCSV(context);
+
+                if(isConnected())
+                {
+                    //TODO enter logic to gather the buffer, put it in map and send it to the backend
+                    insertCSV.Enter_into_water_buffer(water_chosen_date);
+                    ArrayList<String> arrayList= insertCSV.read_from_water_buffer();
+//                    Toast.makeText(context,String.join(",",arrayList),Toast.LENGTH_LONG).show();
+
+                    JsonObject date_json = new JsonObject();
+
+                    for(String buffer_string: arrayList)
+                    {
+                        int date_water = water_log_pref.getInt(buffer_string,0);
+                        date_json.addProperty(buffer_string,date_water+"");
+                    }
+
+                    JsonObject total_json = new JsonObject();
+
+                    total_json.addProperty("email",email);
+                    total_json.addProperty("dates",date_json.toString());
+
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(getString(R.string.BASE_URL)).addConverterFactory(GsonConverterFactory.create()).build();
+
+                    RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+                    class longthread extends Thread
+                    {
+                        @Override
+                        public void run() {
+                            activity.runOnUiThread(Home_Fragment.this::showspinner);
+                            Call<Void> call = retrofitInterface.send_water_log(total_json);
+
+                            call.enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response)
+                                {
+                                    if(response.code() == 200)
+                                    {
+                                        insertCSV.water_delete_buffer();
+//                                        Toast.makeText(context, "Details Updated SuccessFully!!!"+String.join(",",arrayList), Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(response.code() == 400)
+                                    {
+//                                        Toast.makeText(getApplicationContext(),"Unable to Update Values. Try Again",Toast.LENGTH_LONG).show();
+                                    }
+                                    activity.runOnUiThread(Home_Fragment.this::hidespinner);
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+//                                    Toast.makeText(context,"Unable to Update Details.Check Your Internet Connection And Try Again.",Toast.LENGTH_LONG).show();
+                                    activity.runOnUiThread(Home_Fragment.this::hidespinner);
+                                }
+                            });
+
+                        }
+                    }
+
+                    new longthread().start();
+
+                }
+                else
+                {
+                    //TODO enter the logic to put the current date in the buffer
+                    insertCSV.Enter_into_water_buffer(water_chosen_date);
+                    Toast.makeText(context,"Not connected to Internet",Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -246,6 +341,19 @@ public class Home_Fragment extends Fragment
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isConnected() {
+        boolean connected = false;
+        try {
+            ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo nInfo = cm.getActiveNetworkInfo();
+            connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+            return connected;
+        } catch (Exception e) {
+            Log.e("Connectivity Exception", e.getMessage());
+        }
+        return connected;
     }
 
     public void set_calender_text(String newString)

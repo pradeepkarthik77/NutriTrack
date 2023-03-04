@@ -149,7 +149,7 @@ public class Signup_details extends AppCompatActivity
                                         Toast.makeText(getApplicationContext(), "Details Updated SuccessFully!!!", Toast.LENGTH_LONG).show();
                                         editor.putBoolean("isLoggedin",true);
                                         editor.commit();
-                                        Intent newintent = new Intent(context,HomeActivity.class);
+                                        Intent newintent = new Intent(context,HomeActivity_holder.class);
                                         newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(newintent);
                                     }

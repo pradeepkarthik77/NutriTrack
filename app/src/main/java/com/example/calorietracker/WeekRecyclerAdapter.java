@@ -356,7 +356,7 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
 
-        TextView title_date = dialog.findViewById(R.id.week_dialog_date);
+//        TextView title_date = dialog.findViewById(R.id.week_dialog_date);
 
         InsertCSV insertCSV = new InsertCSV(context);
 

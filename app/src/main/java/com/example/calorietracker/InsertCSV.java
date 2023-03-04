@@ -8,7 +8,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +29,8 @@ public class InsertCSV
     private String EXCEL_FILE = "user_nutrition.csv";
 
     private String BUFFER_FILE = "user_buffer.csv";
+
+    private String WATER_BUFFER = "water_buffer.csv";
 
     private FileOutputStream fileOutputStream;
 
@@ -262,6 +266,122 @@ public class InsertCSV
             Toast.makeText(this.context,"Error in Accessing Data",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public void Enter_into_water_buffer(String date)
+    {
+        String data = "";
+
+        try
+        {
+            File file = this.context.getFilesDir();
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.WATER_BUFFER);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(WATER_BUFFER,this.context.MODE_APPEND);
+                data = "";
+                fileOutputStream.write(data.getBytes());
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(WATER_BUFFER,this.context.MODE_APPEND);
+            }
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filer));
+            String line;
+
+            ArrayList<String> array = new ArrayList<>();
+
+            while((line = bufferedReader.readLine()) != null)
+            {
+                array.add(line);
+            }
+            bufferedReader.close();
+
+            if(!array.contains(date)) // meaning array doesnt contain the data
+            {
+                data = date+"\n";
+                fileOutputStream.write(data.getBytes());
+                Toast.makeText(this.context, "Data Saved!!!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(this.context, "Data Saved!!!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,"Error in Saving Data",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public ArrayList<String> read_from_water_buffer()
+    {
+        FileOutputStream fileOutputStream;
+
+        ArrayList<String> array = new ArrayList<>();
+
+        try
+        {
+            File file = this.context.getFilesDir();
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.WATER_BUFFER);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(this.WATER_BUFFER,this.context.MODE_APPEND);
+                String tempdata = "";
+                fileOutputStream.write(tempdata.getBytes());
+                //Toast.makeText(context,"No file",Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(this.WATER_BUFFER,this.context.MODE_APPEND);
+            }
+            //Toast.makeText(context,data,Toast.LENGTH_LONG).show();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filer));
+            String line;
+
+            while((line = bufferedReader.readLine()) != null)
+            {
+                array.add(line);
+            }
+            bufferedReader.close();
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+        }
+
+        return array;
+    }
+
+    public void water_delete_buffer()
+    {
+        String data = "";
+        try
+        {
+            File file = this.context.getFilesDir();
+            File filer = new File(this.context.getFilesDir().toString()+"/"+this.WATER_BUFFER);
+            if(!filer.exists())
+            {
+                fileOutputStream = this.context.openFileOutput(WATER_BUFFER,0);
+                data = "";
+                fileOutputStream.write(data.getBytes());
+            }
+            else
+            {
+                fileOutputStream = this.context.openFileOutput(WATER_BUFFER,0);
+            }
+
+            fileOutputStream.write("".getBytes());
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Toast.makeText(this.context,"Error in Saving Data",Toast.LENGTH_LONG).show();
+        }
     }
 
     public float get_day_calorie(String chosen_date)

@@ -59,7 +59,6 @@ public class User_Fragment extends Fragment {
 
         Toolbar toolbar = view.findViewById(R.id.profile_toolbar);
 
-
         //set of lines for enabling Menu
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         setHasOptionsMenu(true); //to allow for sidebar

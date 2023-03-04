@@ -1,5 +1,7 @@
 package com.example.calorietracker;
 
+import com.google.gson.JsonObject;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -27,5 +29,11 @@ public interface RetrofitInterface
 
     @POST("/send_edit_profile")
     Call<Void> executeeditprofile(@Body HashMap<String,String> map);
+
+    @POST("/send_bug_report")
+    Call<Void> reportabug(@Body HashMap<String,String> map);
+
+    @POST("/send_water_log")
+    Call<Void> send_water_log(@Body JsonObject jsonObject);
 
 }

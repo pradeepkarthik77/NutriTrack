@@ -82,6 +82,8 @@
             android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".Edit_User_Profile"
             android:theme="@style/Onloadtheme"></activity>
+        <activity android:name=".Report_Bug"
+            android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".WeekTable" />
         <activity android:name=".ProfileActivity"/>
         <activity android:name=".MidMealDiet"/>

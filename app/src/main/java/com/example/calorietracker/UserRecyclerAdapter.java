@@ -31,13 +31,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     {
         this.context = context;
         this.login_pref = context.getSharedPreferences("Login",0);
-        this.height = this.login_pref.getInt("Height",150);
-        this.weight = this.login_pref.getInt("Weight",60);
-        this.activity_level = this.login_pref.getInt("Activity_Level",0);
-        this.name = this.login_pref.getString("name","");
-        this.age = this.login_pref.getInt("Age",30);
-        this.gender = this.login_pref.getString("Gender","Male");
-        this.goal_calroie = this.login_pref.getInt("Goal_Calorie",0);
+
 
     }
 
@@ -71,6 +65,14 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         holder.titletext.setText(cardview_titles[position]);
         holder.imageView.setClipToOutline(true);
         holder.imageView.setImageResource(this.cardview_images[position]);
+
+        this.height = this.login_pref.getInt("Height",150);
+        this.weight = this.login_pref.getInt("Weight",60);
+        this.activity_level = this.login_pref.getInt("Activity_Level",0);
+        this.name = this.login_pref.getString("name","");
+        this.age = this.login_pref.getInt("Age",30);
+        this.gender = this.login_pref.getString("Gender","Male");
+        this.goal_calroie = this.login_pref.getInt("Goal_Calorie",0);
 
         if(cardview_titles[position].equals("Gender"))
         {

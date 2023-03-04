@@ -306,12 +306,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
             @Override
             public void onClick(View view) {
 
-                if (cardview_name.equals("Fruits")) {
-                    create_quantity_dialog(holder);
-                }
-                else{
-                    create_save_dialog(holder);
-                }
+                create_save_dialog(holder);
             }
         });
     }
@@ -561,66 +556,66 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         dialog.show();
     }
 
-    private void create_quantity_dialog(ViewHolder holder)
-    {
-        dialog = new Dialog(context);
-        dialog.setContentView(R.layout.age_dialog);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_outer_round);
-
-        TextView side_text = dialog.findViewById(R.id.side_text);
-
-        TextView choose_txt = dialog.findViewById(R.id.choose_text);
-
-        choose_txt.setText("Choose Quantity:");
-
-        side_text.setText("nos");
-
-        Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
-        Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
-
-        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.weight_picker);
-
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(100);
-
-        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
-            @Override
-            public String format(int value) {
-                int diff = value;
-                return "" + diff;
-            }
-        };
-        numberPicker.setFormatter(formatter);
-        numberPicker.setFormatter(formatter);
-
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                quantity_val = newVal;
-            }
-        });
-
-        apply_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                dialog.dismiss();create_save_dialog(holder);
-            }
-        });
-
-        cancel_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.create();
-        dialog.show();
-    }
+//    private void create_quantity_dialog(ViewHolder holder)
+//    {
+//        dialog = new Dialog(context);
+//        dialog.setContentView(R.layout.age_dialog);
+//        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        dialog.setCancelable(false);
+//        dialog.setCanceledOnTouchOutside(true);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+//        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_outer_round);
+//
+//        TextView side_text = dialog.findViewById(R.id.side_text);
+//
+//        TextView choose_txt = dialog.findViewById(R.id.choose_text);
+//
+//        choose_txt.setText("Choose Quantity:");
+//
+//        side_text.setText("nos");
+//
+//        Button apply_btn = (Button) dialog.findViewById(R.id.apply_btn);
+//        Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
+//
+//        NumberPicker numberPicker = (NumberPicker) dialog.findViewById(R.id.weight_picker);
+//
+//        numberPicker.setMinValue(1);
+//        numberPicker.setMaxValue(100);
+//
+//        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
+//            @Override
+//            public String format(int value) {
+//                int diff = value;
+//                return "" + diff;
+//            }
+//        };
+//        numberPicker.setFormatter(formatter);
+//        numberPicker.setFormatter(formatter);
+//
+//        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+//                quantity_val = newVal;
+//            }
+//        });
+//
+//        apply_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view)
+//            {
+//                dialog.dismiss();create_save_dialog(holder);
+//            }
+//        });
+//
+//        cancel_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.create();
+//        dialog.show();
+//    }
 
     @Override
     public int getItemCount()
