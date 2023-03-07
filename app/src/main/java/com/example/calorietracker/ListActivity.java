@@ -188,7 +188,7 @@ public class ListActivity extends AppCompatActivity
        this.recyclerView.setLayoutManager(gridLayoutManager);
 
 
-
+//        Toast.makeText(this,this.chosen_date,Toast.LENGTH_SHORT).show();
        //Toast.makeText(context,String.join(",",this.favorites_list),Toast.LENGTH_LONG).show();
 
        //ImageView sampleimg = findViewById(R.id.sampleimg);

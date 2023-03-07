@@ -301,10 +301,10 @@ public class LoadTheDatabase extends SQLiteOpenHelper
 
         try
         {
-            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,serving_size,calories,fat,saturated_fat,trans_fat,cholesterol,sodium,carbohydrates,dietary_fiber,sugar,added_sugar,protein,vitamin_D,calcium,iron,potassium,vitamin_A,vitamin_C,manganese,vitamin_K,item_unit FROM "+database_name+" where item_id = "+item_id, null);
+            Cursor cursor = this.sqLiteDatabase.rawQuery("SELECT item_id,item_name,serving_size,calories,fat,saturated_fat,trans_fat,cholesterol,sodium,carbohydrates,dietary_fiber,sugar,added_sugar,protein,vitamin_D,calcium,iron,potassium,vitamin_A,vitamin_C,manganese,vitamin_K,item_unit,item_type FROM "+database_name+" where item_id = "+item_id, null);
 
             if(cursor.moveToFirst()) {
-                for (int i = 0; i < 23; i++) {
+                for (int i = 0; i < 24; i++) {
                     item_values.add(cursor.getString(i));
                 }
             }

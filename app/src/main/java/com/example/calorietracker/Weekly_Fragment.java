@@ -27,14 +27,19 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.pavlospt.roundedletterview.RoundedLetterView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class Weekly_Fragment extends Fragment {
 
@@ -81,6 +86,26 @@ public class Weekly_Fragment extends Fragment {
         toggle.syncState();
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //end of those set of line for menu
+
+        TextView user_sidebar_name = header.findViewById(R.id.user_name_sidebar);
+        TextView user_sidebar_email = header.findViewById(R.id.user_email_sidebar);
+        RoundedLetterView user_profile_icon = header.findViewById(R.id.sidebar_user_profile);
+
+        SharedPreferences pref = context.getSharedPreferences("Login",0);
+
+        //set of instructions to set name,email in sidebar
+        String name = pref.getString("name","");
+        String email = pref.getString("email","");
+        String firstletter = name.trim();
+        if(!firstletter.equals(""))
+        {
+            firstletter = firstletter.charAt(0)+"";
+            firstletter = firstletter.toUpperCase();
+        }
+        user_profile_icon.setTitleText(firstletter);
+        user_sidebar_name.setText(name);
+        user_sidebar_email.setText(email);
+        //end of sidebar
 
         this.weekRecycler = (RecyclerView) view.findViewById(R.id.weektable_recycler);
 

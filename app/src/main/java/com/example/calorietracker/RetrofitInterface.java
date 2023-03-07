@@ -36,4 +36,7 @@ public interface RetrofitInterface
     @POST("/send_water_log")
     Call<Void> send_water_log(@Body JsonObject jsonObject);
 
+    @POST("/send_goal_activity")
+    Call<Void> sendgoalactivity(@Body HashMap<String,String> map);
+
 }

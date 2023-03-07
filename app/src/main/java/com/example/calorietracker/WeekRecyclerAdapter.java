@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -173,11 +174,16 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         Float today_calorie = insertCSV.get_day_calorie(simpleDateFormat1.format(holder.item_date));
 
+        DecimalFormat df = new DecimalFormat("#.##"); // rounds to 2 decimal places
+        today_calorie = Float.parseFloat(df.format(today_calorie));
+
         String Caltext = "<b>Calories</b>: "+today_calorie;
 
         holder.calorie_text.setText(Html.fromHtml(Caltext));
 
         int[] card_values = this.insertCSV.return_marked(holder.item_date);
+
+        Toast.makeText(context,simpleDateFormat1.format(holder.item_date),Toast.LENGTH_SHORT).show();
 
         CheckBox checkBox;
 
@@ -387,29 +393,31 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
          string = "<b>Items</b>: " + map.get("Items");
         }
 
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
         TextView txtview = dialog.findViewById(R.id.items_list);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Calories</b>: "+map.get("Calories")+"g";
+        string = "<b>Total Calories</b>: "+Float.parseFloat(decimalFormat.format(Float.parseFloat(map.get("Calories"))))+"g";
 
         txtview = dialog.findViewById(R.id.dialog_calories);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Protein</b>: "+map.get("Protein")+"g";
+        string = "<b>Total Protein</b>: "+Float.parseFloat(decimalFormat.format(Float.parseFloat(map.get("Protein"))))+"g";
 
         txtview = dialog.findViewById(R.id.dialog_protein);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Fat</b>: "+map.get("Fat")+"g";
+        string = "<b>Total Fat</b>: "+Float.parseFloat(decimalFormat.format(Float.parseFloat(map.get("Fat"))))+"g";
 
         txtview = dialog.findViewById(R.id.dialog_fat);
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Carbohydrates</b>: "+map.get("Carbs")+"g";
+        string = "<b>Total Carbohydrates</b>: "+Float.parseFloat(decimalFormat.format(Float.parseFloat(map.get("Carbs"))))+"g";
 
         txtview = dialog.findViewById(R.id.dialog_carbs);
 

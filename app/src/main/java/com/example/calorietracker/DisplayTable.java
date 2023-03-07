@@ -89,7 +89,9 @@ public class DisplayTable extends AppCompatActivity
         SimpleDateFormat formatter = new SimpleDateFormat();
         String today_date = formatter.format(new Date());
 
-        this.chosen_date = date_pref.getString("chosen_date",today_date);
+        this.chosen_date = intent.getStringExtra("chosen_date");
+
+//        Toast.makeText(this,this.chosen_date,Toast.LENGTH_SHORT).show();
 
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
@@ -145,6 +147,7 @@ public class DisplayTable extends AppCompatActivity
 
     private void  create_dialogbox()
     {
+
         InsertCSV insertCSV = new InsertCSV(this);
         LoadTheDatabase loadTheDatabase = new LoadTheDatabase(this);
         List<String> item_values = loadTheDatabase.get_nutrition(this.item_id);
@@ -172,7 +175,7 @@ public class DisplayTable extends AppCompatActivity
         EditText quantity_value = dialog.findViewById(R.id.quantity_val);
         TextView quantity_unit = dialog.findViewById(R.id.quantity_unit);
 
-        quantity_unit.setText(one_item_values.get(one_item_values.size()-1));
+        quantity_unit.setText(one_item_values.get(one_item_values.size()-2));
 
         float serve_size = 1.0f;
 

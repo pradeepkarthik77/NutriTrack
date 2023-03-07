@@ -188,6 +188,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                     newintent.putExtra("item_id",item_id.getText().toString());
                     newintent.putExtra("item_name",item_text.getText().toString());
                     newintent.putExtra("item_type",cardview_name);
+                    newintent.putExtra("chosen_date",chosen_date);
                     context.startActivity(newintent);
                 }
             });
@@ -340,7 +341,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         EditText quantity_value = dialog.findViewById(R.id.quantity_val);
         TextView quantity_unit = dialog.findViewById(R.id.quantity_unit);
 
-        quantity_unit.setText(one_item_values.get(one_item_values.size()-1));
+        quantity_unit.setText(one_item_values.get(one_item_values.size()-2));
 
         float serve_size = 1.0f;
 
@@ -510,7 +511,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                     HashMap<String,String> map = insertCSV.read_from_buffer();
 
-                    //Toast.makeText(context,map.size()+"",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,map.size()+"",Toast.LENGTH_SHORT).show();
 
                     map.put("size",map.size()+"");
 
@@ -525,19 +526,19 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                             if(response.code() == 200) {
                                 insertCSV.delete_buffer();
                             }
-                            //Toast.makeText(context,"Success ra",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Success ra",Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            //Toast.makeText(context,"Failrue",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Failrue",Toast.LENGTH_SHORT).show();
                         }
                     });
 
                 }
                 else
                 {
-                    //Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
 //                chosen_time = getIntent().getStringExtra("chosen_time");

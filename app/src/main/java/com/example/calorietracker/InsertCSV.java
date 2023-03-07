@@ -41,7 +41,7 @@ public class InsertCSV
     public InsertCSV(Context context)
     {
         this.context = context;
-        default_values = new String[]{"item_id","item_name","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","item_type","Date"
+        default_values = new String[]{"item_id","item_name","serving_size","calories","fat","saturated_fat","trans_fat","cholesterol","sodium","carbohydrates","dietary_fiber","sugar","added_sugar","protein","vitamin_D","calcium","iron","potassium","vitamin_A","vitamin_C","manganese","vitamin_K","item_unit","item_image_type","item_type","Date"
         };
     }
 
@@ -50,6 +50,8 @@ public class InsertCSV
         String data;
 
         this.item_values = values;
+
+        Toast.makeText(context,cardview_name,Toast.LENGTH_LONG).show();
 
         try
         {
@@ -197,7 +199,7 @@ public class InsertCSV
             }
             else
             {
-                fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
+                fileOutputStream = this.context.openFileOutput(BUFFER_FILE,this.context.MODE_APPEND);
             }
 
             try {
@@ -245,27 +247,29 @@ public class InsertCSV
 
     public void delete_buffer()
     {
-        HashMap<String,String> map = new HashMap<>();
-
+        String data = "";
         try
         {
+            File file = this.context.getFilesDir();
             File filer = new File(this.context.getFilesDir().toString()+"/"+this.BUFFER_FILE);
             if(!filer.exists())
             {
-                fileOutputStream = this.context.openFileOutput(BUFFER_FILE,this.context.MODE_APPEND);
+                fileOutputStream = this.context.openFileOutput(BUFFER_FILE,0);
+                data = "";
+                fileOutputStream.write(data.getBytes());
             }
             else
             {
-                fileOutputStream = this.context.openFileOutput(EXCEL_FILE,this.context.MODE_APPEND);
+                fileOutputStream = this.context.openFileOutput(BUFFER_FILE,0);
             }
+
             fileOutputStream.write("".getBytes());
         }
         catch(Exception e)
         {
             e.printStackTrace();
-            Toast.makeText(this.context,"Error in Accessing Data",Toast.LENGTH_LONG).show();
+            Toast.makeText(this.context,"Error in Saving Data",Toast.LENGTH_LONG).show();
         }
-
     }
 
     public void Enter_into_water_buffer(String date)

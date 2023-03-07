@@ -24,6 +24,7 @@ import androidx.core.app.TaskStackBuilder;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,6 +45,59 @@ public class OnOpenActivity extends AppCompatActivity
         Boolean signedin = false;
 
         SharedPreferences pref = this.getSharedPreferences("Login",0);
+
+        SharedPreferences login_pref = context.getSharedPreferences("Login",0);
+
+        SharedPreferences.Editor login_editor = login_pref.edit();
+
+        Float recommeded_water = (login_pref.getInt("Weight",60))*29.5735f;
+        Float recommended_carbs = ((login_pref.getInt("Goal_Calorie",0))*0.5f)/4f;
+        Float recommended_protein = (login_pref.getInt("Weight",60)*0.8f);
+        Float recommended_fat = ((login_pref.getInt("Goal_Calorie",0))*0.3f)/9f;
+        Float recommended_fiber = ((login_pref.getInt("Goal_Calorie",0))*0.014f);
+        Float recommended_vitamin_C = 0f;
+
+        String gender = login_pref.getString("Gender","Male");
+        Integer age = login_pref.getInt("Age",30);
+
+        if(age < 3)
+        {
+            recommended_vitamin_C = 15f;
+        }
+        else if(age>=4 && age<=8)
+        {
+            recommended_vitamin_C = 25f;
+        }
+        else if(age>8 && age<=13)
+        {
+            recommended_vitamin_C = 45f;
+        }
+        else if(age >13 && age<=17)
+        {
+            recommended_vitamin_C = 70f;
+        }
+        else
+        {
+            if(gender.equals("Male"))
+            {
+                recommended_vitamin_C = 90f;
+            }
+            else
+            {
+                recommended_vitamin_C = 75f;
+            }
+        }
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        login_editor.putFloat("Goal_Water",Float.parseFloat(decimalFormat.format(recommeded_water)));
+        login_editor.putFloat("Goal_Carbs",Float.parseFloat(decimalFormat.format(recommended_carbs)));
+        login_editor.putFloat("Goal_Protein",Float.parseFloat(decimalFormat.format(recommended_protein)));
+        login_editor.putFloat("Goal_Fat",Float.parseFloat(decimalFormat.format(recommended_fat)));
+        login_editor.putFloat("Goal_Fiber",Float.parseFloat(decimalFormat.format(recommended_fiber)));
+        login_editor.putFloat("Goal_Vitamin_C",Float.parseFloat(decimalFormat.format(recommended_vitamin_C)));
+
+        login_editor.commit();
 
         SharedPreferences.Editor editor = pref.edit();
         loggedin = pref.getBoolean("isLoggedin",false);
