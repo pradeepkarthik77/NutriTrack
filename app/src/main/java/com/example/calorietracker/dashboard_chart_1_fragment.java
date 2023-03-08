@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class dashboard_chart_1_fragment extends Fragment {
@@ -62,22 +63,17 @@ public class dashboard_chart_1_fragment extends Fragment {
 
         //initializing data
         HashMap<String, Integer> typeAmountMap = new HashMap<>();
-        typeAmountMap.put("Carbs",230);
-        typeAmountMap.put("Protein",100);
-        typeAmountMap.put("Fat",500);
         typeAmountMap.put("Other",50);
+        typeAmountMap.put("Fat",500);
+        typeAmountMap.put("Protein",100);
+        typeAmountMap.put("Carbs",230);
 
-        //initializing colors for the entries
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#EC830E"));
-        colors.add(Color.parseColor("#E1AD01"));
-        colors.add(Color.parseColor("#30D5C8"));
-        colors.add(Color.parseColor("#FFE74C"));
-//        colors.add(Color.parseColor("#ff5f67"));
-//        colors.add(Color.parseColor("#3ca567"));
+            Integer color_arr[] = new Integer[]{Color.parseColor("#E1AD01"),Color.parseColor("#EC830E"),Color.parseColor("#30D5C8"),Color.parseColor("#FFE74C")};
+
+        String keys[] = {"Carbs","Protein","Fat","Other"};
 
         //input data and fit data into pie chart entry
-        for(String type: typeAmountMap.keySet()){
+        for(String type: keys){
             pieEntries.add(new PieEntry(typeAmountMap.get(type).floatValue(), type));
         }
 
@@ -86,7 +82,7 @@ public class dashboard_chart_1_fragment extends Fragment {
         //setting text size of the value
         pieDataSet.setValueTextSize(12f);
         //providing color list for coloring different entries
-        pieDataSet.setColors(colors);
+        pieDataSet.setColors(Arrays.asList(color_arr));
         //grouping the data set from entry to chart
         PieData pieData = new PieData(pieDataSet);
         //showing the value of the entries, default true if not set

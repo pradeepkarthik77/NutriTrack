@@ -568,4 +568,72 @@ public class InsertCSV
         return map;
     }
 
+    public Float[] get_todays_meal_values(String chosen_date)
+    {
+        String cardview_list[] = new String[]{"BreakFast","Lunch","Dinner","Mid-Meals","Snacks","Juices"};
+
+        Float[] item_calories = new Float[]{0f, 0f, 0f, 0f, 0f, 0f, 0f};
+
+        String data;
+
+        try {
+            File filer = new File(this.context.getFilesDir().toString() + "/" + this.EXCEL_FILE);
+            if (!filer.exists()) {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+                data = String.join(",", this.default_values) + "\n";
+                fileOutputStream.write(data.getBytes());
+            } else {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+            }
+            int i = 0;
+
+            Float cal_count = 0f;
+
+            FileReader filereader = new FileReader(filer);
+            BufferedReader bufferedReader = new BufferedReader(filereader);
+
+            String nextline;
+
+            String[] nextlinearr = new String[]{};
+
+            nextline = bufferedReader.readLine();
+
+            while ((nextline = bufferedReader.readLine()) != null) {
+                nextlinearr = nextline.split(",");
+                if (nextlinearr.length == 0) {
+                    continue;
+                } else
+                {
+                    if (nextlinearr[nextlinearr.length - 1].equals(chosen_date))
+                    {
+                        if(nextlinearr[nextlinearr.length -2].equals("BreakFast")) {
+                            item_calories[0] += Float.parseFloat(nextlinearr[3]);
+                        }
+                        else if(nextlinearr[nextlinearr.length -2].equals("Lunch")) {
+                            item_calories[1] += Float.parseFloat(nextlinearr[3]);
+                        }
+                        if(nextlinearr[nextlinearr.length -2].equals("Dinner")) {
+                            item_calories[2] += Float.parseFloat(nextlinearr[3]);
+                        }
+                        if(nextlinearr[nextlinearr.length -2].equals("Mid-Meals")) {
+                            item_calories[3] += Float.parseFloat(nextlinearr[3]);
+                        }
+                        if(nextlinearr[nextlinearr.length -2].equals("Snacks")) {
+                            item_calories[4] += Float.parseFloat(nextlinearr[3]);
+                        }
+                        if(nextlinearr[nextlinearr.length -2].equals("Juices")) {
+                            item_calories[5] += Float.parseFloat(nextlinearr[3]);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this.context, e.toString() + " add", Toast.LENGTH_LONG).show();
+        }
+
+        return item_calories;
+
+    }
 }

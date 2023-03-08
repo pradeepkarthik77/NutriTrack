@@ -28,14 +28,14 @@ import java.util.Date;
 
 public class ChartActivity extends AppCompatActivity {
 
-    // variable for our bar chart
-    private BarChart barChart;
+        // variable for our bar chart
+        private BarChart barChart;
 
-    // variable for our bar data set.
-    private BarDataSet barDataSet1, barDataSet2;
+        // variable for our bar data set.
+        private BarDataSet barDataSet1, barDataSet2;
 
-    // array list for storing entries.
-    private ArrayList barEntries;
+        // array list for storing entries.
+        private ArrayList barEntries;
 
     // creating a string array for displaying days.
     //private String[] days = new String[]{"Sunday","Monday", "Tuesday","Wednesday","Thursday", "Friday", "Saturday"};
@@ -130,6 +130,7 @@ public class ChartActivity extends AppCompatActivity {
         //hiding the left y-axis line, default true if not set
         leftAxis.setDrawAxisLine(false);
         leftAxis.setDrawGridLines(false);
+        leftAxis.setAxisMinimum(0f);
 
         YAxis rightAxis = barChart.getAxisRight();
         //hiding the right y-axis line, default true if not set
