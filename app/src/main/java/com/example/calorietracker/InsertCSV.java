@@ -50,9 +50,6 @@ public class InsertCSV
         String data;
 
         this.item_values = values;
-
-//        Toast.makeText(context,cardview_name,Toast.LENGTH_LONG).show();
-
         try
         {
             File file = this.context.getFilesDir();

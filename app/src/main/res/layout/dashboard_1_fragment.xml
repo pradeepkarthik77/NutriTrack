@@ -19,141 +19,221 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginLeft="20dp"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:id="@+id/carbs_constraint"
             >
 
         <View
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:background="#E1AD01"
+            android:id="@+id/carbs_color_indicator"
             android:layout_gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Calories"
+            android:id="@+id/chart_carbs_text"
             android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
+            app:layout_constraintLeft_toRightOf="@+id/carbs_color_indicator"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/carbs_value_indicator"
+                android:text="0/100 g"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="@+id/chart_carbs_text"
+                app:layout_constraintTop_toBottomOf="@+id/chart_carbs_text"
+                />
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            >-->
+
+<!--            <View-->
+<!--                android:layout_width="15dp"-->
+<!--                android:layout_height="15dp"-->
+<!--                android:background="#EC830E"-->
+<!--                android:id="@+id/carbs_color_indicate"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Carbs"-->
+<!--                android:id="@+id/chart_carbs_text"-->
+<!--                android:textSize="17sp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                app:layout_constraintLeft_toRightOf="@+id/carbs_color_indicate"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="0/100 g"-->
+<!--                android:textSize="17sp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                app:layout_constraintLeft_toLeftOf="@+id/chart_carbs_text"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/chart_carbs_text"-->
+<!--                />-->
+
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             >
 
             <View
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:background="#EC830E"
+                android:id="@+id/protein_color_indicate"
                 android:layout_gravity="center_vertical"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Carbs"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <View
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:background="#E2725B"
-                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Protein"
+                android:id="@+id/chart_protein_text"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toRightOf="@+id/protein_color_indicate"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/100 g"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="@+id/chart_protein_text"
+                app:layout_constraintTop_toBottomOf="@+id/chart_protein_text"
+                />
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             >
 
             <View
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:background="#30D5C8"
+                android:id="@+id/fat_color_indicate"
                 android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fat"
+                android:id="@+id/chart_fat_text"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toRightOf="@+id/fat_color_indicate"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/100 g"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="@+id/chart_fat_text"
+                app:layout_constraintTop_toBottomOf="@+id/chart_fat_text"
+                />
 
-        <LinearLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             >
 
             <View
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:background="#FFE74C"
+                android:id="@+id/other_color_indicate"
                 android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Other"
+                android:id="@+id/chart_other_text"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:layout_marginLeft="10dp"
-                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toRightOf="@+id/other_color_indicate"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/100 g"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="@+id/chart_other_text"
+                app:layout_constraintTop_toBottomOf="@+id/chart_other_text"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </LinearLayout>
 

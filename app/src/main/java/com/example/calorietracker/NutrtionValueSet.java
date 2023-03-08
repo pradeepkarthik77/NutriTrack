@@ -14,7 +14,7 @@ public class NutrtionValueSet
     private List<String> item_values;
     private int[] item_res_ids;
 
-    private String[] units = {"g","g","g","g","g","g","g","g","g","g","mcg","mg","mg","mg","mcg","mg","mg","mcg"};
+    private String[] units = {"g","g","g","mg","mg","g","g","g","g","g","mcg","mg","mg","mg","mcg","mg","mg","mcg"};
 
 
     public NutrtionValueSet(Context context,String item_id)

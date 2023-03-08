@@ -62,7 +62,6 @@ public class dashboard_chart_1_fragment extends Fragment {
 
         //initializing data
         HashMap<String, Integer> typeAmountMap = new HashMap<>();
-        typeAmountMap.put("Calories",200);
         typeAmountMap.put("Carbs",230);
         typeAmountMap.put("Protein",100);
         typeAmountMap.put("Fat",500);
@@ -70,9 +69,8 @@ public class dashboard_chart_1_fragment extends Fragment {
 
         //initializing colors for the entries
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.parseColor("#E1AD01"));
         colors.add(Color.parseColor("#EC830E"));
-        colors.add(Color.parseColor("#E2725B"));
+        colors.add(Color.parseColor("#E1AD01"));
         colors.add(Color.parseColor("#30D5C8"));
         colors.add(Color.parseColor("#FFE74C"));
 //        colors.add(Color.parseColor("#ff5f67"));

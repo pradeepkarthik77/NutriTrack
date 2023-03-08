@@ -252,7 +252,7 @@ public class DisplayTable extends AppCompatActivity
 
                 String str;
 
-                str = "<b>Calories: </b>"+item_values.get(3)+"g";
+                str = "<b>Calories: </b>"+item_values.get(3)+"kcal";
                 calories.setText(Html.fromHtml(str));
 
                 str = "<b>Protein: </b>"+item_values.get(13)+"g";
@@ -309,7 +309,7 @@ public class DisplayTable extends AppCompatActivity
         str = "<b>Date: </b>"+chosen_date;
         date.setText(Html.fromHtml(str));
 
-        str = "<b>Calories: </b>"+item_values.get(3)+"g";
+        str = "<b>Calories: </b>"+item_values.get(3)+"kcal";
         calories.setText(Html.fromHtml(str));
 
         str = "<b>Protein: </b>"+item_values.get(13)+"g";

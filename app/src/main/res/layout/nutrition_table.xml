@@ -180,7 +180,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Cholesterol (gms)"
+                    android:text="Cholesterol (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -200,7 +200,7 @@
             <TableRow>
 
                 <TextView
-                    android:text="Sodium (gms)"
+                    android:text="Sodium (mg)"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="20dp"
                     android:textStyle="bold" />

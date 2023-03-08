@@ -238,7 +238,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
         holder.item_text.setText(this_item.get(1));
         holder.item_id.setText(this_item.get(0));
-        holder.item_calories.setText("Calories: " + this_item.get(2)+"g");
+        holder.item_calories.setText("Calories: " + this_item.get(2));
 
         if (holder.item_text.getText().toString().equals("Custom Value")) {
             holder.save_btn.setVisibility(View.GONE);
@@ -421,7 +421,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                 String str;
 
-                str = "<b>Calories: </b>"+item_values.get(3)+"g";
+                str = "<b>Calories: </b>"+item_values.get(3)+"kcal";
                 calories.setText(Html.fromHtml(str));
 
                 str = "<b>Protein: </b>"+item_values.get(13)+"g";
@@ -478,7 +478,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         str = "<b>Date: </b>"+chosen_date;
         date.setText(Html.fromHtml(str));
 
-        str = "<b>Calories: </b>"+item_values.get(3)+"g";
+        str = "<b>Calories: </b>"+item_values.get(3)+"kcal";
         calories.setText(Html.fromHtml(str));
 
         str = "<b>Protein: </b>"+item_values.get(13)+"g";
