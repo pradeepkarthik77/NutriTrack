@@ -17,14 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -511,7 +509,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                     HashMap<String,String> map = insertCSV.read_from_buffer();
 
-                    Toast.makeText(context,map.size()+"",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,map.size()+"",Toast.LENGTH_SHORT).show();
 
                     map.put("size",map.size()+"");
 
@@ -526,12 +524,12 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                             if(response.code() == 200) {
                                 insertCSV.delete_buffer();
                             }
-                            Toast.makeText(context,"Success ra",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context,"Success ra",Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(context,"Failrue",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context,"Failrue",Toast.LENGTH_SHORT).show();
                         }
                     });
 

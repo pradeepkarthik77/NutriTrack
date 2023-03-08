@@ -206,56 +206,47 @@ public class Goal_Fragment extends Fragment {
                 if(list_type.equals("Calorie"))
                 {
                     int temp_cal = Math.round(Float.parseFloat(goal_value));
-                    login_editor.putInt("Goal_Calorie",temp_cal);
                     map.put("type","Goal_Calorie");
                     map.put("value",temp_cal+"");
-                    login_editor.commit();
                 }
                 else if(list_type.equals("Water"))
                 {
                     Float temp_water = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
-                    login_editor.putFloat("Goal_Water",temp_water);
-                    login_editor.commit();
+
                     map.put("type","Goal_Water");
                     map.put("value",temp_water+"");
                 }
                 else if(list_type.equals("Carbohydrates"))
                 {
                     Float temp_carb = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
-                    login_editor.putFloat("Goal_Carbs",temp_carb);
-                    login_editor.commit();
+
                     map.put("type","Goal_Carbs");
                     map.put("value",temp_carb+"");
                 }
                 else if(list_type.equals("Protein"))
                 {
                     Float temp_protein = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
-                    login_editor.putFloat("Goal_Protein",temp_protein);
-                    login_editor.commit();
+
                     map.put("type","Goal_Protein");
                     map.put("value",temp_protein+"");
                 }
                 else if(list_type.equals("Fat"))
                 {
                     Float temp_fat = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
-                    login_editor.putFloat("Goal_Fat",temp_fat);
-                    login_editor.commit();
+
                     map.put("type","Goal_Fat");
                     map.put("value",temp_fat+"");
                 }
                 else if(list_type.equals("Fiber"))
                 {
                     Float temp_fiber = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
-                    login_editor.putFloat("Goal_Fiber",temp_fiber);
-                    login_editor.commit();
+
                     map.put("type","Goal_Fiber");
                     map.put("value",temp_fiber+"");
                 }
                 else
                 {
                     Float temp_vitamin_c = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
-                    login_editor.putFloat("Goal_Vitamin_C",temp_vitamin_c);
-                    login_editor.commit();
                     map.put("type","Goal_Vitamin_C");
                     map.put("value",temp_vitamin_c+"");
                 }
@@ -278,6 +269,51 @@ public class Goal_Fragment extends Fragment {
                                 if(response.code() == 200)
                                 {
                                     Toast.makeText(context, "Details Updated SuccessFully!!!", Toast.LENGTH_LONG).show();
+
+                                    if(list_type.equals("Calorie"))
+                                    {
+                                        int temp_cal = Math.round(Float.parseFloat(goal_value));
+                                        login_editor.putInt("Goal_Calorie",temp_cal);
+                                        login_editor.commit();
+                                    }
+                                    else if(list_type.equals("Water"))
+                                    {
+                                        Float temp_water = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
+                                        login_editor.putFloat("Goal_Water",temp_water);
+                                        login_editor.commit();
+                                    }
+                                    else if(list_type.equals("Carbohydrates"))
+                                    {
+                                        Float temp_carb = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
+                                        login_editor.putFloat("Goal_Carbs",temp_carb);
+                                        login_editor.commit();
+                                    }
+                                    else if(list_type.equals("Protein"))
+                                    {
+                                        Float temp_protein = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
+                                        login_editor.putFloat("Goal_Protein",temp_protein);
+                                        login_editor.commit();
+                                    }
+                                    else if(list_type.equals("Fat"))
+                                    {
+                                        Float temp_fat = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
+                                        login_editor.putFloat("Goal_Fat",temp_fat);
+                                        login_editor.commit();
+                                    }
+                                    else if(list_type.equals("Fiber"))
+                                    {
+                                        Float temp_fiber = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
+                                        login_editor.putFloat("Goal_Fiber",temp_fiber);
+                                        login_editor.commit();
+                                    }
+                                    else
+                                    {
+                                        Float temp_vitamin_c = Float.valueOf(decimalFormat.format(Float.parseFloat(goal_value)));
+                                        login_editor.putFloat("Goal_Vitamin_C",temp_vitamin_c);
+                                        login_editor.commit();
+                                    }
+
+
                                     dialog.dismiss();
                                 }
                                 else if(response.code() == 400)

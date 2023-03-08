@@ -183,7 +183,7 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         int[] card_values = this.insertCSV.return_marked(holder.item_date);
 
-        Toast.makeText(context,simpleDateFormat1.format(holder.item_date),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context,simpleDateFormat1.format(holder.item_date),Toast.LENGTH_SHORT).show();
 
         CheckBox checkBox;
 
