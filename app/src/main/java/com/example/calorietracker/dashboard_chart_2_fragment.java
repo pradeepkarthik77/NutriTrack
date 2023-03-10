@@ -58,7 +58,7 @@ public class dashboard_chart_2_fragment extends Fragment {
         this.barChart = view.findViewById(R.id.home_bar_chart);
         this.date_pref = context.getSharedPreferences("date",0);
 
-        String getpast7date[] = getpastdates();
+//        String getpast7date[] = getpastdates();
 
         InsertCSV insertCSV = new InsertCSV(context);
 
@@ -68,7 +68,7 @@ public class dashboard_chart_2_fragment extends Fragment {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-        String chosen_date = date_pref.getString("date",formatter.format(new Date()));
+        String chosen_date = date_pref.getString("chosen_date",formatter.format(new Date()));
 
         Float[] item_values = insertCSV.get_todays_meal_values(chosen_date);
 
@@ -151,69 +151,69 @@ public class dashboard_chart_2_fragment extends Fragment {
         return barEntries;
     }
 
-    private String[] getpastdates()
-    {
+//    private String[] getpastdates()
+//    {
+//
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        String current_date = date_pref.getString("chosen_date",formatter.format(new Date()));
+//
+//        Date date = new Date();
+//
+//        try {
+//            date = formatter.parse(current_date);
+//        }
+//        catch(Exception e)
+//        {
+//        }
+//
+//        String past_days[] = new String[]{"Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday","Sunday"};
+//
+//        for(int i=0;i<7;i++)
+//        {
+//            Calendar c = Calendar.getInstance();
+//            c.setTime(date);
+//            c.add(Calendar.DATE, -i);
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//            String item_date_string = simpleDateFormat.format(c.getTime());
+//            past_days[i] = item_date_string;
+//        }
+//
+//        return past_days;
+//    }
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-        String current_date = date_pref.getString("chosen_date",formatter.format(new Date()));
-
-        Date date = new Date();
-
-        try {
-            date = formatter.parse(current_date);
-        }
-        catch(Exception e)
-        {
-        }
-
-        String past_days[] = new String[]{"Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday","Sunday"};
-
-        for(int i=0;i<7;i++)
-        {
-            Calendar c = Calendar.getInstance();
-            c.setTime(date);
-            c.add(Calendar.DATE, -i);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            String item_date_string = simpleDateFormat.format(c.getTime());
-            past_days[i] = item_date_string;
-        }
-
-        return past_days;
-    }
-
-    private String[] getpastdays(String[] past7dates)
-    {
-        Date date = new Date();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-        String current_date = date_pref.getString("chosen_date",formatter.format(new Date()));
-
-        String past_days[] = new String[]{"","Sunday","Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday"};
-
-        try {
-            date = formatter.parse(current_date);
-        }
-        catch (Exception e)
-        {
-
-        }
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-
-        int current_day_indx = c.get(Calendar.DAY_OF_WEEK);
-
-        for(int i=0;i<7;i++)
-        {
-            c = Calendar.getInstance();
-            c.setTime(date);
-            c.add(Calendar.DATE, -i);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            int x = c.get(Calendar.DAY_OF_WEEK);
-            past_days[i+1] = days[(x-1)%7];
-        }
-        return past_days;
-    }
+//    private String[] getpastdays(String[] past7dates)
+//    {
+//        Date date = new Date();
+//
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        String current_date = date_pref.getString("chosen_date",formatter.format(new Date()));
+//
+//        String past_days[] = new String[]{"","Sunday","Monday", "Tuesday","Wednesday", "Thursday", "Friday", "Saturday"};
+//
+//        try {
+//            date = formatter.parse(current_date);
+//        }
+//        catch (Exception e)
+//        {
+//
+//        }
+//
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(date);
+//
+//        int current_day_indx = c.get(Calendar.DAY_OF_WEEK);
+//
+//        for(int i=0;i<7;i++)
+//        {
+//            c = Calendar.getInstance();
+//            c.setTime(date);
+//            c.add(Calendar.DATE, -i);
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//            int x = c.get(Calendar.DAY_OF_WEEK);
+//            past_days[i+1] = days[(x-1)%7];
+//        }
+//        return past_days;
+//    }
 }

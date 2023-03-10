@@ -48,7 +48,7 @@ public class NutrtionValueSet
 
         txtview = activity.findViewById(R.id.calories);
 
-        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3)+"g");
+        txtview.setText(txtview.getText().toString()+": "+this.item_values.get(3)+"kcal");
 
         int indx = 2;
         int j=0;

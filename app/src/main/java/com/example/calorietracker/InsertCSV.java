@@ -636,4 +636,80 @@ public class InsertCSV
         return item_calories;
 
     }
+
+    public Float[] get_home_pie_values(String chosen_date)
+    {
+        Float[] item_calories = new Float[]{0f,0f,0f,0f};
+
+        String data;
+
+        try {
+            File filer = new File(this.context.getFilesDir().toString() + "/" + this.EXCEL_FILE);
+            if (!filer.exists()) {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+                data = String.join(",", this.default_values) + "\n";
+                fileOutputStream.write(data.getBytes());
+            } else {
+                fileOutputStream = this.context.openFileOutput(EXCEL_FILE, this.context.MODE_APPEND);
+            }
+            int i = 0;
+
+            FileReader filereader = new FileReader(filer);
+            BufferedReader bufferedReader = new BufferedReader(filereader);
+
+            String nextline;
+
+            String[] nextlinearr = new String[]{};
+
+            nextline = bufferedReader.readLine();
+
+            while ((nextline = bufferedReader.readLine()) != null) {
+                nextlinearr = nextline.split(",");
+                if (nextlinearr.length == 0) {
+                    continue;
+                } else
+                {
+                    if (nextlinearr[nextlinearr.length - 1].equals(chosen_date))
+                    {
+                        item_calories[0] += Float.parseFloat(nextlinearr[9]); //carbs
+                        item_calories[1] += Float.parseFloat(nextlinearr[13]); //protein
+                        item_calories[2] += Float.parseFloat(nextlinearr[4])+Float.parseFloat(nextlinearr[5])+Float.parseFloat(nextlinearr[6]);
+
+                        Float cholestrol,sodium,fiber,sugar,added_sugar,vit_d,calcium,iron,potassium,vit_a,vit_c,manganese,vit_k;
+
+                        cholestrol = Float.parseFloat(nextlinearr[7]);
+                        sodium = Float.parseFloat(nextlinearr[8]);
+                        fiber = Float.parseFloat(nextlinearr[10]);
+                        sugar = Float.parseFloat(nextlinearr[11]);
+                        added_sugar = Float.parseFloat(nextlinearr[12]);
+                        vit_d = Float.parseFloat(nextlinearr[14]);
+                        calcium = Float.parseFloat(nextlinearr[15]);
+                        iron = Float.parseFloat(nextlinearr[16]);
+                        potassium = Float.parseFloat(nextlinearr[17]);
+                        vit_a = Float.parseFloat(nextlinearr[18]);
+                        vit_c = Float.parseFloat(nextlinearr[19]);
+                        manganese = Float.parseFloat(nextlinearr[20]);
+                        vit_k = Float.parseFloat(nextlinearr[21]);
+
+                        float grams = fiber+sugar+added_sugar;
+                        float milligrams = (cholestrol+sodium+calcium+iron+potassium+vit_c+manganese)*0.001f;
+                        float micrograms = (vit_a+vit_d+vit_k)*0.000001f;
+
+                        Toast.makeText(context,grams+" "+milligrams+" "+micrograms,Toast.LENGTH_LONG).show();
+
+                        float other = grams+micrograms+milligrams;
+
+                        item_calories[3] = other;
+
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this.context, e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        return item_calories;
+    }
 }

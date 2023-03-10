@@ -11,18 +11,20 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class Dashboard_ViewPage_Adapter extends FragmentStatePagerAdapter {
 
+    private dashboard_chart_1_fragment fragment1;
     private Context context;
 
     public Dashboard_ViewPage_Adapter(FragmentManager fm,Context context) {
         super(fm);
         this.context = context;
+        this.fragment1 = new dashboard_chart_1_fragment(context);
     }
 
     @Override
     public Fragment getItem(int position) {
         switch(position)
         {
-            case 0: return new dashboard_chart_1_fragment(context);
+            case 0: return this.fragment1;
             case 1: return new dashboard_chart_2_fragment(context);
             default: return new dashboard_chart_1_fragment(context);
         }
@@ -32,4 +34,5 @@ public class Dashboard_ViewPage_Adapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 2;
     }
+
 }

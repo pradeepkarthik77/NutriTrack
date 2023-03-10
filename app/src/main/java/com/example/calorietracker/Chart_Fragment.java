@@ -3,6 +3,7 @@ package com.example.calorietracker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
@@ -20,11 +22,15 @@ import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BulletSpan;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -54,11 +60,6 @@ public class Chart_Fragment extends Fragment {
 
         Toolbar toolbar = view.findViewById(R.id.chart_toolbar);
 
-        Spinner spinner = toolbar.findViewById(R.id.chart_decide_spinner);
-        List<String> options = Arrays.asList("Weekly Report","Monthly Report","Yearly Report");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.chart_simple_spinner, options);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         //set of lines for enabling Menu
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -94,6 +95,59 @@ public class Chart_Fragment extends Fragment {
         //end of sidebar
 
         new Sidebar_Class().navigation_onclick(navigationView,context);
+
+
+        Spinner spinner = toolbar.findViewById(R.id.chart_decide_spinner);
+        List<String> options = Arrays.asList("Weekly Report","Monthly Report","Yearly Report");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.chart_simple_spinner, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        FrameLayout frameLayout = view.findViewById(R.id.chart_fragment_holder);
+
+//        int heightPixels = toolbar.getHeight();
+
+        toolbar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int heightPixels = toolbar.getHeight();
+
+                DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+
+                float heightDp = heightPixels / displayMetrics.density;
+
+//                Toast.makeText(context,heightDp+"",Toast.LENGTH_LONG).show();
+
+                ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.findViewById(R.id.chart_fragment_holder).getLayoutParams();
+
+                layoutParams.setMargins(0,heightPixels,0,0);
+
+                frameLayout.setLayoutParams(layoutParams);
+
+                toolbar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
+        AppCompatActivity appCompatActivity = (AppCompatActivity) context;
+
+        appCompatActivity.getSupportFragmentManager().beginTransaction().add(R.id.chart_fragment_holder,new Chart_Week_Fragment(context)).commit();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position)
+                {
+                    case 0: appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.chart_fragment_holder,new Chart_Week_Fragment(context)).commit();break;
+                    case 1: appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.chart_fragment_holder,new Chart_Month_Fragment(context)).commit();break;
+                    case 2: appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.chart_fragment_holder,new Chart_Year_Fragment(context)).commit();break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return view;
     }
