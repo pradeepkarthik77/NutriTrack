@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,16 +26,19 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -40,22 +46,25 @@ import java.util.Date;
 import java.util.HashMap;
 
 
-public class Inner_Chart_Week_Fragment extends Fragment
+public class Inner_Chart_Month_Fragment extends Fragment
 {
     private Context context;
-    private BarChart calorie_barChart;
-    private SharedPreferences date_pref;
-    private String[] days = new String[]{"Sun","Mon","Tue","Wed","Thu", "Fri", "Sat"};
+    private LineChart calorie_lineChart;
     // variable for our bar data set.
-    private BarDataSet calorie_barDataset;
-    private BarDataSet water_barDataset;
+    private LineDataSet calorie_linDataSet;
+    private LineDataSet water_barDataset;
 
     // array list for storing entries.
     private ArrayList calorie_barEntry;
-    private ArrayList<BarEntry> water_barEntry;
-    private BarChart water_barChart;
+    private ArrayList<Entry> water_barEntry;
+    private LineChart water_barChart;
+    private SharedPreferences date_pref;
+    private SimpleDateFormat month_formatter;
+    private Date current_month_object;
+    private int total_month_days;
+    private String current_month;
 
-    public Inner_Chart_Week_Fragment(Context context)
+    public Inner_Chart_Month_Fragment(Context context)
     {
         this.context = context;
     }
@@ -63,24 +72,28 @@ public class Inner_Chart_Week_Fragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.inner_week_chart_fragment_layout, container, false);
+        View view = inflater.inflate(R.layout.inner_month_chart_fragment_layout, container, false);
+
+        Chart_Month_Fragment chart_month_fragment = (Chart_Month_Fragment) getParentFragment();
+
+        this.current_month =  chart_month_fragment.get_today_month();
 
         init_calorie_barChart(view);
 
         init_water_barChart(view);
 
-        PieChart pieChart = view.findViewById(R.id.week_macro_pie);
+        PieChart pieChart = view.findViewById(R.id.month_macro_pie);
 
         this.date_pref = context.getSharedPreferences("date",0);
 
         initPieChart(pieChart);
         showPieChart(pieChart,view);
 
-        TabLayout tabLayout = view.findViewById(R.id.week_chart_tab_layout);
-        ViewPager viewPager = view.findViewById(R.id.week_chart_view_pager);
+        TabLayout tabLayout = view.findViewById(R.id.month_chart_tab_layout);
+        ViewPager viewPager = view.findViewById(R.id.month_chart_view_pager);
 
-        Week_Macro_Adapter week_macro_adapter = new Week_Macro_Adapter(getChildFragmentManager(),context);
-        viewPager.setAdapter(week_macro_adapter);
+        Month_Macro_Adapter month_macro_adapter = new Month_Macro_Adapter(getChildFragmentManager(),context);
+        viewPager.setAdapter(month_macro_adapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -102,34 +115,60 @@ public class Inner_Chart_Week_Fragment extends Fragment
 
     private void init_calorie_barChart(View view)
     {
-        calorie_barChart = view.findViewById(R.id.week_calorie_bar);
+        calorie_lineChart = view.findViewById(R.id.month_calorie_bar);
 
-        Chart_Week_Fragment chart_week_fragment = (Chart_Week_Fragment) this.getParentFragment();
+        Chart_Month_Fragment chart_month_fragment = (Chart_Month_Fragment) this.getParentFragment();
 
-        ArrayList<String> past7dates =  chart_week_fragment.get_dates_range();
+        String current_month =  chart_month_fragment.get_today_month();
+
+        this.month_formatter = new SimpleDateFormat("MMM-yyyy");
+
+        this.current_month_object = new Date();
+
+        try {
+            this.current_month_object = this.month_formatter.parse(current_month);
+        }
+        catch (Exception e)
+        {}
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(this.current_month_object);
+
+        this.total_month_days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         InsertCSV insertCSV = new InsertCSV(context);
 
-        String[] past7days_strings = past7dates.toArray(new String[past7dates.size()]);
+//        String[] x_axis_values = getpastdays(past7days_strings);
 
-        String[] x_axis_values = getpastdays(past7days_strings);
+        Float cal_values[] = insertCSV.get_month_calories(current_month);
 
-        Float cal_values[] = insertCSV.get_past7_days(past7days_strings);
+        String[] x_axis_values = new String[this.total_month_days];
+
+
+        for(int i=1;i<=this.total_month_days;i++)
+        {
+            x_axis_values[i-1] = i+"";
+        }
 
         // creating a new bar data set.
-        calorie_barDataset = new BarDataSet(getCalorieBarEntry(cal_values), "Calories");
-        calorie_barDataset.setColor(context.getResources().getColor(R.color.bar_chart_yellow));
+        calorie_linDataSet = new LineDataSet(getCalorieBarEntry(cal_values), "Calories");
+        calorie_linDataSet.setColor(context.getResources().getColor(R.color.bar_chart_yellow));
 
-        BarData data = new BarData(calorie_barDataset);
+        LineData data = new LineData(calorie_linDataSet);
 
-        calorie_barChart.setData(data);
+        calorie_lineChart.setData(data);
 
-        calorie_barChart.getDescription().setEnabled(false);
-        calorie_barChart.setTouchEnabled(false);
+        calorie_lineChart.getDescription().setEnabled(false);
+        calorie_lineChart.setTouchEnabled(false);
+        calorie_lineChart.setDragEnabled(true);
+        calorie_lineChart.setScaleEnabled(true);
+        calorie_lineChart.setPinchZoom(true);
+
 
         // below line is to get x axis
         // of our bar chart.
-        XAxis xAxis = calorie_barChart.getXAxis();
+        XAxis xAxis = calorie_lineChart.getXAxis();
 
         xAxis.setValueFormatter(new IndexAxisValueFormatter(x_axis_values));
 
@@ -138,19 +177,19 @@ public class Inner_Chart_Week_Fragment extends Fragment
         xAxis.setDrawGridLines(false);
         xAxis.setTextColor(Color.parseColor("#000000"));
 
-        YAxis leftAxis = calorie_barChart.getAxisLeft();
+        YAxis leftAxis = calorie_lineChart.getAxisLeft();
         leftAxis.setDrawAxisLine(true);
         leftAxis.setDrawGridLines(false);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setTextColor(Color.parseColor("#000000"));
 
-        YAxis rightAxis = calorie_barChart.getAxisRight();
+        YAxis rightAxis = calorie_lineChart.getAxisRight();
         rightAxis.setDrawAxisLine(false);
         rightAxis.setEnabled(false);
 
-        calorie_barChart.setDragEnabled(true);
+        calorie_lineChart.setDragEnabled(true);
 
-        calorie_barChart.setDrawGridBackground(false);
+        calorie_lineChart.setDrawGridBackground(false);
 
         SharedPreferences pref = context.getSharedPreferences("Login",0);
 
@@ -169,17 +208,15 @@ public class Inner_Chart_Week_Fragment extends Fragment
         leftAxis.removeAllLimitLines();
         leftAxis.addLimitLine(limitLine);
 
-        data.setBarWidth(0.75f);
+        calorie_lineChart.getXAxis().setAxisMinimum(0);
 
-        calorie_barChart.getXAxis().setAxisMinimum(0);
+        calorie_lineChart.animateY(2000);
 
-        calorie_barChart.animateY(2000);
+        calorie_lineChart.getLegend().setTextColor(Color.parseColor("#000000"));
 
-        calorie_barChart.getLegend().setTextColor(Color.parseColor("#000000"));
+        calorie_lineChart.getDescription().setTextColor(Color.parseColor("#000000"));
 
-        calorie_barChart.getDescription().setTextColor(Color.parseColor("#000000"));
-
-        TextView average_intake = view.findViewById(R.id.calorie_average_text);
+        TextView average_intake = view.findViewById(R.id.month_calorie_average_text);
 
         Float sum = 0f;
 
@@ -195,33 +232,68 @@ public class Inner_Chart_Week_Fragment extends Fragment
         average_intake.setText("Average Daily Intake: "+formattedValue+"kcal");
     }
 
+    private ArrayList<Entry> getCalorieBarEntry(Float[] calorie_values)
+    {
+        // creating a new array list
+        calorie_barEntry = new ArrayList<>();
+
+        for(int i=1;i<=this.total_month_days;i++)
+        {
+            calorie_barEntry.add(new Entry(i+1, calorie_values[i-1]));
+        }
+
+        return calorie_barEntry;
+    }
+
     private void init_water_barChart(View view)
     {
-        this.water_barChart = view.findViewById(R.id.week_water_bar);
+        water_barChart = view.findViewById(R.id.month_water_bar);
 
-        Chart_Week_Fragment chart_week_fragment = (Chart_Week_Fragment) this.getParentFragment();
+        Chart_Month_Fragment chart_month_fragment = (Chart_Month_Fragment) this.getParentFragment();
 
-        ArrayList<String> past7dates =  chart_week_fragment.get_dates_range();
+        String current_month =  chart_month_fragment.get_today_month();
 
-        String[] past7days_strings = past7dates.toArray(new String[past7dates.size()]);
+        this.month_formatter = new SimpleDateFormat("MMM-yyyy");
 
-        String[] x_axis_values = getpastdays(past7days_strings);
+        this.current_month_object = new Date();
 
-//        Float cal_values[] = insertCSV.get_past7_days(past7days_strings);
+        try {
+            this.current_month_object = this.month_formatter.parse(current_month);
+        }
+        catch (Exception e)
+        {}
 
-        Integer water_values[] = get_past_water_values(past7days_strings);
+        Calendar calendar = Calendar.getInstance();
 
+        calendar.setTime(this.current_month_object);
+
+        this.total_month_days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        InsertCSV insertCSV = new InsertCSV(context);
+
+
+        Integer water_values[] = get_past_water_values();
+
+        String[] x_axis_values = new String[this.total_month_days];
+
+        for(int i=1;i<=this.total_month_days;i++)
+        {
+            x_axis_values[i-1] = i+"";
+        }
 
         // creating a new bar data set.
-        water_barDataset = new BarDataSet(getWaterBarEntry(water_values), "Water Intake");
+        water_barDataset = new LineDataSet(getWaterBarEntry(water_values), "Water");
         water_barDataset.setColor(context.getResources().getColor(R.color.bar_chart_yellow));
 
-        BarData data = new BarData(water_barDataset);
+        LineData data = new LineData(water_barDataset);
 
         water_barChart.setData(data);
 
         water_barChart.getDescription().setEnabled(false);
         water_barChart.setTouchEnabled(false);
+        water_barChart.setDragEnabled(true);
+        water_barChart.setScaleEnabled(true);
+        water_barChart.setPinchZoom(true);
 
         // below line is to get x axis
         // of our bar chart.
@@ -250,22 +322,20 @@ public class Inner_Chart_Week_Fragment extends Fragment
 
         SharedPreferences pref = context.getSharedPreferences("Login",0);
 
-        String water_goal  = pref.getFloat("Goal_Water",0)+"";
+        String calgoals  = pref.getFloat("Goal_Water",0)+"";
 
-        Float water_float =  0f;
+        Float cal_float =  0f;
 
-        if(water_goal == "")
+        if(calgoals == "")
         {
-            water_goal="0";
+            calgoals="0";
         }
 
-        water_float = Float.parseFloat(water_goal);
+        cal_float = Float.parseFloat(calgoals);
 
-        LimitLine limitLine = new LimitLine(water_float);
+        LimitLine limitLine = new LimitLine(cal_float);
         leftAxis.removeAllLimitLines();
         leftAxis.addLimitLine(limitLine);
-
-        data.setBarWidth(0.75f);
 
         water_barChart.getXAxis().setAxisMinimum(0);
 
@@ -275,7 +345,7 @@ public class Inner_Chart_Week_Fragment extends Fragment
 
         water_barChart.getDescription().setTextColor(Color.parseColor("#000000"));
 
-        TextView average_intake = view.findViewById(R.id.week_water_average_text);
+        TextView average_intake = view.findViewById(R.id.month_water_average_text);
 
         Float sum = 0f;
 
@@ -286,83 +356,66 @@ public class Inner_Chart_Week_Fragment extends Fragment
 
         Float average = sum/water_values.length;
 
+//        Toast.makeText(context,water_values[11]+"",Toast.LENGTH_LONG).show();
+
         String formattedValue = String.format("%.2f", average);
 
         average_intake.setText("Average Daily Intake: "+formattedValue+"ml");
     }
 
-    private Integer[] get_past_water_values(String[] past7days_strings)
+    private Integer[] get_past_water_values()
     {
         SharedPreferences water_log = context.getSharedPreferences("water_log",0);
 
-        Integer water_values[] = new Integer[]{0,0,0,0,0,0,0};
+        Integer water_values[] = new Integer[this.total_month_days];
 
-        Integer x = 0;
-
-        int i = 0;
-
-        for(String date: past7days_strings)
+        for(int i=0;i<this.total_month_days;i++)
         {
-            x = water_log.getInt(date,0);
-            water_values[i++] = x;
+            water_values[i] = 0;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(this.current_month_object);
+
+        int monthid = calendar.get(Calendar.MONTH);
+        int yearid = calendar.get(Calendar.YEAR);
+
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH,monthid);
+        calendar.set(Calendar.YEAR,yearid);
+
+        int maxdays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        SimpleDateFormat normal_formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        for(int i=1;i<=maxdays;i++)
+        {
+            calendar.set(Calendar.DAY_OF_MONTH,i);
+            Date date = calendar.getTime();
+
+            String today_date = normal_formatter.format(date);
+
+           water_values[i-1] += water_log.getInt(today_date,0);
+
         }
 
         return water_values;
 
     }
 
-    private ArrayList<BarEntry> getCalorieBarEntry(Float[] calorie_values)
+
+    private ArrayList<Entry> getWaterBarEntry(Integer[] water_values)
     {
         // creating a new array list
-        calorie_barEntry = new ArrayList<>();
+            water_barEntry = new ArrayList<>();
 
-        for(int i=0;i<7;i++)
+        for(int i=1;i<=this.total_month_days;i++)
         {
-            calorie_barEntry.add(new BarEntry(i+1, calorie_values[i]));
-        }
-
-        return calorie_barEntry;
-    }
-
-    private ArrayList<BarEntry> getWaterBarEntry(Integer[] water_values)
-    {
-        // creating a new array list
-        this.water_barEntry = new ArrayList<>();
-
-        for(int i=0;i<7;i++)
-        {
-            water_barEntry.add(new BarEntry(i+1, water_values[i]));
+            water_barEntry.add(new Entry(i+1, water_values[i-1]));
         }
 
         return water_barEntry;
-    }
-
-    private String[] getpastdays(String date_range[])
-    {
-
-        String return_values[] = new String[]{"","Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        int i = 1;
-
-        for(String date: date_range)
-        {
-            Calendar setcal = Calendar.getInstance();
-            Date val_date = new Date();
-            try {
-                 val_date = simpleDateFormat.parse(date);
-            }
-            catch(Exception e){}
-
-            setcal.setTime(val_date);
-
-            int val = setcal.get(Calendar.DAY_OF_WEEK);
-
-            return_values[i++] = days[(val-1)];
-        }
-
-        return return_values;
     }
 
     private void initPieChart(PieChart pieChart)
@@ -407,22 +460,8 @@ public class Inner_Chart_Week_Fragment extends Fragment
         String label = "type";
 
         InsertCSV insertCSV = new InsertCSV(context);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
-        Chart_Week_Fragment chart_week_fragment = (Chart_Week_Fragment) this.getParentFragment();
-
-        ArrayList<String> dates_arraylist = chart_week_fragment.get_dates_range();
-
-        String date_range[] = dates_arraylist.toArray(new String[dates_arraylist.size()]);
-
-        HashMap<String,Integer> dates_map = new HashMap<String,Integer>();
-
-        for(String dates: date_range)
-        {
-            dates_map.put(dates,1);
-        }
-
-        Float item_value[] = insertCSV.get_week_pie_values(dates_map);
+        Float item_value[] = insertCSV.get_month_pie_values(this.current_month);
 
         //initializing data
         HashMap<String, Integer> typeAmountMap = new HashMap<>();
@@ -430,23 +469,6 @@ public class Inner_Chart_Week_Fragment extends Fragment
         typeAmountMap.put("Fat",Math.round(item_value[2]));
         typeAmountMap.put("Protein",Math.round(item_value[1]));
         typeAmountMap.put("Carbs",Math.round(item_value[0]));
-//
-//        TextView carbs_value_text = view.findViewById(R.id.carbs_value_indicator);
-//        TextView protein_value_text = view.findViewById(R.id.protein_value_indicator);
-//        TextView fat_value_text = view.findViewById(R.id.fat_value_indicator);
-//        TextView other_value_text = view.findViewById(R.id.other_value_indicator);
-//
-//        SharedPreferences login_pref = context.getSharedPreferences("Login",0);
-//
-//        String carbs_goal = login_pref.getFloat("Goal_Carbs",100)+"";
-//        String protein_goal = login_pref.getFloat("Goal_Protein",100)+"";
-//        String fat_goal = login_pref.getFloat("Goal_Fat",100)+"";
-//
-//        carbs_value_text.setText(typeAmountMap.get("Carbs")+"/"+carbs_goal+" g");
-//        protein_value_text.setText(typeAmountMap.get("Protein")+"/"+protein_goal+" g");
-//        fat_value_text.setText(typeAmountMap.get("Fat")+"/"+fat_goal+" g");
-//        other_value_text.setText(typeAmountMap.get("Other")+" g");
-
 
         Integer color_arr[] = new Integer[]{Color.parseColor("#E1AD01"),Color.parseColor("#EC830E"),Color.parseColor("#30D5C8"),Color.parseColor("#FFE74C")};
 
@@ -462,7 +484,7 @@ public class Inner_Chart_Week_Fragment extends Fragment
         //setting text size of the value
         pieDataSet.setValueTextSize(12f);
         pieDataSet.setValueTextSize(Color.parseColor("#FFFFFF"));
-        pieDataSet.setValueFormatter(new Inner_Chart_Week_Fragment.PercentageValueFormatter());
+        pieDataSet.setValueFormatter(new Inner_Chart_Month_Fragment.PercentageValueFormatter());
         //providing color list for coloring different entries
         pieDataSet.setColors(Arrays.asList(color_arr));
         //grouping the data set from entry to chart

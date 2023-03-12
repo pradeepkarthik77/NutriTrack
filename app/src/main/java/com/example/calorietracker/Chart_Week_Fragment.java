@@ -76,9 +76,26 @@ public class Chart_Week_Fragment extends Fragment
             public void onClick(View v) {
 
                 String previous_date = get_week_before_date(today_date, true);
-                String to_set_val[] = find_the_previous_7_days_of(previous_date);
+
+                Date prev_date = new Date();
+
+                try {
+                    prev_date = placeholder_formatter.parse(previous_date);
+                }catch (Exception e){}
+
+                Calendar calendar = Calendar.getInstance();
+
+                calendar.setTime(prev_date);
+
+                calendar.add(Calendar.DATE,-1);
+
+                String prev_prev_date = placeholder_formatter.format(calendar.getTime());
+
+                change_today_text(prev_prev_date);
+
+                String to_set_val[] = find_the_previous_7_days_of(prev_prev_date);
                 chosen_week.setText(to_set_val[0]);
-                change_today_text(previous_date);
+
                 placeholder.setText(to_set_val[1]);
 
                 Inner_Chart_Week_Fragment inner_chart_week_fragment = (Inner_Chart_Week_Fragment) getChildFragmentManager().findFragmentById(R.id.week_fragment_holder);
@@ -98,9 +115,25 @@ public class Chart_Week_Fragment extends Fragment
 
                 String forward_date = get_week_before_date(today_date,false);
 
-                String to_set_vals[] = find_the_next_7_days_of(today_date);
+                Date next_date = new Date();
+
+                try {
+                    next_date = placeholder_formatter.parse(today_date);
+                }catch (Exception e){}
+
+                Calendar calendar = Calendar.getInstance();
+
+                calendar.setTime(next_date);
+
+                calendar.add(Calendar.DATE,1);
+
+                String next_next_date = placeholder_formatter.format(calendar.getTime());
+
+                change_today_text(next_next_date);
+
+                String to_set_vals[] = find_the_next_7_days_of(next_next_date);
                 chosen_week.setText(to_set_vals[0]);
-                change_today_text(forward_date);
+                change_today_text(get_week_before_date(next_next_date,false));
                 placeholder.setText(to_set_vals[1]);
 
                 Inner_Chart_Week_Fragment inner_chart_week_fragment = (Inner_Chart_Week_Fragment) getChildFragmentManager().findFragmentById(R.id.week_fragment_holder);
@@ -231,8 +264,6 @@ public class Chart_Week_Fragment extends Fragment
         String upper_date = arr[1];
         String lower_date = arr[0];
 
-        Toast.makeText(context,dates,Toast.LENGTH_LONG).show();
-
         ArrayList<String> range_dates = new ArrayList<>();
 
         Calendar c = Calendar.getInstance();
@@ -256,7 +287,6 @@ public class Chart_Week_Fragment extends Fragment
         }
 
         range_dates.add(upper_date);
-
 
         return range_dates;
 

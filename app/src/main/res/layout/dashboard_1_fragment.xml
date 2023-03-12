@@ -31,28 +31,28 @@
             android:id="@+id/carbs_constraint"
             >
 
-        <View
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:background="#E1AD01"
-            android:id="@+id/carbs_color_indicator"
-            android:layout_gravity="center_vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="#E1AD01"
+                android:id="@+id/carbs_color_indicator"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Carbs:"
-            android:id="@+id/chart_carbs_text"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintLeft_toRightOf="@+id/carbs_color_indicator"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Carbs:"
+                android:id="@+id/chart_carbs_text"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintLeft_toRightOf="@+id/carbs_color_indicator"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,46 +68,46 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            >-->
+        <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            >-->
 
-<!--            <View-->
-<!--                android:layout_width="15dp"-->
-<!--                android:layout_height="15dp"-->
-<!--                android:background="#EC830E"-->
-<!--                android:id="@+id/carbs_color_indicate"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                app:layout_constraintLeft_toLeftOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                />-->
+        <!--            <View-->
+        <!--                android:layout_width="15dp"-->
+        <!--                android:layout_height="15dp"-->
+        <!--                android:background="#EC830E"-->
+        <!--                android:id="@+id/carbs_color_indicate"-->
+        <!--                android:layout_gravity="center_vertical"-->
+        <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                app:layout_constraintTop_toTopOf="parent"-->
+        <!--                />-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Carbs"-->
-<!--                android:id="@+id/chart_carbs_text"-->
-<!--                android:textSize="17sp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:layout_marginLeft="10dp"-->
-<!--                app:layout_constraintLeft_toRightOf="@+id/carbs_color_indicate"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                />-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Carbs"-->
+        <!--                android:id="@+id/chart_carbs_text"-->
+        <!--                android:textSize="17sp"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:layout_marginLeft="10dp"-->
+        <!--                app:layout_constraintLeft_toRightOf="@+id/carbs_color_indicate"-->
+        <!--                app:layout_constraintTop_toTopOf="parent"-->
+        <!--                />-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="0/100 g"-->
-<!--                android:textSize="17sp"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                app:layout_constraintLeft_toLeftOf="@+id/chart_carbs_text"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/chart_carbs_text"-->
-<!--                />-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="0/100 g"-->
+        <!--                android:textSize="17sp"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:layout_gravity="center_vertical"-->
+        <!--                app:layout_constraintLeft_toLeftOf="@+id/chart_carbs_text"-->
+        <!--                app:layout_constraintTop_toBottomOf="@+id/chart_carbs_text"-->
+        <!--                />-->
 
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+        <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -237,8 +237,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

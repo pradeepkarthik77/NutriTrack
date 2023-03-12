@@ -399,7 +399,7 @@ public class WeekRecyclerAdapter extends RecyclerView.Adapter<WeekRecyclerAdapte
 
         txtview.setText(Html.fromHtml(string));
 
-        string = "<b>Total Calories</b>: "+Float.parseFloat(decimalFormat.format(Float.parseFloat(map.get("Calories"))))+"g";
+        string = "<b>Total Calories</b>: "+Float.parseFloat(decimalFormat.format(Float.parseFloat(map.get("Calories"))))+"kcal";
 
         txtview = dialog.findViewById(R.id.dialog_calories);
 
