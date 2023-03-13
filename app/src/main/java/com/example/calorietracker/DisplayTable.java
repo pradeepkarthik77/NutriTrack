@@ -59,6 +59,7 @@ public class DisplayTable extends AppCompatActivity
     public static String chosen_date="";
     private String email = "";
     private String user_name = "";
+    private boolean isShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,6 +72,8 @@ public class DisplayTable extends AppCompatActivity
         this.email = pref.getString("email","");
 
         this.user_name = pref.getString("name","");
+
+        this.isShare = pref.getBoolean("isShare",true);
 
         Intent intent = getIntent();
 
@@ -332,7 +335,8 @@ public class DisplayTable extends AppCompatActivity
 
                 insertCSV.insert_into_csv(item_type,item_values,chosen_date);
 
-                if(isConnected())
+
+                if(isConnected()&&isShare)
                 {
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 

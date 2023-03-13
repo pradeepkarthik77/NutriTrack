@@ -1,5 +1,5 @@
 <resources>
-    <string name="BASE_URL">http://192.168.198.144:3000</string>
+    <string name="BASE_URL">http://192.168.164.144:3000</string>
     <string name="app_name">NutriTrack</string>
 
     <string-array name="dateortime">

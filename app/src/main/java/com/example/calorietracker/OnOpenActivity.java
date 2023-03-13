@@ -96,11 +96,10 @@ public class OnOpenActivity extends AppCompatActivity
         login_editor.putFloat("Goal_Fat",Float.parseFloat(decimalFormat.format(recommended_fat)));
         login_editor.putFloat("Goal_Fiber",Float.parseFloat(decimalFormat.format(recommended_fiber)));
         login_editor.putFloat("Goal_Vitamin_C",Float.parseFloat(decimalFormat.format(recommended_vitamin_C)));
-
         login_editor.commit();
 
         SharedPreferences.Editor editor = pref.edit();
-        loggedin = pref.getBoolean("isLoggedin",true);
+        loggedin = pref.getBoolean("isLoggedin",false);
         signedin = pref.getBoolean("isSignedin",false);
 
         SharedPreferences date_pref = this.getSharedPreferences("date",0);
@@ -110,6 +109,8 @@ public class OnOpenActivity extends AppCompatActivity
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy");
         String chosen_date = dateFormat.format(date);
         edit.putString("chosen_date",chosen_date);
+        boolean isshare = login_pref.getBoolean("isShare",true);
+        login_editor.putBoolean("isShare",isshare);
         edit.commit();
 
         if(loggedin)
@@ -129,17 +130,9 @@ public class OnOpenActivity extends AppCompatActivity
         {
         }
 
-        //ImageView imageView = findViewById(R.id.onopen_image);
-
-        //getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES); //to set the Mode manually
-
         TextView textView = findViewById(R.id.welcome_calorie);
 
-        //TextView descView = findViewById(R.id.onopen_desc);
-
         String string = textView.getText().toString();
-
-        //String descstr = descView.getText().toString();
 
         SpannableString string1 = new SpannableString(string);
         string1.setSpan(new UnderlineSpan(), 0, string.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -1,32 +1,29 @@
 package com.example.calorietracker;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.text.Html;
-import android.view.MenuItem;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,34 +31,52 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Sidebar_Class
+public class Settings_Activity extends AppCompatActivity
 {
-    public void navigation_onclick(NavigationView navigationView, Context context)
-    {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+    private Context context;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.settingsactivity_layout);
+
+        Toolbar toolbar = findViewById(R.id.list_toolbar);
+
+        TextView title = toolbar.findViewById(R.id.display_title);
+
+        title.setText("Settings");
+
+        ListView settings_list = findViewById(R.id.settings_listview);
+
+        Settings_ListView_Adapter settings_listView_adapter = new Settings_ListView_Adapter(this);
+
+        settings_list.setAdapter(settings_listView_adapter);
+
+        ImageButton imgbtn = findViewById(R.id.display_back_btn);
+
+        this.context= (Context) this;
+
+        imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                int id = item.getItemId();
-
-                Intent intent;
-
-                switch (id)
-                {
-                    case R.id.edit_profile: intent = new Intent(context,Edit_User_Profile.class);context.startActivity(intent);return true;
-
-                    case R.id.logout: create_logout_dialog(context);return true;
-
-                    case R.id.help: intent = new Intent(context,HelpActivity.class);context.startActivity(intent);return true;
-
-                    case R.id.report_a_bug: create_report_a_bug(context);return true;
-
-                    case R.id.settings: intent = new Intent(context,Settings_Activity.class);context.startActivity(intent);return true;
-
-                }
-                return false;
+            public void onClick(View v) {
+                finish();
             }
         });
+
+        settings_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent;
+                switch(position)
+                {
+                    case 1: intent = new Intent(context,HelpActivity.class);startActivity(intent);break;
+                    case 2: create_report_a_bug(context);break;
+                    case 3: intent = new Intent(context,Edit_User_Profile.class);startActivity(intent);break;
+                    case 4: create_logout_dialog(context);break;
+                }
+            }
+        });
+
     }
 
     public void create_logout_dialog(Context context)
@@ -191,5 +206,4 @@ public class Sidebar_Class
         dialog.show();
 
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.calorietracker;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -78,6 +80,7 @@ public class Home_Fragment extends Fragment
     private SharedPreferences water_log_pref;
     private SharedPreferences.Editor water_edit;
     private ProgressBar progressBar;
+    private boolean isShare;
 
     public Home_Fragment(Context context)
     {
@@ -96,6 +99,15 @@ public class Home_Fragment extends Fragment
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        fragmentPagerAdapter.notifyDataSetChanged();
+        fragmentPagerAdapter = new Dashboard_ViewPage_Adapter(getChildFragmentManager(),context);
+        viewPager.setAdapter(fragmentPagerAdapter);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment_layout, container, false);
 
@@ -110,6 +122,8 @@ public class Home_Fragment extends Fragment
 
         SharedPreferences pref = context.getSharedPreferences("Login",0);
         SharedPreferences.Editor editor = pref.edit();
+        
+        this.isShare = pref.getBoolean("isShare",true);
 
         setHasOptionsMenu(true); //to allow for sidebar
         activity.setSupportActionBar(toolbar);
@@ -199,7 +213,7 @@ public class Home_Fragment extends Fragment
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.mainRecycler = view.findViewById(R.id.main_recycler);
-        this.mainCardAdapter = new MainCardAdapter(context,this.cardview_titles,this.cardview_count,this.cardview_images);
+        this.mainCardAdapter = new MainCardAdapter(context,this,this.cardview_titles,this.cardview_count,this.cardview_images);
         this.mainRecycler.setAdapter(this.mainCardAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.context,2);
         this.mainRecycler.setLayoutManager(gridLayoutManager);
@@ -260,7 +274,7 @@ public class Home_Fragment extends Fragment
 
                 InsertCSV insertCSV = new InsertCSV(context);
 
-                if(isConnected())
+                if(isConnected()&&isShare)
                 {
                     //TODO enter logic to gather the buffer, put it in map and send it to the backend
                     insertCSV.Enter_into_water_buffer(water_chosen_date);
@@ -324,7 +338,7 @@ public class Home_Fragment extends Fragment
                 {
                     //TODO enter the logic to put the current date in the buffer
                     insertCSV.Enter_into_water_buffer(water_chosen_date);
-                    Toast.makeText(context,"Not connected to Internet",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context,"Not connected to Internet",Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -60,37 +60,21 @@
         </activity>
 
 
-        <activity android:name=".HomeActivity"
-            android:screenOrientation="portrait"
-            />
-
         <activity android:name=".SignupActivity"
             android:theme="@style/Onloadtheme"
             />
 
-        <activity
-            android:name=".MainActivity"
-            >
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity android:name=".ListActivity"
             android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".DisplayTable"
             android:theme="@style/Onloadtheme"></activity>
         <activity android:name=".Edit_User_Profile"
             android:theme="@style/Onloadtheme"></activity>
-        <activity android:name=".Report_Bug"
-            android:theme="@style/Onloadtheme"></activity>
-        <activity android:name=".WeekTable" />
-        <activity android:name=".ProfileActivity"/>
-        <activity android:name=".MidMealDiet"/>
-        <activity android:name=".GoalSettingActivity"/>
         <activity android:name=".ChartActivity"
             android:theme="@style/ChartLightTheme"/>
         <activity android:name=".HelpActivity"
+            android:theme="@style/Onloadtheme"/>
+        <activity android:name=".Settings_Activity"
             android:theme="@style/Onloadtheme"/>
 
         <activity android:name=".Signup_details"

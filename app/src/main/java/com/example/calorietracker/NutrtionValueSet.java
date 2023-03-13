@@ -56,7 +56,7 @@ public class NutrtionValueSet
         for(int i=4;i<22;i++)
         {
             txtview = activity.findViewById(item_res_ids[indx]);
-            txtview.setText(this.item_values.get(i)+this.units[j++]);
+            txtview.setText(this.item_values.get(i));//+this.units[j++]);
             indx++;
         }
 

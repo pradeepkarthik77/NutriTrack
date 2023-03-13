@@ -39,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.ViewHolder>
 {
+    private final boolean isShare;
     private String email;
     private String user_name;
     private Context context;
@@ -151,6 +152,8 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
         this.email = pref.getString("email","");
 
         this.user_name = pref.getString("name","");
+
+        this.isShare = pref.getBoolean("isShare",true);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -499,7 +502,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
 
                 insertCSV.insert_into_csv(cardview_name,item_values,chosen_date);
 
-                if(isConnected())
+                if(isConnected()&&isShare)
                 {
                     Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -536,7 +539,7 @@ public class NewRecyclerAdapter extends RecyclerView.Adapter<NewRecyclerAdapter.
                 }
                 else
                 {
-                    Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,"Not Connected",Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
 //                chosen_time = getIntent().getStringExtra("chosen_time");
