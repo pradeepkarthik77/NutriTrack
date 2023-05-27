@@ -40,7 +40,6 @@ public class LoginActivity extends AppCompatActivity
     private MaterialButton log_in_btn;
     private MaterialButton google_log_in;
     private Context context;
-
     private String email;
     private String name;
     private String password;

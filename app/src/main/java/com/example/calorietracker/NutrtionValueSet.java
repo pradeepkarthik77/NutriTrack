@@ -38,7 +38,7 @@ public class NutrtionValueSet
 
         txtview = activity.findViewById(R.id.serving_size);
 
-        if(cardview_title.equals("Water") || cardview_title.equals("Juice"))
+        if(cardview_title.equals("Water") || cardview_title.equals("Juices"))
         {
             txtview.setText(txtview.getText().toString()+": "+this.item_values.get(2)+"ml");
         }
