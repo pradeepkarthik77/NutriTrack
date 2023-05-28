@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -76,6 +77,8 @@ public class ListActivity extends AppCompatActivity
     public String photoFileName = "photo.jpg";
     public File photoFile;
 
+    private String responsebody="";
+
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "";
@@ -98,6 +101,7 @@ public class ListActivity extends AppCompatActivity
     {
         progressBar = findViewById(R.id.list_progress);
         progressBar.setVisibility(View.INVISIBLE);
+        Toast.makeText(context,responsebody,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -255,22 +259,24 @@ public class ListActivity extends AppCompatActivity
                 if(checkAndRequestPermissions((Activity)context))
                 {
                     try {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                         photoFile = getPhotoFileUri(photoFileName);
+                        Uri fileProvider = FileProvider.getUriForFile(context, "com.codepath.fileprovider", photoFile);
 
-                        Uri fileprovider = FileProvider.getUriForFile(context, "com.codepath.fileprovider", photoFile);
+                        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                        galleryIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileprovider);
+                        Intent chooser = Intent.createChooser(galleryIntent, "Select Image");
+                        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{captureIntent});
 
-                        if (intent.resolveActivity(getPackageManager()) != null) {
-                            // Start the image capture intent to take photo
-                            startActivityForResult(intent, 1234);
+                        if (chooser.resolveActivity(getPackageManager()) != null) {
+                            // Start the chooser intent to take photo or select from gallery
+                            startActivityForResult(chooser, 1234);
                         }
-                    }
-                    catch(Exception e)
-                    {
-                        Toast.makeText(context,e.toString(),Toast.LENGTH_LONG).show();
+                    } catch (Exception e) {
+                        Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -289,17 +295,40 @@ public class ListActivity extends AppCompatActivity
         {
 //            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
 //            Toast.makeText(context,photoFile.getPath(),Toast.LENGTH_LONG).show();
-            uploadtobackend();
+            if (requestCode == 1234) {
+                if (resultCode == RESULT_OK) {
+                    if (data != null && data.getData() != null) {
+                        Uri selectedImage = data.getData();
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                        if (cursor != null) {
+                            cursor.moveToFirst();
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            String imagePath = cursor.getString(columnIndex);
+                            cursor.close();
+                            photoFile = new File(imagePath);
+                            uploadtobackend(photoFile);
+                        }
+                        else{
+                            Toast.makeText(context,"Unable to upload photo",Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        // Camera intent was chosen
+                        uploadtobackend(photoFile);
+                    }
+                }
+            }
+            }
         }
-    }
 
-    private void uploadtobackend()
+//            uploadtobackend();
+
+    private void uploadtobackend(File uploadfile)
     {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 runOnUiThread(ListActivity.this::showspinner);
 
                 OkHttpClient client = new OkHttpClient();
@@ -307,8 +336,8 @@ public class ListActivity extends AppCompatActivity
                 // Create multipart request body
                 RequestBody requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("file", photoFile.getName(),
-                                RequestBody.create(MediaType.parse("image/*"), photoFile))
+                        .addFormDataPart("file", uploadfile.getName(),
+                                RequestBody.create(MediaType.parse("image/*"), uploadfile))
                         .build();
 
                 // Create POST request
@@ -324,13 +353,12 @@ public class ListActivity extends AppCompatActivity
                     // Process the response as needed
                     if (response.isSuccessful()) {
                         // Successful response
-                        String responseBody = response.body().string();
-//                        Toast.makeText(context,responseBody,Toast.LENGTH_LONG).show();
+                        responsebody = response.body().string();
                         // Handle the response here
                     } else {
                         // Handle unsuccessful response
+//                        Toast.makeText(context,"Unable to upload Photo",Toast.LENGTH_LONG).show();
                     }
-
                     // Close the response body
                     response.close();
 
@@ -339,7 +367,7 @@ public class ListActivity extends AppCompatActivity
                 }
 
                 runOnUiThread(ListActivity.this::hidespinner);
-
+                //runOnUiThread(ListActivity.this::uploadhandler);
             }
         }).start();
 
