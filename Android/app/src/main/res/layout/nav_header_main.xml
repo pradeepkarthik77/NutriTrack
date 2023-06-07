@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:app = "http://schemas.android.com/apk/res-auto"
+    android:layout_width= "match_parent"
+    android:layout_height="125dp"
+    android:gravity="bottom"
+    >
+
+    <com.github.pavlospt.roundedletterview.RoundedLetterView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sidebar_user_profile"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="30dp"
+        app:rlv_backgroundColorValue="@color/secondary_green"
+        app:rlv_titleColor="@color/white"
+        app:rlv_titleSize="35dp"
+        app:rlv_titleText="A"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/user_name_sidebar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pradeep karthik"
+        android:id="@+id/user_name_sidebar"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintBottom_toTopOf="@+id/user_email_sidebar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="3dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_email_sidebar"
+        android:text="someone@gmail.com"
+        android:textColor="@color/black"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
