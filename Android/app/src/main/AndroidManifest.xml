@@ -81,3 +81,5 @@
             android:theme="@style/Onloadtheme"/>
 
     </application>
+
+</manifest>
