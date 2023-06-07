@@ -1,0 +1,29 @@
+{
+  "name": "caloriebackend",
+  "version": "1.0.0",
+  "description": "This is the backend for Calorietracker app",
+  "main": "app.js",
+  "scripts": {
+    "build": "yarn start",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pradeepkarthik77/caloriebackend.git"
+  },
+  "author": "pradeep",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pradeepkarthik77/caloriebackend/issues"
+  },
+  "homepage": "https://github.com/pradeepkarthik77/caloriebackend#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
+    "mongodb": "^4.13.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "otp-generator": "^4.0.0"
+  }
+}
