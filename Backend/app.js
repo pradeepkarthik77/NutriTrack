@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt")
 const { query } = require('express')
 const multer = require('multer');
 
-const url = "mongodb+srv://pradeep:prad2003@nutritrack.mixfyhb.mongodb.net/?retryWrites=true&w=majority"   
+const url = "<your_mongodb_url>"   
 
 const saltRounds = 10
 
