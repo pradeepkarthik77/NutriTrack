@@ -18,3 +18,6 @@
 3. Recommendation for daily calorie intake, protien intake and other macronutrients based on user's physical data.
 4. Weekly, Monthly and Yearly Analysis of your calorie, water and macronutrients intake.
 5. Setup goals for your daily calorie, water and macronutrients intake
+
+## Contributions:
+If you wish to contribute, go ahead and open a pull request or if you wish to report any bugs in the source code, create a issue and describe the bug clearly.
