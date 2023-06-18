@@ -24,32 +24,32 @@ If you wish to contribute, go ahead and open a pull request or if you wish to re
 
 ## UI Screenshots:
 ### Home:
-![Home1](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/8e3ce9a8-9dc9-4e18-b7be-cc0bb3bebffc)
-![Home2](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/a362b6cb-2ca7-4c29-9df7-a9a073218cbf)
-![Sidebar](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/c17d8573-74ff-4a00-a870-d1ab1fc3ee95)
-![Food list](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/4fd92342-0cc7-44ff-9218-4445249a74c3)
-![Nutrition Values](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/1dd07a26-48e8-439d-a941-6ca86cc91970)
-![Values Log](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/5edafdc5-be39-440e-9d03-904a30e8195d)
-
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/8e3ce9a8-9dc9-4e18-b7be-cc0bb3bebffc" alt="Home 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/a362b6cb-2ca7-4c29-9df7-a9a073218cbf" alt="Home 2" width="49%">
+<br/>
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/c17d8573-74ff-4a00-a870-d1ab1fc3ee95" alt="Sidebar 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/4fd92342-0cc7-44ff-9218-4445249a74c3" alt="Food List" width="49%">
+<br/>
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/1dd07a26-48e8-439d-a941-6ca86cc91970" alt="Nutritiona values" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/5edafdc5-be39-440e-9d03-904a30e8195d" alt="Values Log" width="49%">
+<br/>
 ### Weekly Report:
-![Weekly Report1](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/697018f5-338e-43e3-bc0f-0cc71c14b978)
-![Weekly Report2](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/34ee3d1f-f6b0-4f2f-b7a5-c9d11929cd57)
-
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/697018f5-338e-43e3-bc0f-0cc71c14b978" alt="Weekly Report 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/34ee3d1f-f6b0-4f2f-b7a5-c9d11929cd57" alt="Weekly Report 2" width="49%">
+<br/>
 ### Monthly Report:
-![monthly report1](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/1e2d2ae8-87ea-4e0b-8328-910ae2119873)
-![monthly report2](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/0c35feec-de6f-413b-9b64-7e2a601be093)
-
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/1e2d2ae8-87ea-4e0b-8328-910ae2119873" alt="Monthly Report 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/0c35feec-de6f-413b-9b64-7e2a601be093" alt="Monthly Report 2" width="49%">
+<br/>
 ### Goal Setting:
-![Goal](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/c8bdeaf0-d31b-4172-83a6-ac316ec12d42)
-![Goal2](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/b3444c55-1579-4e01-9a4b-b2349a81fb76)
-
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/c8bdeaf0-d31b-4172-83a6-ac316ec12d42" alt="Goal Setting 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/b3444c55-1579-4e01-9a4b-b2349a81fb76" alt="Goal Setting 2" width="49%">
+<br/>
 ### User Profile:
-![User Profile](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/b9765039-54b5-4d12-b242-478bf5249002)
-![Edit Profile](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/0761ea08-4d5e-4503-a423-8a9d2f86ca1a)
-
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/b9765039-54b5-4d12-b242-478bf5249002" alt="User Profile 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/0761ea08-4d5e-4503-a423-8a9d2f86ca1a" alt="User Profile 2" width="49%">
+<br/>
 ### Settings:
-![Settings](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/984ebd32-660c-4eeb-804d-c1b363eceee3)
-![Help](https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/e14f86ce-9627-48e5-90c5-2ea7941575de)
-
-
-
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/984ebd32-660c-4eeb-804d-c1b363eceee3" alt="Settings 1" width="49%">&nbsp;
+<img src="https://github.com/pradeepkarthik77/NutriTrack/assets/77573751/e14f86ce-9627-48e5-90c5-2ea7941575de" alt="Help" width="49%">
+<br/>
